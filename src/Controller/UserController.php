@@ -19,7 +19,8 @@ class UserController extends AbstractController
      */
     public function listAction(): Response
     {
-        return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository('App:User')->findAll()]);
+        return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository(User::class)
+			->findAll()]);
     }
 
     /**

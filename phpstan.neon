@@ -1,7 +1,0 @@
-parameters:
-    paths:
-        - src
-        - web
-    level: 8
-    symfony:
-        container_xml_path: var/cache/dev/appDevDebugProjectContainer.xml
