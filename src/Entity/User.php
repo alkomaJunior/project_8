@@ -21,9 +21,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
+    public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
+
+    public const DEFAULT_ROLES = [self::ROLE_USER];
+
     /**
-     * @ORM\Column(type="integer")
      * @ORM\Id
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private ?int $id;
@@ -45,6 +50,16 @@ class User implements UserInterface
      * @Assert\Email(message="Le format de l'adresse n'est pas correcte.")
      */
     private ?string $email;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles;
+
+    public function __construct()
+    {
+        $this->roles = self::DEFAULT_ROLES;
+    }
 
     public function getId(): int
     {
@@ -92,7 +107,13 @@ class User implements UserInterface
 
     public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
     }
 
     public function eraseCredentials(): void
