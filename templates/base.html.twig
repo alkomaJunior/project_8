@@ -47,9 +47,11 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    {% for flash_message in app.session.flashBag.get('success') %}
-                        <div class="alert alert-success" role="alert">
-                            <strong>Superbe !</strong> {{ flash_message }}
+                    {% for label, messages in app.flashes %}
+                        <div class="alert alert-{{ label }}" role="alert">
+                            {% for message in messages %}
+                                {{ message | raw }}
+                            {% endfor %}
                         </div>
                     {% endfor %}
 
@@ -81,7 +83,7 @@
             <footer>
                 <div class="row">
                     <div class="col-lg-12">
-                        <p class="pull-right">Copyright &copy; OpenClassrooms</p>
+                        <p class="float-right">Copyright &copy; OpenClassrooms</p>
                     </div>
                 </div>
             </footer>
