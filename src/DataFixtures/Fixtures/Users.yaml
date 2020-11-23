@@ -1,0 +1,13 @@
+admin:
+  Username: admin
+  Password: admin
+  Email: admin@todoandco.de
+  Roles:
+    - ROLE_ADMIN
+
+user:
+  Username: user
+  Password: user
+  Email: userx@todoandco.de
+  Roles:
+    - ROLE_USER
