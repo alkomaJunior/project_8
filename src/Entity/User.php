@@ -25,6 +25,7 @@ class User implements UserInterface
     public const ROLE_ADMIN = 'ROLE_ADMIN';
 
     public const DEFAULT_ROLES = [self::ROLE_USER];
+    public const ALL_ROLES = [self::ROLE_ADMIN, self::ROLE_USER];
 
     /**
      * @ORM\Id
@@ -71,9 +72,11 @@ class User implements UserInterface
         return $this->username;
     }
 
-    public function setUsername(string $username): void
+    public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
     }
 
     public function getSalt(): ?string
@@ -113,6 +116,7 @@ class User implements UserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
         return $this;
     }
 

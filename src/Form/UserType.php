@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use ReflectionClass;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -41,19 +41,14 @@ class UserType extends AbstractType
      */
     private function getRolesOptions(): array
     {
-        // Retrieve All constants from class user
-        $reflector = new ReflectionClass('App\Entity\User');
-        $constants = $reflector->getConstants();
+        $roles = User::ALL_ROLES;
         $values = [];
 
         // Add roles with new key in array
-        foreach ($constants as $constant => $value) {
+        foreach ($roles as $role) {
             $prefix = 'ROLE_';
-
-            if (false !== strpos($constant, $prefix)) {
-                $key = strtolower(str_replace($prefix, '', $value));
-                $values[ucfirst($key)] = $value;
-            }
+            $key = strtolower(str_replace($prefix, '', $role));
+            $values[ucfirst($key)] = $role;
         }
 
         return $values;

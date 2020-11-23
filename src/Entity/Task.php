@@ -43,7 +43,6 @@ class Task
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="task")
-     * @ORM\JoinColumn(nullable=false)
      */
     private ?User $user;
 
@@ -93,7 +92,7 @@ class Task
         return $this;
     }
 
-    public function getUser(): User
+    public function getUser(): ?User
     {
         return $this->user;
     }
