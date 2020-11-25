@@ -1,9 +1,15 @@
 <?php
+/**
+ * ToDoAndCo Project
+ * Copyright (c) 2020 BigBoss 2020.  BigBoss Oualid
+ * mailto: <bigboss@it-bigboss.de>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code
+ * Inc., Munich, Germany.
+ */
 
-namespace App\Form;
+namespace App\Form\User;
 
-use App\Entity\User;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -11,16 +17,13 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class UserType extends AbstractType
+class UserType extends AbstractUserType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('username', TextType::class, ['label' => "Nom d'utilisateur"])
+            ->add('email', EmailType::class, ['label' => 'Adresse email'])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les deux mots de passe doivent correspondre.',
@@ -29,28 +32,9 @@ class UserType extends AbstractType
                 'second_options' => ['label' => 'Tapez le mot de passe à nouveau'],
             ])
            ->add('roles', ChoiceType::class, [
-                'multiple' => true,
-                'choices' => $this->getRolesOptions(),
+               'choices' => parent::getRolesOptions(),
+               'multiple' => true,
             ])
-            ->add('email', EmailType::class, ['label' => 'Adresse email'])
         ;
-    }
-
-    /**
-     * Retrieve user roles as array and add them to choice type in form.
-     */
-    private function getRolesOptions(): array
-    {
-        $roles = User::ALL_ROLES;
-        $values = [];
-
-        // Add roles with new key in array
-        foreach ($roles as $role) {
-            $prefix = 'ROLE_';
-            $key = strtolower(str_replace($prefix, '', $role));
-            $values[ucfirst($key)] = $role;
-        }
-
-        return $values;
     }
 }
