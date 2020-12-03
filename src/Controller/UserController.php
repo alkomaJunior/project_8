@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\User\AccountType;
 use App\Form\User\EditPasswordType;
 use App\Form\User\UserType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,23 +15,33 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Security;
 
-/**
- * @IsGranted("ROLE_ADMIN")
- */
 class UserController extends AbstractController
 {
     /**
-     * @Route("/users", name="user_list")
+     * @var Security
      */
-    public function listAction(): Response
+    private $security;
+
+    public function __construct(Security $security)
     {
-        return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository(User::class)
-            ->findAll(), ]);
+        $this->security = $security;
+    }
+
+    /**
+     * @Route("/users", name="user_list")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function listAction(UserRepository $repository): Response
+    {
+        $users = $repository->findBy([], ['id' => 'DESC']);
+        return $this->render('user/list.html.twig', ['users' => $users]);
     }
 
     /**
      * @Route("/users/create", name="user_create")
+     * @IsGranted("ROLE_ADMIN")
      *
      * @return RedirectResponse|Response
      */
@@ -61,35 +72,34 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/users/{id}/edit", name="user_edit")
+     * @Route("/users/{id}/edit", name="user_edit", requirements={"id"="\d+"})
+     * @IsGranted("EDIT", subject="user")
      *
      * @return RedirectResponse|Response
      */
     public function editAction(
         User $user,
         Request $request,
-        UserPasswordEncoderInterface $encoder,
         EntityManagerInterface $entityManager
     ): Response {
-        $form = $this->createForm(AccountType::class, $user);
+        $form = $this->createForm(AccountType::class, $user, ['logged_user' => $this->getUser()]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
-
             $entityManager->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
 
-            return $this->redirectToRoute('user_list');
+            return $this->redirectToRoute($this->redirectForRole($this->security->getUser()->getRoles()));
         }
 
         return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
 
     /**
-     * @Route("/users/{id}/edit-password", name="user_password_edit")
+     * @Route("/users/{id}/edit-password", name="user_password_edit", requirements={"id"="\d+"})
+     * @IsGranted("EDIT", subject="user")
      *
      * @return RedirectResponse|Response
      */
@@ -108,11 +118,23 @@ class UserController extends AbstractController
 
             $entityManager->flush();
 
-            $this->addFlash('success', "Le mot de passe a bien été modifié");
+            $this->addFlash('success', 'Le mot de passe a bien été modifié');
 
-            return $this->redirectToRoute('user_list');
+            return $this->redirectToRoute($this->redirectForRole($this->security->getUser()->getRoles()));
         }
 
         return $this->render('user/password.html.twig', ['form' => $form->createView(), 'user' => $user]);
+    }
+
+    /**
+     * Redirect user according to his role.
+     *
+     * @param array $roles
+     *
+     * @return string
+     */
+    private function redirectForRole(array $roles): string
+    {
+        return in_array('ROLE_ADMIN', $roles) ? 'user_list' : 'homepage';
     }
 }

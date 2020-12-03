@@ -26,12 +26,9 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
-use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
-    use TargetPathTrait;
-
     public const LOGIN_ROUTE = 'login';
 
     private EntityManagerInterface $entityManager;
@@ -108,11 +105,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): RedirectResponse
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
-            // Returns the URL that the user visited that forced them to sign in.
-            return new RedirectResponse($targetPath);
-        }
-
         return new RedirectResponse($this->urlGenerator->generate('homepage'));
     }
 

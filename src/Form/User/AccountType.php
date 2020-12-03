@@ -10,6 +10,7 @@
 
 namespace App\Form\User;
 
+use App\Entity\User;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,12 +21,31 @@ class AccountType extends AbstractUserType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username', TextType::class, ['label' => "Nom d'utilisateur"])
-            ->add('email', EmailType::class, ['label' => 'Adresse email'])
-            ->add('roles', ChoiceType::class, [
-                'choices' => parent::getRolesOptions(),
-                'multiple' => true,
-            ])
+            ->add('username', TextType::class)
+            ->add('email', EmailType::class)
         ;
+        if ($this->canChangeRole($options['logged_user'], $builder->getData())) {
+            $builder->add(
+                'roles',
+                ChoiceType::class,
+                [
+                    'choices' => parent::getRolesOptions(),
+                    'multiple' => true,
+                ]
+            );
+        }
+    }
+
+    /**
+     * Add select input if user has admin role
+     *
+     * @param User $loggedUser
+     * @param User $editedUser
+     *
+     * @return bool
+     */
+    private function canChangeRole(User $loggedUser, User $editedUser): bool
+    {
+        return in_array('ROLE_ADMIN', $loggedUser->getRoles()) && $loggedUser !== $editedUser;
     }
 }

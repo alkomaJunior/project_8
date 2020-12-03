@@ -38,6 +38,8 @@ abstract class AbstractUserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'translation_domain' => 'forms',
+            'logged_user' => User::class
         ]);
     }
 }

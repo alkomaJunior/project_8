@@ -57,6 +57,11 @@ class User implements UserInterface
      */
     private $roles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="user")
+     */
+    protected $tasks;
+
     public function __construct()
     {
         $this->roles = self::DEFAULT_ROLES;
