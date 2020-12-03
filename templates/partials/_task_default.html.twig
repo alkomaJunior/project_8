@@ -1,0 +1,35 @@
+<div class="col-sm-4">
+    <div class="thumbnail">
+        <div class="caption mb-1">
+            <h4 class="float-right">
+                {% if task.isDone %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}
+            </h4>
+            <h4 class="float-left">
+                <a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a>
+            </h4>
+            <p class="text-justify">{{ task.content }}</p>
+            {% dump(task.user) %}
+            {% if task.user %}
+                <div class="float-right badge badge-info">
+                    {{ task.user.username | upper }}
+                </div>
+            {% else %}
+                <div class="float-right badge badge-secondary">Anonyme</div>
+            {% endif %}
+        </div>
+        <div>
+            <form action="{{ path('task_toggle', {'id' : task.id }) }}">
+                <button class="btn btn-success btn-sm float-right">
+                    {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
+                </button>
+            </form>
+            {% if is_granted('DELETE', task) %}
+                <form action="{{ path('task_delete', {'id' : task.id }) }}">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
+                    <button class="btn btn-danger btn-sm float-left">Supprimer</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
