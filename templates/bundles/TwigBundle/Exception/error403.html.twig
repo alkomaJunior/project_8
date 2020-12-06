@@ -1,0 +1,13 @@
+{%  extends 'base.html.twig' %}
+
+{% import 'bundles/TwigBundle/Exception/macros/_error_macros.html.twig' as utils %}
+
+{%  block title %}Accès refusé{% endblock %}
+
+{% block stylesheets %}{{ encore_entry_link_tags('error') }}{% endblock %}
+
+{% block navbar%}{% endblock %}
+
+{% block body %}
+    {{ utils.error('Accès refusé!', 'Vous n\'avez pas le droit d\'accéder à cette ressource!', exception) }}
+{% endblock%}

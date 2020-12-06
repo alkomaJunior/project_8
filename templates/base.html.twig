@@ -23,7 +23,9 @@
     </head>
 
     <body>
-        {% include 'partials/_navbar.html.twig' %}
+        {% if block("navbar") is not defined %}
+            {% include 'partials/_navbar.html.twig' %}
+        {% endif %}
 
         <div class="main-container">
         {% block body %}{% endblock %}
@@ -31,7 +33,6 @@
         {% if block("footer") is not defined %}
             {% include 'partials/_footer.html.twig' %}
         {% endif %}
-
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}

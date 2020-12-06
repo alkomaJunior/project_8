@@ -1,0 +1,13 @@
+{%  extends 'base.html.twig' %}
+
+{% import 'bundles/TwigBundle/Exception/macros/_error_macros.html.twig' as utils %}
+
+{% block title %}Page non trouvée{% endblock %}
+
+{% block stylesheets %}{{ encore_entry_link_tags('error') }}{% endblock %}
+
+{% block navbar%}{% endblock %}
+
+{% block body %}
+    {{ utils.error('Page non trouvée!', 'On a surement du mal vous renseigner! aucun soucis, vous pouvez retourner à la page d\'accueil', exception) }}
+{% endblock%}

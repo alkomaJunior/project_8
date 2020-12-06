@@ -1,0 +1,14 @@
+{%  extends 'base.html.twig' %}
+
+{% import 'bundles/TwigBundle/Exception/macros/_error_macros.html.twig' as utils %}
+
+{%  block title %}Erreur{% endblock %}
+
+{% block stylesheets %}{{ encore_entry_link_tags('error') }}{% endblock %}
+
+{% block navbar%}{% endblock %}
+
+{% block body %}
+    {{ utils.error('Oups! une erreur s\'est produite', 'Quelque chose est cassé. Désolé pour tout inconvénient causé
+    .', exception) }}
+{% endblock%}

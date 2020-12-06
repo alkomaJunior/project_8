@@ -1,0 +1,21 @@
+{%  block title %}{{ header_title }}{% endblock %}
+
+{% macro error(message, description, exception) %}
+    <div class="error_section text-center">
+        <h1 class="error_title">
+            <p class="mobile-size">{{ message }}</p>
+            {{ message }}
+        </h1>
+        <div class="row">
+            <div class="error_section_subtitle mx-5">{{ description}}</div>
+        </div>
+
+        <h1 class="error_status">
+            <p>{{ exception.statusCode }}</p>
+            {{ exception.statusCode }}
+        </h1>
+        <div class="mb-3">
+            <a href="{{ path('homepage') }}" class="btn btn-success btn-shadow font-weight-bold py-3">Retour à l'accueil</a>
+        </div>
+    </div >
+{% endmacro%}
