@@ -1,6 +1,5 @@
 /app/config/parameters.yml
 /build/
-/phpunit.xml
 /var/*
 !/var/cache
 /var/cache/*
@@ -52,3 +51,10 @@ yarn-error.log
 ###> Rector###
 /rector.php
 ###< Rector###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+/phpunit.xml.dist
+###< symfony/phpunit-bridge ###
