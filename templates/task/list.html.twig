@@ -2,9 +2,9 @@
 {# Set specific task list title #}
 {% if isDone == null %}
     {% set taskListInfo = '' %}
-{% elseif isDone == true %}
+{% elseif isDone == 'true' %}
     {% set taskListInfo = 'terminées' %}
-{% elseif isDone == false %}
+{% elseif isDone == 'false' %}
     {% set taskListInfo = 'non terminées' %}
 {% endif %}
 
@@ -23,7 +23,7 @@
                 {% endfor %}
             {% else %}
                 <div class="alert alert-warning" role="alert">
-                    Il n'y a pas encore de tâche enregistrée.
+                    Il n'y a pas encore de <strong>tâche {{ taskListInfo }}</strong>  enregistrée.
                 </div>
             {% endif %}
         </div>
