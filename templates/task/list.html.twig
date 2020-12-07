@@ -17,7 +17,7 @@
             <div class="col-12 mb-5">
                 <a href="{{ path('task_create') }}" class="btn-shadow float-right btn btn-primary">Créer une nouvelle tâche</a>
             </div>
-            {% if tasks is defined and tasks is not empty  %}
+            {% if tasks is defined and tasks is not empty %}
                 {% for task in tasks %}
                     {% include 'partials/_task.html.twig'  with {'task': task} %}
                 {% endfor %}

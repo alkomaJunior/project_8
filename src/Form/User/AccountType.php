@@ -24,27 +24,27 @@ class AccountType extends AbstractUserType
             ->add('username', TextType::class)
             ->add('email', EmailType::class)
         ;
-        if ($this->canChangeRole($options['logged_user'], $builder->getData())) {
+        if ($this->isRoleEditable($options['logged_user'], $builder->getData())) {
             $builder->add(
                 'roles',
                 ChoiceType::class,
                 [
                     'choices' => parent::getRolesOptions(),
-                    'multiple' => true,
                 ]
             );
+            parent::transformRolesType($builder);
         }
     }
 
     /**
-     * Add select input if user has admin role
+     * Add select input if user has admin role.
      *
      * @param User $loggedUser
      * @param User $editedUser
      *
      * @return bool
      */
-    private function canChangeRole(User $loggedUser, User $editedUser): bool
+    private function isRoleEditable(User $loggedUser, User $editedUser): bool
     {
         return in_array('ROLE_ADMIN', $loggedUser->getRoles()) && $loggedUser !== $editedUser;
     }

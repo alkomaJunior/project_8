@@ -33,8 +33,8 @@ class UserType extends AbstractUserType
             ])
            ->add('roles', ChoiceType::class, [
                'choices' => parent::getRolesOptions(),
-               'multiple' => true,
             ])
         ;
+        parent::transformRolesType($builder);
     }
 }

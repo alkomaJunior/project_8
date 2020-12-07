@@ -17,8 +17,7 @@
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <ul class="navbar-nav mr-auto h4">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('homepage')}}"><i class="glyphicon glyphicon-home
-                        text-secondary nav-deco {% if route_name == "homepage" %}active font-weight-bolder btn-shadow text-success{% endif %}"></i></a>
+                        <a class="nav-link" href="{{ path('homepage')}}"><i class="glyphicon glyphicon-home text-secondary nav-deco {% if route_name == "homepage" %}active font-weight-bolder btn-shadow text-success{% endif %}"></i></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link nav-deco {% if route_name matches '/^task.*/'  %}active font-weight-bold btn-shadow text-success{% endif %}" href="{{ path('task_list_all') }}">Tâches</a>
@@ -36,8 +35,7 @@
                             <img class="avatar" src="{{ asset('build/images/default-avatar.png') }}" alt="{{ app.user.username }}"> {{ app.user.username }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item {% if route_name == "user_edit" %}active btn-shadow bg-success{% endif %}" href="{{  path('user_edit', {'id' : app.user.id}) }}">Modifier
-                                profil</a>
+                            <a class="dropdown-item {% if route_name == "user_edit" %}active btn-shadow bg-success{% endif %}" href="{{  path('user_edit', {'id' : app.user.id}) }}">Modifier profil</a>
                             <a class="dropdown-item  {% if route_name == "user_password_edit" %}active btn-shadow bg-success{% endif %}" href="{{  path('user_password_edit', {'id' : app.user.id}) }}">Modifier mot de passe</a>
                             <div class="dropdown-divider"></div>
 
@@ -52,18 +50,14 @@
                         <form action="{{ path('login') }}" method="post">
                             <div class="form-row">
                                 <div class="col-lg-4 col-sm-12 mt-lg-0 mt-5">
-                                    <input class="form-control" placeholder="Username" type="text" id="username" name="_username"
-                                           value="{% if var is defined and var is not null %}last_username {% endif
-                                           %}" />
+                                    <input class="form-control" placeholder="Username" type="text" id="username" name="_username" value="{% if var is defined and var is not null %}last_username {% endif %}" />
                                 </div>
                                 <div class="col-lg-4 col-sm-12 mt-lg-0 mt-1">
-                                    <input class="form-control" placeholder="Mot de passe" type="password"
-                                           id="password" name="_password" />
+                                    <input class="form-control" placeholder="Mot de passe" type="password" id="password" name="_password" />
                                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                                 </div>
                                 <div class="col-lg-4 col-sm-12 mt-lg-0 mt-3 mb-lg-0 mb-5">
-                                        <button class="form-control btn btn-success" type="submit">Se
-                                    connecter</button>
+                                        <button class="form-control btn btn-success" type="submit">Se connecter</button>
                                 </div>
                             </div>
                         </form>

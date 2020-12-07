@@ -18,7 +18,6 @@ class TaskType extends AbstractType
             ->add('content', TextareaType::class, [
                 'required' => false,
             ])
-            //->add('author') ===> must be the user authenticated
         ;
     }
 
@@ -26,7 +25,7 @@ class TaskType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Task::class,
-            'translation_domain' => 'forms'
+            'translation_domain' => 'forms',
         ]);
     }
 }

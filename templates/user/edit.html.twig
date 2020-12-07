@@ -5,9 +5,9 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <a role="button" class="btn-shadow float-right btn btn-info" href="{{ path('user_password_edit',  {'id' : user.id}) }}">Modifier mot de passe</a>
+                <a role="button" class="btn-shadow float-right btn btn-info" href="{{ path('user_password_edit', {'id' : user.id}) }}">Modifier mot de passe</a>
             </div>
-            <div div class="col-12">
+            <div class="col-12">
                 {{ form_start(form, {'action' : path('user_edit', {'id' : user.id})}) }}
                     <div class="form-row">
                         <div class="col-12">
@@ -16,7 +16,7 @@
                         <div class="col-12">
                             {{ form_row(form.email) }}
                         </div>
-                        {% if is_granted('ROLE_ADMIN') and user is not same as(app.user)   %}
+                        {% if is_granted('ROLE_ADMIN') and user is not same as(app.user) %}
                             <div class="col-12">
                                 {{ form_row(form.roles) }}
                             </div>
