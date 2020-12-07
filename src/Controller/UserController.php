@@ -14,19 +14,26 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * Controller used to manage users contents.
+ */
 class UserController extends AbstractController
 {
     /**
      * @var Security
      */
     private $security;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 
-    public function __construct(Security $security)
+    public function __construct(Security $security, EntityManagerInterface $entityManager)
     {
         $this->security = $security;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -35,7 +42,8 @@ class UserController extends AbstractController
      */
     public function listAction(UserRepository $repository): Response
     {
-        $users = $repository->findBy([], ['id' => 'DESC']);
+        $users = $repository->findAllExceptOne($this->security->getUser());
+
         return $this->render('user/list.html.twig', ['users' => $users]);
     }
 
@@ -45,21 +53,16 @@ class UserController extends AbstractController
      *
      * @return RedirectResponse|Response
      */
-    public function createAction(
-        Request $request,
-        EntityManagerInterface $entityManager,
-        UserPasswordEncoderInterface $encoder
-    ): Response {
+    public function createAction(Request $request): Response
+    {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
-
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
 
@@ -77,21 +80,18 @@ class UserController extends AbstractController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(
-        User $user,
-        Request $request,
-        EntityManagerInterface $entityManager
-    ): Response {
+    public function editAction(User $user, Request $request): Response
+    {
         $form = $this->createForm(AccountType::class, $user, ['logged_user' => $this->getUser()]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
 
-            return $this->redirectToRoute($this->redirectForRole($this->security->getUser()->getRoles()));
+            return $this->redirectToRoute($this->redirectLoggedUser($this->security->getUser()->getRoles()));
         }
 
         return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
@@ -103,24 +103,18 @@ class UserController extends AbstractController
      *
      * @return RedirectResponse|Response
      */
-    public function editPasswordAction(
-        User $user,
-        Request $request,
-        UserPasswordEncoderInterface $encoder,
-        EntityManagerInterface $entityManager
-    ): Response {
+    public function editPasswordAction(User $user, Request $request): Response
+    {
         $form = $this->createForm(EditPasswordType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
-
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             $this->addFlash('success', 'Le mot de passe a bien été modifié');
 
-            return $this->redirectToRoute($this->redirectForRole($this->security->getUser()->getRoles()));
+            return $this->redirectToRoute($this->redirectLoggedUser($this->security->getUser()->getRoles()));
         }
 
         return $this->render('user/password.html.twig', ['form' => $form->createView(), 'user' => $user]);
@@ -128,12 +122,8 @@ class UserController extends AbstractController
 
     /**
      * Redirect user according to his role.
-     *
-     * @param array $roles
-     *
-     * @return string
      */
-    private function redirectForRole(array $roles): string
+    private function redirectLoggedUser(array $roles): string
     {
         return in_array('ROLE_ADMIN', $roles) ? 'user_list' : 'homepage';
     }

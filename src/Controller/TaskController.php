@@ -13,6 +13,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller used to manage task contents.
+ *
+ * @IsGranted("ROLE_USER")
+ */
 class TaskController extends AbstractController
 {
     /**
@@ -20,7 +25,7 @@ class TaskController extends AbstractController
      */
     private $entityManager;
 
-    public function __construct( EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
@@ -76,6 +81,7 @@ class TaskController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->flush();
+
             $this->addFlash('success', 'La tâche a bien été modifiée.');
 
             return $this->redirect($request->request->get('referer'));
@@ -89,8 +95,6 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle", requirements={"id"="\d+"})
-     *
-     * @return RedirectResponse
      */
     public function toggleTaskAction(Task $task, Request $request): RedirectResponse
     {
@@ -114,8 +118,6 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/delete", name="task_delete", requirements={"id"="\d+"})
      * @IsGranted("DELETE", subject="task")
-     *
-     * @return RedirectResponse
      */
     public function deleteTaskAction(Task $task, Request $request): RedirectResponse
     {

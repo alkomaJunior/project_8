@@ -103,6 +103,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         throw new UsernameNotFoundException();
     }
 
+    /**
+     * @inxheritDoc
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): RedirectResponse
     {
         return new RedirectResponse($this->urlGenerator->generate('homepage'));

@@ -35,7 +35,7 @@ class TaskRepository extends ServiceEntityRepository
             ->leftJoin('t.user', 'u');
 
         if (null !== $isDone) {
-            $queryBuilder = $this->filterTasks($queryBuilder, $isDone);
+            $queryBuilder = $this->filterDoneTasks($queryBuilder, $isDone);
         }
 
         return $queryBuilder
@@ -52,7 +52,7 @@ class TaskRepository extends ServiceEntityRepository
      *
      * @return QueryBuilder
      */
-    private function filterTasks(QueryBuilder $queryBuilder, string $isDone): QueryBuilder
+    private function filterDoneTasks(QueryBuilder $queryBuilder, string $isDone): QueryBuilder
     {
         // Convert string value to bool e.g: 'true'= True | false = False
         $isDone = filter_var($isDone, FILTER_VALIDATE_BOOLEAN);
