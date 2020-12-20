@@ -34,8 +34,9 @@ final class AppFixtures extends Fixture
     {
         $users = $this->getDataFixture('User');
         $tasks = $this->getDataFixture('Task');
-
+        // Add user => 'ROLE_ADMIN', user => 'ROLE_USER'
         $this->addUsers($users, $manager);
+        // Add 6 tasks
         $this->addTasks($tasks, $manager);
 
         $manager->flush();

@@ -42,7 +42,7 @@ class UserController extends AbstractController
      */
     public function listAction(UserRepository $repository): Response
     {
-        $users = $repository->findAllExceptOne($this->security->getUser());
+        $users = $repository->findAllExceptOne($this->security->getUser()->getId());
 
         return $this->render('user/list.html.twig', ['users' => $users]);
     }
@@ -89,7 +89,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->flush();
 
-            $this->addFlash('success', "L'utilisateur a bien été modifié");
+            $this->addFlash('success', "L'utilisateur a bien été modifié.");
 
             return $this->redirectToRoute($this->redirectLoggedUser($this->security->getUser()->getRoles()));
         }
@@ -112,7 +112,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->flush();
 
-            $this->addFlash('success', 'Le mot de passe a bien été modifié');
+            $this->addFlash('success', 'Le mot de passe a bien été modifié.');
 
             return $this->redirectToRoute($this->redirectLoggedUser($this->security->getUser()->getRoles()));
         }
