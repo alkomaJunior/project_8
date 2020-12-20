@@ -48,7 +48,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    protected function getLoginUrl(): string
+    public function getLoginUrl(): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
@@ -69,10 +69,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             $parametersBag->get('_csrf_token')
         );
 
-        $request->getSession()->set(
-            Security::LAST_USERNAME,
-            $credentials->getUsername()
-        );
+        if ($request->hasSession()) {
+            $request->getSession()->set(
+                Security::LAST_USERNAME,
+                $credentials->getUsername()
+            );
+        }
 
         return $credentials;
     }

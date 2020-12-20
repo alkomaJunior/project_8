@@ -122,6 +122,9 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getSalt(): ?string
     {
         return null;
@@ -163,6 +166,9 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function eraseCredentials(): void
     {
         // Do nothing because no sensitive information is stored .
