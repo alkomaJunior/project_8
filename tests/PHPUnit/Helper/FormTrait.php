@@ -8,7 +8,7 @@
  * Inc., Munich, Germany.
  */
 
-namespace App\Tests\Helper;
+namespace App\Tests\PHPUnit\Helper;
 
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;

@@ -8,7 +8,7 @@
  * Inc., Munich, Germany.
  */
 
-namespace App\Tests\Security;
+namespace App\Tests\PHPUnit\Security;
 
 use App\Entity\User;
 use App\Security\DataTransferObject\Credentials;

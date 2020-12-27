@@ -8,24 +8,27 @@
  * Inc., Munich, Germany.
  */
 
-namespace App\Tests\Form;
+namespace App\Tests\PHPUnit\Form;
 
 use App\Entity\Task;
 use App\Entity\User;
+use App\Form\DataTransferObject\PasswordUpdate;
 use App\Form\TaskType;
 use App\Form\User\AccountType;
-use App\Form\User\EditPasswordType;
+use App\Form\User\UpdatePasswordType;
 use App\Form\User\UserType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Test\TypeTestCase;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class FormTypeTest extends TypeTestCase
 {
-    public function testTaskForm(): void
+    public function testCreateTaskValidData(): void
     {
         $data = [
             'title' => 'Title Test',
@@ -39,42 +42,7 @@ class FormTypeTest extends TypeTestCase
         $this->formHasError($formModel, $expectedObject, $data, TaskType::class);
     }
 
-    public function testAccountFormWithRoleUser(): void
-    {
-        $data = [
-            'username' => 'username',
-            'email' => 'mail@todo.de',
-        ];
-        $formModel = new User();
-        $expectedObject = (new User())
-            ->setUsername($data['username'])
-            ->setEmail($data['email']);
-
-        $option = ['logged_user' => new User()];
-
-        $this->formHasError($formModel, $expectedObject, $data, AccountType::class, $option);
-    }
-
-    public function testAccountFormWithRoleAdmin(): void
-    {
-        $data = [
-            'username' => 'username',
-            'email' => 'mail@todo.de',
-            'roles' => User::ROLE_ADMIN,
-        ];
-        $formModel = new User();
-        $expectedObject = (new User())
-            ->setUsername($data['username'])
-            ->setEmail($data['email'])
-            ->setRoles([$data['roles']]);
-
-        $loggedUser = (new User())->setRoles([User::ROLE_ADMIN]);
-        $option = ['logged_user' => $loggedUser];
-
-        $this->formHasError($formModel, $expectedObject, $data, AccountType::class, $option);
-    }
-
-    public function testUserSubmitValidData(): void
+    public function testCreateUserValidData(): void
     {
         $data = [
             'username' => 'username',
@@ -91,16 +59,78 @@ class FormTypeTest extends TypeTestCase
         $this->formHasError($formModel, $expectedObject, $data, UserType::class);
     }
 
-    public function testEditPasswordSubmitValidData(): void
+    public function testUpdateHisOwnAccount(): void
     {
         $data = [
-            'password' => ['first' => 'Password*1', 'second' => 'Password*1'],
+            'username' => 'username',
+            'email' => 'mail@todo.de',
         ];
         $formModel = new User();
         $expectedObject = (new User())
-            ->setPassword($data['password']['first']);
+            ->setUsername($data['username'])
+            ->setEmail($data['email']);
 
-        $this->formHasError($formModel, $expectedObject, $data, EditPasswordType::class);
+        $option = ['update_account' => true];
+
+        $this->formHasError($formModel, $expectedObject, $data, AccountType::class, $option);
+    }
+
+    public function testUpdateAccountFromAdmin(): void
+    {
+        $data = [
+            'username' => 'username',
+            'email' => 'mail@todo.de',
+            'roles' => User::ROLE_ADMIN,
+        ];
+        $formModel = new User();
+        $expectedObject = (new User())
+            ->setUsername($data['username'])
+            ->setEmail($data['email'])
+            ->setRoles([$data['roles']]);
+
+        $option = ['update_account' => false];
+
+        $this->formHasError($formModel, $expectedObject, $data, AccountType::class, $option);
+    }
+
+    public function testUpdateHisOwnPassword(): void
+    {
+        $data = [
+            'actualPassword' => 'test1',
+            'newPassword' => 'Password*1',
+            'confirmPassword' => 'Password*1',
+        ];
+        $formModel = new PasswordUpdate();
+        $expectedObject = (new PasswordUpdate())
+            ->setActualPassword($data['actualPassword'])
+            ->setNewPassword($data['newPassword'])
+            ->setConfirmPassword($data['confirmPassword']);
+        $options =[
+            'update_account' => true,
+            'validation_groups' => ['account']
+        ];
+
+
+        $this->formHasError($formModel, $expectedObject, $data, UpdatePasswordType::class, $options);
+    }
+
+    public function testUpdatePasswordFromAdmin(): void
+    {
+        $data = [
+            'newPassword' => 'Password*1',
+            'confirmPassword' => 'Password*1',
+        ];
+        $formModel = new PasswordUpdate();
+        $expectedObject = (new PasswordUpdate())
+            ->setNewPassword($data['newPassword'])
+            ->setConfirmPassword($data['confirmPassword']);
+        $options =[
+            'update_account' => false,
+            'validation_groups' => ['']
+        ];
+
+
+        $this->formHasError($formModel, $expectedObject, $data, UpdatePasswordType::class, $options);
     }
 
     /**
@@ -109,10 +139,12 @@ class FormTypeTest extends TypeTestCase
      */
     protected function getExtensions(): array
     {
-        $classMetadata = $this->getMockBuilder(ClassMetadata::class)->disableOriginalConstructor()->getMock();
-        $validator = $this->getMockBuilder(ValidatorInterface::class)->getMock();
-        $validator->method('validate')->will($this->returnValue(new ConstraintViolationList()));
-        $validator->method('getMetadataFor')->will($this->returnValue($classMetadata));
+        $validator = Validation::createValidator();
+
+        // or if you also need to read constraints from annotations
+        /*$validator = Validation::createValidatorBuilder()
+            ->enableAnnotationMapping()
+            ->getValidator();*/
 
         return [
             new ValidatorExtension($validator),

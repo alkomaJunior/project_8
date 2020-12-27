@@ -8,7 +8,7 @@
  * Inc., Munich, Germany.
  */
 
-namespace App\Tests\EventSubscriber;
+namespace App\Tests\PHPUnit\EventSubscriber;
 
 use App\Entity\Task;
 use App\Entity\User;

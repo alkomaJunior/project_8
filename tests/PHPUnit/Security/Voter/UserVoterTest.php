@@ -8,7 +8,7 @@
  * Inc., Munich, Germany.
  */
 
-namespace App\Tests\Security\Voter;
+namespace App\Tests\PHPUnit\Security\Voter;
 
 use App\Entity\User;
 use App\Security\Voter\UserVoter;

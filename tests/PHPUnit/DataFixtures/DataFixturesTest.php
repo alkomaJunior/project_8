@@ -8,7 +8,7 @@
  * Inc., Munich, Germany.
  */
 
-namespace App\Tests\DataFixtures;
+namespace App\Tests\PHPUnit\DataFixtures;
 
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;

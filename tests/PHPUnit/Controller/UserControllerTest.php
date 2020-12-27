@@ -8,11 +8,11 @@
  * Inc., Munich, Germany.
  */
 
-namespace App\Tests\Controller;
+namespace App\Tests\PHPUnit\Controller;
 
 use App\Entity\User;
-use App\Tests\Helper\FormTrait;
-use App\Tests\Helper\LoginTrait;
+use App\Tests\PHPUnit\Helper\FormTrait;
+use App\Tests\PHPUnit\Helper\LoginTrait;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -33,7 +33,7 @@ class UserControllerTest extends WebTestCase
     {
         self::ensureKernelShutdown();
         $this->client = static::createClient();
-        $this->users = $this->loadFixtureFiles([dirname(__DIR__).'/fixtures/Users.yaml']);
+        $this->users = $this->loadFixtureFiles([dirname(__DIR__).'/fixtures/users.yaml']);
     }
 
     public function testCreateInvalidUser(): void
@@ -115,8 +115,8 @@ class UserControllerTest extends WebTestCase
         $httpReferer = '/users';
         $formSelector = "form[action='".$uri."']";
         $data = [
-            'edit_password[password][first]' => '123*Password',
-            'edit_password[password][second]' => '123*Password',
+            'update_password[newPassword]' => '123*Password',
+            'update_password[confirmPassword]' => '123*Password',
         ];
 
         $this->logIn($this->users['user_1'], $this->client);
@@ -133,8 +133,9 @@ class UserControllerTest extends WebTestCase
         $httpReferer = '/';
         $formSelector = "form[action='".$uri."']";
         $data = [
-            'edit_password[password][first]' => '123*Password',
-            'edit_password[password][second]' => '123*Password',
+            'update_password[actualPassword]' => 'test3',
+            'update_password[newPassword]' => '123*Password',
+            'update_password[confirmPassword]' => '123*Password',
         ];
 
         $this->logIn($this->users['user_3'], $this->client);

@@ -8,10 +8,10 @@
  * Inc., Munich, Germany.
  */
 
-namespace App\Tests\Entity;
+namespace App\Tests\PHPUnit\Entity;
 
 use App\Entity\User;
-use App\Tests\Helper\HelperTrait;
+use App\Tests\PHPUnit\Helper\HelperTrait;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -20,10 +20,7 @@ class UserTest extends KernelTestCase
     use FixturesTrait;
     use HelperTrait;
 
-    /**
-     * @var User|null
-     */
-    private User $user;
+    private ?User $user;
 
     protected function setUp(): void
     {
@@ -83,6 +80,6 @@ class UserTest extends KernelTestCase
 
     protected function tearDown(): void
     {
-        unset($this->user);
+        $this->user = null;
     }
 }

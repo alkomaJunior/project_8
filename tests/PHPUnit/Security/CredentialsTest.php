@@ -8,11 +8,10 @@
  * Inc., Munich, Germany.
  */
 
-namespace App\Tests\Entity;
+namespace App\Tests\PHPUnit\Entity;
 
-use App\Entity\Task;
 use App\Security\DataTransferObject\Credentials;
-use App\Tests\Helper\HelperTrait;
+use App\Tests\PHPUnit\Helper\HelperTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class CredentialsTest extends KernelTestCase

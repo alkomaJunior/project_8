@@ -8,7 +8,7 @@
  * Inc., Munich, Germany.
  */
 
-namespace App\Tests\Repository;
+namespace App\Tests\PHPUnit\Repository;
 
 use App\Repository\TaskRepository;
 use Liip\TestFixturesBundle\Test\FixturesTrait;

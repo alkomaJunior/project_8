@@ -8,10 +8,10 @@
  * Inc., Munich, Germany.
  */
 
-namespace App\Tests\Controller;
+namespace App\Tests\PHPUnit\Controller;
 
 use App\Entity\User;
-use App\Tests\Helper\LoginTrait;
+use App\Tests\PHPUnit\Helper\LoginTrait;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

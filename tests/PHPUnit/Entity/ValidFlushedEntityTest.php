@@ -8,7 +8,7 @@
  * Inc., Munich, Germany.
  */
 
-namespace App\Tests\Entity;
+namespace App\Tests\PHPUnit\Entity;
 
 use App\Entity\Task;
 use App\Entity\User;

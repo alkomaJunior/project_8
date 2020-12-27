@@ -8,14 +8,14 @@
  * Inc., Munich, Germany.
  */
 
-namespace App\Tests;
+namespace App\Tests\PHPUnit;
 
 
 use PHPUnit\Framework\TestCase;
 
 class AppTest extends TestCase
 {
-    public function testTestAreWorking()
+    public function testTestAreWorking(): void
     {
         $this->assertEquals(5, 2+3, "5 was expected to equal 2+3");
     }

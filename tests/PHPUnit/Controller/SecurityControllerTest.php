@@ -8,7 +8,7 @@
  * Inc., Munich, Germany.
  */
 
-namespace App\Tests\Controller;
+namespace App\Tests\PHPUnit\Controller;
 
 use App\Entity\User;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
@@ -36,7 +36,7 @@ class SecurityControllerTest extends WebTestCase
             'username' => 'username-1',
             'password' => 'test1',
         ];
-        $this->users = $this->loadFixtureFiles([dirname(__DIR__).'/fixtures/Users.yaml']);
+        $this->users = $this->loadFixtureFiles([dirname(__DIR__).'/fixtures/users.yaml']);
     }
 
     public function testLoginForm(): void

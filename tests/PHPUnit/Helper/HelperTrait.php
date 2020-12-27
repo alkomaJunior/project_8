@@ -8,15 +8,18 @@
  * Inc., Munich, Germany.
  */
 
-namespace App\Tests\Helper;
+namespace App\Tests\PHPUnit\Helper;
 
 use Symfony\Component\Validator\ConstraintViolation;
 
 trait HelperTrait
 {
-    protected function assertHasErrors(object $entity, int $errorNumber = 0): void
+    protected function assertHasErrors(object $entity, int $errorNumber = 0, bool $hasBootKernel = true): void
     {
-        self::bootKernel();
+        if($hasBootKernel){
+            self::bootKernel();
+        }
+
         $errors = self::$container->get('validator')->validate($entity);
         $messages = [];
 
