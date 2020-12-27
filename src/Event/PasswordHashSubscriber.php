@@ -19,10 +19,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class PasswordHashSubscriber implements EventSubscriber
 {
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    private $encoder;
+    private UserPasswordEncoderInterface $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
@@ -49,7 +46,7 @@ class PasswordHashSubscriber implements EventSubscriber
 
     public function preUpdate(PreUpdateEventArgs $args): void
     {
-        // end the event if the password doesn't change
+        // End the event if the password doesn't change
         if (!array_key_exists('password', $args->getEntityChangeSet())) {
             return;
         }

@@ -28,6 +28,12 @@ class UserVoter extends Voter
         $this->security = $security;
     }
 
+    /**
+     * @param $attribute
+     * @param $subject
+     *
+     * @return bool
+     */
     protected function supports($attribute, $subject): bool
     {
         return in_array($attribute, [self::EDIT])
@@ -35,8 +41,9 @@ class UserVoter extends Voter
     }
 
     /**
-     * @param string $attribute
-     * @param User   $subject
+     * @param string         $attribute
+     * @param User           $subject
+     * @param TokenInterface $token
      *
      * @return bool|void
      */

@@ -10,31 +10,34 @@
 
 namespace App\Form\User;
 
+use App\Form\DataTransferObject\PasswordUpdate;
 use App\Entity\User;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EditPasswordType extends AbstractType
+class UpdatePasswordType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'Les deux mots de passe doivent correspondre.',
-                'required' => true,
-                'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Tapez le mot de passe à nouveau'],
-            ]);
+        // Ask logged user for his actual password
+        if ($options['update_account']) {
+            $builder->add('actualPassword',PasswordType::class);
+        }
+        $builder
+            ->add('newPassword',PasswordType::class)
+            ->add('confirmPassword',PasswordType::class)
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => PasswordUpdate::class,
             'translation_domain' => 'forms',
+            'update_account' => Boolean::class,
         ]);
     }
 }
