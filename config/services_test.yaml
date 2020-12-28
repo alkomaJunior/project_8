@@ -1,0 +1,30 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Tests\Behat\:
+        resource: '../tests/Behat/*'
+        exclude: '../tests/Behat/{Page}'
+    App\Tests\Behat\Page\:
+        resource: '../tests/Behat/Page/*'
+        parent: 'friends-of-behat\page-object-extension\Page\SymfonyPage'
+        autoconfigure: false
+        public: false
+        autowire: true
+    friends-of-behat\page-object-extension\Page\Page:
+        abstract: true
+        autoconfigure: false
+        public: false
+        autowire: true
+        arguments:
+            - '@behat.mink.default_session'
+            - '@behat.mink.parameters'
+    friends-of-behat\page-object-extension\Page\SymfonyPage:
+        abstract: true
+        autoconfigure: false
+        public: false
+        autowire: true
+        parent: 'friends-of-behat\page-object-extension\Page\Page'
+        arguments:
+            - '@router'

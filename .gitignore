@@ -58,3 +58,7 @@ yarn-error.log
 /phpunit.xml
 /phpunit.xml.dist
 ###< symfony/phpunit-bridge ###
+
+###> friends-of-behat/symfony-extension ###
+/behat.yml
+###< friends-of-behat/symfony-extension ###

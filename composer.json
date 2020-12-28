@@ -29,7 +29,13 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "behat/behat": "^3.8",
         "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "escapestudios/symfony2-coding-standard": "3.x-dev",
+        "friends-of-behat/mink-browserkit-driver": "^1.4",
+        "friends-of-behat/mink-extension": "^2.4",
+        "friends-of-behat/page-object-extension": "^0.3.2",
+        "friends-of-behat/symfony-extension": "^2.1",
         "friendsofphp/php-cs-fixer": "^2.16",
         "liip/test-fixtures-bundle": "^1.11",
         "msztorc/php-dpd-api": "^2.1",
