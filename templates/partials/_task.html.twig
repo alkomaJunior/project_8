@@ -7,7 +7,8 @@
             </h4>
         </div>
         <div class="card-body">
-            <a href="{{ path('task_edit', {'id' : task.id }) }}">
+            {% set taskId = task.id %}
+            <a id="task-edit-{{ taskId }}" href="{{ path('task_edit', {'id' : taskId }) }}">
                 <h4 class="card-title text-center">
                    {{ task.title|title | u.truncate(16, '...', true) }}
                 </h4>
@@ -32,7 +33,9 @@
                     <form action="{{ path('task_delete', {'id' : task.id }) }}">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
-                        <button class="btn btn-danger btn-sm btn-block btn-shadow"><span class="glyphicon glyphicon-trash text-white"></span></button>
+                        <button id="task-delete-{{ taskId }}" class="btn btn-danger btn-sm btn-block btn-shadow">
+                            <span class="glyphicon glyphicon-trash text-white"></span>
+                        </button>
                     </form>
                 {% else %}
                     <button disabled class="btn btn-dark btn-sm btn-block btn-shadow"><span class="glyphicon glyphicon-trash text-white"></span></button>

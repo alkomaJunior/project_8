@@ -25,7 +25,10 @@
                             <td>{{ user.username }}</td>
                             <td>{{ user.email }}</td>
                             <td>
-                                <a href="{{ path('user_edit', {'id' : user.id}) }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-pencil text-white"></span></a>
+                                {% set userId = user.id %}
+                                <a id="user-{{ userId }}" href="{{ path('user_edit', {'id' : userId}) }}" class="btn btn-success btn-sm">
+                                    <span class="glyphicon glyphicon-pencil text-white"></span>
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
