@@ -48,11 +48,21 @@ class UserController extends AbstractController
      *
      * @IsGranted("ROLE_ADMIN")
      */
-    public function listAction(UserRepository $repository): Response
+    public function listAction(Request $request, UserRepository $repository): Response
     {
-        $users = $repository->findAllExceptOne($this->security->getUser()->getId());
+        $response = $this->render(
+            'user/list.html.twig',
+            [
+                'users' => $repository->findAllExceptOne($this->security->getUser()->getId())
+            ]);
 
-        return $this->render('user/list.html.twig', ['users' => $users]);
+        $response->setEtag(md5($response->getContent()));
+        $response->setPublic();
+        if ($response->isNotModified($request)) {
+            return $response;
+        }
+
+        return $response;
     }
 
     /**

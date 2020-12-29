@@ -34,14 +34,20 @@ class TaskController extends AbstractController
      * @Route("/tasks", name="task_list_all")
      * @Route("/tasks/done/{!isDone}", name="task_list", requirements={"isDone"="true|false"})
      */
-    public function listAction(TaskRepository $repository, ?string $isDone = null): Response
+    public function listAction(Request $request, TaskRepository $repository, ?string $isDone = null): Response
     {
-        $tasks = $repository->findTasks($isDone);
-
-        return $this->render('task/list.html.twig', [
-            'tasks' => $tasks,
+        $response = $this->render('task/list.html.twig', [
+            'tasks' => $repository->findTasks($isDone),
             'isDone' => $isDone,
         ]);
+
+        $response->setEtag(md5($response->getContent()));
+        $response->setPublic();
+        if ($response->isNotModified($request)) {
+            return $response;
+        }
+
+        return $response;
     }
 
     /**
