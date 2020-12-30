@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * Controller used to manage users contents.
+ * Manage users contents.
  */
 class UserController extends AbstractController
 {
@@ -36,6 +36,9 @@ class UserController extends AbstractController
 
     /**
      * UserController constructor.
+     *
+     * @param Security               $security
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(Security $security, EntityManagerInterface $entityManager)
     {
@@ -47,14 +50,22 @@ class UserController extends AbstractController
      * @Route("/users", name="user_list")
      *
      * @IsGranted("ROLE_ADMIN")
+     *
+     * @param Request        $request
+     * @param UserRepository $repository
+     *
+     * @return Response
      */
     public function listAction(Request $request, UserRepository $repository): Response
     {
+        /** @var User $user */
+        $user = $this->security->getUser();
         $response = $this->render(
             'user/list.html.twig',
             [
-                'users' => $repository->findAllExceptOne($this->security->getUser()->getId())
-            ]);
+                'users' => $repository->findAllExceptOne($user->getId()),
+            ]
+        );
 
         $response->setEtag(md5($response->getContent()));
         $response->setPublic();
@@ -69,6 +80,8 @@ class UserController extends AbstractController
      * @Route("/users/create", name="user_create")
      *
      * @IsGranted("ROLE_ADMIN")
+     *
+     * @param Request $request
      *
      * @return RedirectResponse|Response
      */
@@ -98,6 +111,9 @@ class UserController extends AbstractController
      *
      * @IsGranted("EDIT", subject="user")
      *
+     * @param User    $user
+     * @param Request $request
+     *
      * @return RedirectResponse|Response
      */
     public function editAction(User $user, Request $request): Response
@@ -105,9 +121,7 @@ class UserController extends AbstractController
         $form = $this->createForm(
             AccountType::class,
             $user,
-            [
-                'update_account' => ($user === $this->getUser()) ? true : false
-            ]
+            ['update_account' => ($user === $this->getUser()) ? true : false]
         );
 
         $form->handleRequest($request);
@@ -131,22 +145,24 @@ class UserController extends AbstractController
      *
      * @IsGranted("EDIT", subject="user")
      *
+     * @param User    $user
+     * @param Request $request
+     *
      * @return RedirectResponse|Response
      */
     public function editPasswordAction(User $user, Request $request): Response
     {
         $passwordUpdate = new PasswordUpdate();
-        $isAccount = ($user === $this->getUser()) ? true : false;
-        $form = $this->createForm(UpdatePasswordType::class, $passwordUpdate, [
-            'update_account' => $isAccount,
-            'validation_groups' => [$isAccount?'account':'']
-        ]);
+        $isAccount = ($user === $this->getUser());
+        $form = $this->createForm(
+            UpdatePasswordType::class,
+            $passwordUpdate,
+            ['update_account' => $isAccount, 'validation_groups' => [$isAccount ? 'account' : '']]
+        );
 
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword($passwordUpdate->getNewPassword());
-
             $this->entityManager->flush();
             $this->addFlash('success', 'Le mot de passe a bien été modifié.');
 

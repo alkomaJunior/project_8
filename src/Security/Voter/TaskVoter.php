@@ -18,17 +18,33 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * Manage security to delete task.
+ */
 class TaskVoter extends Voter
 {
     public const DELETE = 'DELETE';
 
     private $security;
 
+    /**
+     * TaskVoter constructor.
+     *
+     * @param Security $security
+     */
     public function __construct(Security $security)
     {
         $this->security = $security;
     }
 
+    /**
+     * Determines if the attribute and subject are supported by this voter.
+     *
+     * @param string $attribute
+     * @param mixed  $subject
+     *
+     * @return bool True if the attribute and subject are supported, false otherwise
+     */
     protected function supports($attribute, $subject): bool
     {
         return in_array($attribute, [self::DELETE])

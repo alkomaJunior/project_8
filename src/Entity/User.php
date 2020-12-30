@@ -18,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table("user")
  * @ORM\Entity
+ *
  * @UniqueEntity(
  *     fields={"email"},
  *     message="Un autre utilisateur s'est déjà inscrit avec cette email, merci de la modifier"
@@ -44,8 +45,9 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
+     *
      * @Assert\NotBlank(message="Vous devez saisir un nom d'utilisateur.")
-     *  @Assert\Length(
+     * @Assert\Length(
      *      min = 2,
      *      max = 25,
      *      minMessage = "Votre prénom doit comporter au moins {{ limit }} caractères",
@@ -65,6 +67,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
      * @Assert\Length(
      *     min=8,
      *     minMessage="Votre mot de passe doit faire au moins {{ limit }} caractères !",
@@ -87,6 +90,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     *
      * @Assert\NotBlank(message="Vous devez saisir une adresse email.")
      * @Assert\Email(message="Le format de l'adresse n'est pas correcte.")
      *  @Assert\Length(
@@ -99,6 +103,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="json")
+     *
      * @Assert\Choice({{User::ROLE_ADMIN},{User::ROLE_USER}}, message="Choisissez un rôle valide.")
      */
     private array $roles;
@@ -108,21 +113,35 @@ class User implements UserInterface
      */
     protected $tasks;
 
+    /**
+     * Initialize User Object with ROLE_USER as default role.
+     */
     public function __construct()
     {
         $this->roles = self::DEFAULT_ROLES;
     }
 
+    /**
+     * @return int
+     */
     public function getId(): int
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getUsername(): string
     {
         return $this->username;
     }
 
+    /**
+     * @param string $username
+     *
+     * @return User
+     */
     public function setUsername(string $username): self
     {
         $this->username = $username;
@@ -132,17 +151,27 @@ class User implements UserInterface
 
     /**
      * @codeCoverageIgnore
+     *
+     * @return null|string
      */
     public function getSalt(): ?string
     {
         return null;
     }
 
+    /**
+     * @return string
+     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
+    /**
+     * @param string $password
+     *
+     * @return User
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -150,11 +179,19 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getEmail(): string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     *
+     * @return User
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -162,11 +199,19 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function getRoles(): array
     {
         return $this->roles;
     }
 
+    /**
+     * @param array $roles
+     *
+     * @return User
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;

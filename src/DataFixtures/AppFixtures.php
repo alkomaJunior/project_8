@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * ToDoAndCo Project
+ * Copyright (c) 2020 BigBoss 2020.  BigBoss Oualid
+ * mailto: <bigboss@it-bigboss.de>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code
+ * Inc., Munich, Germany.
+ */
+
 namespace App\DataFixtures;
 
 use App\Entity\Task;
@@ -14,19 +23,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 final class AppFixtures extends Fixture
 {
-    /**
-     * Retrieve fixtures from file and transform them to array.
-     *
-     * @param string $entityName
-     * @SuppressWarnings(PHPMD.StaticAccess)
-     *
-     * @return array
-     */
-    private function getDataFixture(string $entityName): array
-    {
-        return Yaml::parse(file_get_contents(__DIR__.'/Fixtures/'.$entityName.'s.yaml', true));
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -44,6 +40,20 @@ final class AppFixtures extends Fixture
     }
 
     /**
+     * Retrieve fixtures from file and transform them to array.
+     *
+     * @param string $entityName
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     *
+     * @return array
+     */
+    private function getDataFixture(string $entityName): array
+    {
+        return Yaml::parse(file_get_contents(__DIR__.'/Fixtures/'.$entityName.'s.yaml', true));
+    }
+
+    /**
      * Create users.
      *
      * @param array         $users
@@ -51,7 +61,6 @@ final class AppFixtures extends Fixture
      */
     private function addUsers(array $users, ObjectManager $manager): void
     {
-        // Create users
         foreach ($users as $name => $user) {
             /** @var User $userEntity */
             $userEntity = new User();

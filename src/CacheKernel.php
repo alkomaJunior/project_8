@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ToDoAndCo Project
  * Copyright (c) 2020 BigBoss 2020.  BigBoss Oualid
@@ -10,9 +11,11 @@
 
 namespace App;
 
-
 use Symfony\Bundle\FrameworkBundle\HttpCache\HttpCache;
 
+/**
+ * Use the CacheKernel Class to customize the cache options.
+ */
 class CacheKernel extends HttpCache
 {
 }

@@ -23,11 +23,21 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TaskRepository extends ServiceEntityRepository
 {
+    /**
+     * TaskRepository constructor.
+     *
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Task::class);
     }
 
+    /**
+     * @param string|null $isDone
+     *
+     * @return array
+     */
     public function findTasks(?string $isDone = null): array
     {
         $queryBuilder = $this->createQueryBuilder('t')

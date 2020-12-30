@@ -8,7 +8,9 @@
                 </div>
                 <div class="col-12">
                     {% if error is defined and error is not null%}
-                        <div class="alert alert-danger" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        <div class="alert alert-danger" role="alert">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
                     {% endif %}
                     <h1 class="my-heading font-weight-bolder">
                         Bienvenue <br class="d-xl-none"/>sur <br class="d-xl-none"/> Todo List

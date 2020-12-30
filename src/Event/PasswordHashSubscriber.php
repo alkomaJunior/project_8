@@ -17,10 +17,18 @@ use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * Encode users password just before persisting the entity.
+ */
 class PasswordHashSubscriber implements EventSubscriber
 {
     private UserPasswordEncoderInterface $encoder;
 
+    /**
+     * PasswordHashSubscriber constructor.
+     *
+     * @param UserPasswordEncoderInterface $encoder
+     */
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
         $this->encoder = $encoder;
@@ -39,11 +47,17 @@ class PasswordHashSubscriber implements EventSubscriber
         ];
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     */
     public function prePersist(LifecycleEventArgs $args): void
     {
         $this->hashPassword($args->getObject());
     }
 
+    /**
+     * @param PreUpdateEventArgs $args
+     */
     public function preUpdate(PreUpdateEventArgs $args): void
     {
         // End the event if the password doesn't change

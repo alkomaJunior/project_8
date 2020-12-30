@@ -17,12 +17,20 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * Manage security to edit user
+ */
 class UserVoter extends Voter
 {
     public const EDIT = 'EDIT';
 
     private $security;
 
+    /**
+     * UserVoter constructor.
+     *
+     * @param Security $security
+     */
     public function __construct(Security $security)
     {
         $this->security = $security;
