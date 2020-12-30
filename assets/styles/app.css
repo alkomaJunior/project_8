@@ -67,7 +67,7 @@ header.masthead .overlay{border-radius: 0 0 40px 40px;position:absolute;backgrou
 /**** /End header_Default ****/
 
 /*Navbar*/
-.navbar,.dropdown-menu-right{
+.navbar,.dropdown-menu{
     background-color: #e3f2fd;
 }
 .btn-bg-danger{
