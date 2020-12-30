@@ -1,7 +1,10 @@
 {% set route_name = app.request.attributes.get('_route') %}
 {% set route_params = app.request.attributes.get('_route_params') %}
-{% if route_params | first == app.user.id %}
-    {% set setAccount = true %}
+{% if app.user is not null %}
+    {% set loggedUser = app.user %}
+    {% if route_params | first == loggedUser.id %}
+        {% set setAccount = true %}
+    {% endif %}
 {% endif %}
 <nav class="navbar navbar-light fixed-top navbar-expand-lg" >
 	<div class="container navigation-cont">
@@ -50,12 +53,12 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle font-weight-bold {% if setAccount is defined %}active
                         btn-shadow-light text-success {% endif %}" href="#" id="navbarDropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <img class="avatar" src="{{ asset('build/images/default-avatar.png') }}" alt="{{ app.user.username }}"> {{ app.user.username }}
+                            <img class="avatar" src="{{ asset('build/images/default-avatar.png') }}" alt="{{ loggedUser.username }}"> {{ loggedUser.username }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item {% if setAccount is defined and route_name == "user_edit" %}active btn-shadow bg-success{%
-                                endif %}" href="{{  path('user_edit', {'id' : app.user.id}) }}">Modifier mon profil</a>
-                            <a class="dropdown-item  {% if setAccount is defined and route_name == "user_password_edit" %}active btn-shadow bg-success{% endif %}" href="{{  path('user_password_edit', {'id' : app.user.id}) }}">Modifier mon mot de passe</a>
+                                endif %}" href="{{  path('user_edit', {'id' : loggedUser.id}) }}">Modifier mon profil</a>
+                            <a class="dropdown-item  {% if setAccount is defined and route_name == "user_password_edit" %}active btn-shadow bg-success{% endif %}" href="{{  path('user_password_edit', {'id' : loggedUser.id}) }}">Modifier mon mot de passe</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item btn-bg-danger" href="{{ path('logout') }}">Se déconnecter</a>
                         </div>
@@ -68,11 +71,11 @@
                         <form action="{{ path('login') }}" method="post">
                             <div class="form-row">
                                 <div class="col-lg-4 col-sm-12 mt-lg-0 mt-5">
-                                    <label for="username" class="overflow-hidden">Username</label>
+                                    <label for="username" class="d-none">Username</label>
                                     <input class="form-control" placeholder="Username" type="text" id="username" name="_username" value="{% if var is defined and var is not null %}last_username {% endif %}" />
                                 </div>
                                 <div class="col-lg-4 col-sm-12 mt-lg-0 mt-1">
-                                    <label for="password" class="overflow-hidden">Username</label>
+                                    <label for="password" class="d-none">Username</label>
                                     <input class="form-control" placeholder="Mot de passe" type="password" id="password" name="_password" />
                                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                                 </div>
