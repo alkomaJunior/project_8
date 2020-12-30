@@ -1,0 +1,18 @@
+default:
+    suites:
+        default:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - App\Tests\Behat\Hook\DoctrineContext:
+                    fixtures: '@App\DataFixtures\AppFixtures'
+                    em: '@doctrine.orm.default_entity_manager'
+                - App\Tests\Behat\Context\HomeContext
+                - App\Tests\Behat\Context\AdminContext
+    extensions:
+        Behat\MinkExtension:
+            base_url: "http://127.0.0.1:8000"
+            default_session: symfony
+            sessions:
+                symfony:
+                    symfony: ~
+        FriendsOfBehat\SymfonyExtension: ~
