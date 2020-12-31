@@ -154,3 +154,14 @@ hr {
     width: 50%;
 }
 /**** end keep footer at the bottom ****/
+
+/**** Responsive ****/
+@media screen and (max-width: 767px) {
+    .slide-image{
+        margin-top: 70px;
+    }
+    .centered>h1{
+        font-size: 14px;
+    }
+}
+/**** end Responsive ****/
