@@ -1,0 +1,25 @@
+{
+    "version": "@package_version@",
+    "package": "phpmd",
+    "timestamp": "2021-01-01T23:20:58+00:00",
+    "files": [
+        {
+            "file": "C:\\wamp64\\www\\project_8\\src\\Security\\Guard\\LoginFormAuthenticator.php",
+            "violations": [
+                {
+                    "beginLine": 32,
+                    "endLine": 146,
+                    "package": "App\\Security\\Guard",
+                    "function": null,
+                    "class": "LoginFormAuthenticator",
+                    "method": null,
+                    "description": "The class LoginFormAuthenticator has a coupling between objects value of 13. Consider to reduce the number of dependencies under 13.",
+                    "rule": "CouplingBetweenObjects",
+                    "ruleSet": "Design Rules",
+                    "externalInfoUrl": "https:\/\/phpmd.org\/rules\/design.html#couplingbetweenobjects",
+                    "priority": 2
+                }
+            ]
+        }
+    ]
+}

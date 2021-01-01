@@ -45,7 +45,7 @@ yarn-error.log
 ###< PHPMetrics ###
 
 ###> PHPMD ###
-/phpmdRules.xml
+#/phpmdRules.xml
 ###< PHPMD ###
 
 ###> Rector###

@@ -73,10 +73,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     /**
      * {@inheritdoc}
-     *
-     * @return mixed Any non-null value
-     *
-     * @throws \UnexpectedValueException If null is returned
      */
     public function getCredentials(Request $request): ?array
     {
