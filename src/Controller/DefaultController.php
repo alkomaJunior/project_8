@@ -11,33 +11,25 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
+use App\Service\Cache\CacheValidationInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * Controller used to display the Homepage.
+ * Homepage.
  */
 class DefaultController extends AbstractController
 {
     /**
      * @Route("/", name="homepage")
      *
-     * @param Request $request
+     * @param CacheValidationInterface $cache
      *
      * @return Response
      */
-    public function indexAction(Request $request): Response
+    public function indexAction(CacheValidationInterface $cache): Response
     {
-        $response = $this->render('default/index.html.twig');
-
-        $response->setEtag(md5($response->getContent()));
-        $response->setPublic();
-        if ($response->isNotModified($request)) {
-            return $response;
-        }
-
-        return $response;
+        return $cache->set($this->render('default/index.html.twig'));
     }
 }

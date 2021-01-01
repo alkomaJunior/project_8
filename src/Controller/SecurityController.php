@@ -30,9 +30,8 @@ class SecurityController extends AbstractController
      */
     public function loginAction(AuthenticationUtils $authenticationUtils): Response
     {
-        // Get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-        // Last username entered by the user
+
         $lastUsername = ($authenticationUtils->getLastUsername()) ? $authenticationUtils->getLastUsername() : '';
 
         return $this->render('default/index.html.twig', [

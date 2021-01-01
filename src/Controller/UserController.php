@@ -17,6 +17,7 @@ use App\Form\User\AccountType;
 use App\Form\User\UpdatePasswordType;
 use App\Form\User\UserType;
 use App\Repository\UserRepository;
+use App\Service\Cache\CacheValidationInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,6 +29,10 @@ use Symfony\Component\Security\Core\Security;
 
 /**
  * Manage users contents.
+ *
+ * @Route("/users")
+ *
+ * @IsGranted("ROLE_USER")
  */
 class UserController extends AbstractController
 {
@@ -47,37 +52,31 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/users", name="user_list")
+     * @Route("", name="user_list")
      *
      * @IsGranted("ROLE_ADMIN")
      *
-     * @param Request        $request
-     * @param UserRepository $repository
+     * @param CacheValidationInterface $cache
+     * @param UserRepository           $repository
      *
      * @return Response
      */
-    public function listAction(Request $request, UserRepository $repository): Response
+    public function listAction(CacheValidationInterface $cache, UserRepository $repository): Response
     {
-        /** @var User $user */
-        $user = $this->security->getUser();
-        $response = $this->render(
-            'user/list.html.twig',
-            [
-                'users' => $repository->findAllExceptOne($user->getId()),
-            ]
+        return $cache->set(
+            $this->render(
+                'user/list.html.twig',
+                [
+                    'users' => $repository->findAllExceptOne(
+                        $this->security->getUser()->getId()
+                    ),
+                ]
+            )
         );
-
-        $response->setEtag(md5($response->getContent()));
-        $response->setPublic();
-        if ($response->isNotModified($request)) {
-            return $response;
-        }
-
-        return $response;
     }
 
     /**
-     * @Route("/users/create", name="user_create")
+     * @Route("/create", name="user_create")
      *
      * @IsGranted("ROLE_ADMIN")
      *
@@ -107,7 +106,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/users/{id}/edit", name="user_edit", requirements={"id"="\d+"})
+     * @Route("/{id}/edit", name="user_edit", requirements={"id"="\d+"})
      *
      * @IsGranted("EDIT", subject="user")
      *
@@ -132,8 +131,7 @@ class UserController extends AbstractController
             $this->addFlash('success', "L'utilisateur a bien été modifié.");
 
             return $this->redirectToRoute(
-                in_array(User::ROLE_ADMIN, $this->security->getUser()->getRoles()) ?
-                    'user_list' : 'homepage'
+                in_array(User::ROLE_ADMIN, $this->security->getUser()->getRoles()) ? 'user_list' : 'homepage'
             );
         }
 
@@ -141,7 +139,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/users/{id}/edit-password", name="user_password_edit", requirements={"id"="\d+"})
+     * @Route("/{id}/edit-password", name="user_password_edit", requirements={"id"="\d+"})
      *
      * @IsGranted("EDIT", subject="user")
      *
@@ -153,7 +151,8 @@ class UserController extends AbstractController
     public function editPasswordAction(User $user, Request $request): Response
     {
         $passwordUpdate = new PasswordUpdate();
-        $isAccount = ($user === $this->getUser());
+        $isAccount = $user->isEqualTo($this->getUser());
+
         $form = $this->createForm(
             UpdatePasswordType::class,
             $passwordUpdate,
@@ -167,8 +166,7 @@ class UserController extends AbstractController
             $this->addFlash('success', 'Le mot de passe a bien été modifié.');
 
             return $this->redirectToRoute(
-                in_array(User::ROLE_ADMIN, $this->security->getUser()->getRoles()) ?
-                    'user_list' : 'homepage'
+                in_array(User::ROLE_ADMIN, $this->security->getUser()->getRoles()) ? 'user_list' : 'homepage'
             );
         }
 
