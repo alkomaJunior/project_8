@@ -1,24 +1,29 @@
 <?php
+
 /**
  * ToDoAndCo Project
- * Copyright (c) 2020 BigBoss 2020.  BigBoss Oualid
+ * Copyright (c) 2020 BigBoss 2021.  BigBoss Oualid
  * mailto: <bigboss@it-bigboss.de>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code
  * Inc., Munich, Germany.
  */
 
-namespace App\Form\User;
+namespace App\Form\Helper;
 
 use App\Entity\User;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 
-abstract class AbstractUserType extends AbstractType
+/**
+ * functions will be used in users formType to manage roles
+  */
+trait RolesFormTrait
 {
     /**
      * Retrieve user roles from entity User as array and add them to choice type in form.
+     *
+     * @return array
      */
     protected function getRolesOptions(): array
     {
@@ -53,6 +58,7 @@ abstract class AbstractUserType extends AbstractType
                     // transform the string back to an array
                     return explode(', ', $rolesString);
                 }
-            ));
+            ))
+        ;
     }
 }
