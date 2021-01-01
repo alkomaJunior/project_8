@@ -11,33 +11,40 @@
 namespace App\Tests\PHPUnit\Security;
 
 use App\Entity\User;
-use App\Security\DataTransferObject\Credentials;
 use App\Security\Guard\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManager;
 use function PHPUnit\Framework\assertIsString;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 class LoginFormAuthenticatorTest extends TestCase
 {
+    private ?array $credentials;
     private ?EntityManager $entityManager;
     private ?UrlGenerator $urlGenerator;
     private ?CsrfTokenManager $csrfTokenManager;
     private ?UserPasswordEncoder $encoder;
-    private ?LoginFormAuthenticator$formAuthenticator;
+    private ?LoginFormAuthenticator $formAuthenticator;
     private ?Request $request;
+    private ?User $user;
 
     protected function setUp(): void
     {
+        $this->generateData();
         $this->entityManager = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->getMock();
         $this->urlGenerator = $this->getMockBuilder(UrlGenerator::class)->disableOriginalConstructor()->getMock();
         $this->csrfTokenManager = $this->getMockBuilder(CsrfTokenManager::class)->getMock();
@@ -65,55 +72,56 @@ class LoginFormAuthenticatorTest extends TestCase
 
     public function testGetCredentials(): void
     {
-        $user = (new User())->setUsername('username-1')->setPassword('username-1');
-        $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
-        $credentials = new Credentials('username-1', 'username-1', $token);
-        $this->assertInstanceOf(Credentials::class, $this->formAuthenticator->getCredentials($this->request));
-        $this->assertEquals($credentials, $this->formAuthenticator->getCredentials($this->request));
+        $this->assertIsArray($this->formAuthenticator->getCredentials( $this->request));
+        $this->assertEquals($this->credentials, $this->formAuthenticator->getCredentials($this->request));
     }
 
     public function testGetUserValid(): void
     {
-        $credentials = new Credentials();
         $userProvider = $this->getMockBuilder(UserProviderInterface::class)->getMock();
         $this->csrfTokenManager->expects($this->once())->method('isTokenValid')->willReturn(true);
         $userProvider->expects($this->once())->method('loadUserByUsername')->willReturn(new User());
-        $this->assertInstanceOf(User::class, $this->formAuthenticator->getUser($credentials, $userProvider));
+        $this->assertInstanceOf(User::class, $this->formAuthenticator->getUser($this->credentials, $userProvider));
     }
 
     public function testGetUserThrowingExceptionInvalidToken(): void
     {
+        $this->credentials['csrf_token'] = 'Invalid_token';
         $userProvider = $this->getMockBuilder(UserProviderInterface::class)->getMock();
         $this->csrfTokenManager->expects($this->once())->method('isTokenValid')->willReturn(false);
         $userProvider->expects($this->never())->method('loadUserByUsername')->willReturn(new User());
         $this->expectException(InvalidCsrfTokenException::class);
 
-        $this->formAuthenticator->getUser(new Credentials(), $userProvider);
+        $this->formAuthenticator->getUser($this->credentials, $userProvider);
     }
 
     public function testGetUserThrowingExceptionUsernameNotFound(): void
     {
-        $credentials = new Credentials();
+        $this->credentials['username'] = 'username-not-found';
+        $this->credentials['csrf_token'] = 'Invalid_token';
+
         $userProvider = $this->getMockBuilder(UserProviderInterface::class)->getMock();
         $this->csrfTokenManager->expects($this->once())->method('isTokenValid')->willReturn(true);
         $userProvider->expects($this->once())->method('loadUserByUsername')->willReturn(null);
         $this->expectException(UsernameNotFoundException::class);
-        $this->formAuthenticator->getUser($credentials, $userProvider);
+        $this->formAuthenticator->getUser($this->credentials, $userProvider);
     }
 
     public function testCheckCredentials(): void
     {
         $this->encoder->expects($this->once())->method('isPasswordValid')->willReturn(true);
 
-        $this->assertTrue($this->formAuthenticator->checkCredentials(new Credentials(), new User()));
+        $this->assertTrue($this->formAuthenticator->checkCredentials(
+            $this->credentials, $this->user));
     }
 
     public function testCheckCredentialsThrowingExceptionUsernameNotFound(): void
     {
-        $this->encoder->expects($this->once())->method('isPasswordValid')->willReturn(false);
+        $this->credentials['username'] = 'username-not-found';
 
+        $this->encoder->expects($this->once())->method('isPasswordValid')->willReturn(false);
         $this->expectException(UsernameNotFoundException::class);
-        $this->formAuthenticator->checkCredentials(new Credentials(), new User());
+        $this->formAuthenticator->checkCredentials($this->credentials, $this->user);
     }
 
     public function testOnAuthenticationSuccess(): void
@@ -131,22 +139,16 @@ class LoginFormAuthenticatorTest extends TestCase
         );
     }
 
-    public function testGetPassword(): void
-    {
-        $credentials = new Credentials('username', 'password');
-
-        $this->assertEquals('password', $this->formAuthenticator->getPassword($credentials));
-    }
-
     protected function tearDown(): void
     {
         $this->entityManager->close();
         $this->entityManager = null;
-        $this->entityManager;
         $this->urlGenerator = null;
         $this->csrdToken = null;
         $this->encoder = null;
         $this->formAuthenticator = null;
+        $this->credentials = null;
+        $this->user = null;
     }
 
     private function initializePostRequest(): Request
@@ -163,8 +165,26 @@ class LoginFormAuthenticatorTest extends TestCase
             ['_route' => 'login']
         );
 
+        $session = new Session(new MockArraySessionStorage());
         $request->setMethod(Request::METHOD_POST);
+        $request->setSession($session);
 
         return $request;
+    }
+
+    private function generateData(): void
+    {
+        $this->user = (new User())->setUsername('username-1')->setPassword('username-1');
+        $token = new UsernamePasswordToken(
+            $this->user,
+            null,
+            'main',
+            $this->user->getRoles()
+        );
+        $this->credentials = [
+            'username' => $this->user->getUsername(),
+            'password' => $this->user->getPassword(),
+            'csrf_token' => $token,
+        ];
     }
 }

@@ -17,7 +17,7 @@ use App\Validator as CustomAssert;
 /**
  * Transfer data from form Password update to user.
  */
-class PasswordUpdate
+class PasswordUpdate implements PasswordInterface
 {
     /**
      * @Assert\NotBlank(groups={"account"})
@@ -53,7 +53,7 @@ class PasswordUpdate
     private $confirmPassword;
 
     /**
-     * @return string|null
+     * {@inheritdoc}
      */
     public function getActualPassword(): ?string
     {
@@ -61,11 +61,9 @@ class PasswordUpdate
     }
 
     /**
-     * @param string $actualPassword
-     *
-     * @return PasswordUpdate
+     * {@inheritdoc}
      */
-    public function setActualPassword(string $actualPassword): self
+    public function setActualPassword(string $actualPassword): PasswordInterface
     {
         $this->actualPassword = $actualPassword;
 
@@ -73,7 +71,7 @@ class PasswordUpdate
     }
 
     /**
-     * @return string|null
+     * {@inheritdoc}
      */
     public function getNewPassword(): ?string
     {
@@ -81,11 +79,9 @@ class PasswordUpdate
     }
 
     /**
-     * @param string $newPassword
-     *
-     * @return PasswordUpdate
+     * {@inheritdoc}
      */
-    public function setNewPassword(string $newPassword): self
+    public function setNewPassword(string $newPassword): PasswordInterface
     {
         $this->newPassword = $newPassword;
 
@@ -93,7 +89,7 @@ class PasswordUpdate
     }
 
     /**
-     * @return string|null
+     * {@inheritdoc}
      */
     public function getConfirmPassword(): ?string
     {
@@ -101,11 +97,9 @@ class PasswordUpdate
     }
 
     /**
-     * @param string $confirmPassword
-     *
-     * @return PasswordUpdate
+     * {@inheritdoc}
      */
-    public function setConfirmPassword(string $confirmPassword): self
+    public function setConfirmPassword(string $confirmPassword): PasswordInterface
     {
         $this->confirmPassword = $confirmPassword;
 

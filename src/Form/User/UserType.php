@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ToDoAndCo Project
  * Copyright (c) 2020 BigBoss 2020.  BigBoss Oualid
@@ -19,8 +20,14 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractUserType
+/**
+ * Build form to create new user.
+ */
+class UserType extends AbstractUserForm
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -33,13 +40,17 @@ class UserType extends AbstractUserType
                 'first_options' => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Tapez le mot de passe à nouveau'],
             ])
-           ->add('roles', ChoiceType::class, [
-               'choices' => parent::getRolesOptions(),
+            ->add('roles', ChoiceType::class, [
+                'choices' => parent::getRolesOptions(),
             ])
         ;
+        // Transform role from array to string type (select only one role for user).
         parent::transformRolesType($builder);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

@@ -124,6 +124,13 @@ header.masthead .overlay{border-radius: 0 0 40px 40px;position:absolute;backgrou
 
 /**** /End Task Card ****/
 
+/** Task **/
+.light-warning{
+    background-color: #ffdf7e;
+}
+/** /End Task **/
+
+
 /* keep footer at the bottom of the page */
 *{
     box-sizing: border-box;

@@ -37,13 +37,13 @@
                             '/^task.*/' %}active font-weight-bolder btn-shadow text-success{% endif %}" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tâches</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a href="{{ path('task_list_all') }}" class="dropdown-item {% if route_name matches '/^task_list_all$/' %}active btn-shadow bg-success{% endif %}" >
-                                Tâches
+                                Toutes les tâches
                             </a>
                             <a href="{{ path('task_list', {isDone: 'true'}) }}" class="dropdown-item {% if currentPath == '/tasks/done/true' %}active btn-shadow bg-success{% endif%}">
                                 Tâches términées
                             </a>
                             <a href="{{ path('task_list', {isDone: 'false'}) }}" class="dropdown-item {% if currentPath == '/tasks/done/false' %}active btn-shadow bg-success{% endif %}">
-                                Tâches non Términées
+                                Tâches non términées
                             </a>
                         </div>
                     </li>

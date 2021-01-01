@@ -22,13 +22,13 @@ Feature: User with ROLE_USER
     When  I follow "tâches"
     And   I follow "task-edit-1"
     Then  I should be on "/tasks/1/edit"
-    When  I fill in "task_title" with "new title"
-    And   I fill in "task_content" with "new content"
+    When  I fill in "task_title" with "title changed"
+    And   I fill in "task_content" with "content changed"
     And   I press "Sauvegarder"
     Then  the response status code should be 200
-    And   I should be on "/tasks/done/false"
-    And   I should see "new title"
-    And   I should see "new content"
+    And   I should be on "/tasks"
+    And   I should see "title changed"
+    And   I should see "content changed"
     And   I should see "Superbe ! La tâche a bien été modifiée."
 
   @roleUser

@@ -40,6 +40,7 @@ Feature: Manage users
     When I connect as "admin" with the password "admin"
     Then I should be on homepage
     When I follow "Tâches"
+    When I follow "Toutes les tâches"
     Then I should be on "/tasks"
     When I press "task-delete-1"
     Then the response status code should be 200

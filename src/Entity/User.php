@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ToDoAndCo Project
  * Copyright (c) 2020 BigBoss 2020.  BigBoss Oualid
@@ -12,6 +13,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -28,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     message="Un autre utilisateur s'est déjà inscrit avec cet username, merci de le modifier"
  * )
  */
-class User implements UserInterface
+class User implements UserInterface, EquatableInterface
 {
     public const ROLE_USER = 'ROLE_USER';
     public const ROLE_ADMIN = 'ROLE_ADMIN';
@@ -225,5 +227,17 @@ class User implements UserInterface
     public function eraseCredentials(): void
     {
         // Do nothing because no sensitive information is stored .
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEqualTo(?UserInterface $user): bool
+    {
+        if (is_null($user)) {
+            return false;
+        }
+
+        return $user->getUsername() === $this->getUsername();
     }
 }

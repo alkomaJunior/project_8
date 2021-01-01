@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ToDoAndCo Project
  * Copyright (c) 2020 BigBoss 2020.  BigBoss Oualid
@@ -18,14 +19,21 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AccountType extends AbstractUserType
+/**
+ * Build form to update users infos: username & email.
+ */
+class AccountType extends AbstractUserForm
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('username', TextType::class)
             ->add('email', EmailType::class)
         ;
+        // Add select role field, if logged user(ADMIN) edit other user.
         if (!$options['update_account']) {
             $builder->add(
                 'roles',
@@ -34,10 +42,14 @@ class AccountType extends AbstractUserType
                     'choices' => parent::getRolesOptions(),
                 ]
             );
+            // Select only one role for user (Hierarchy strategy )
             parent::transformRolesType($builder);
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

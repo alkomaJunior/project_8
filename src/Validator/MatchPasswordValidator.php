@@ -26,6 +26,7 @@ class MatchPasswordValidator extends ConstraintValidator
 
     /**
      * MatchPasswordValidator constructor.
+     * @param Security $security
      */
     public function __construct(Security $security)
     {
@@ -33,7 +34,7 @@ class MatchPasswordValidator extends ConstraintValidator
     }
 
     /**
-     * @inxheritDoc
+     * {@inheritdoc}
      */
     public function validate($value, Constraint $constraint): void
     {
@@ -51,7 +52,7 @@ class MatchPasswordValidator extends ConstraintValidator
             throw new LogicException('User is not log in !');
         }
 
-        // Verify if passwords don't match, then add violation
+        // If passwords don't match, add violation
         if (!password_verify($value, $loggedUser->getPassword())) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ string }}', $value)

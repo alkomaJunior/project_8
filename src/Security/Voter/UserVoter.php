@@ -18,7 +18,8 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * Manage security to edit user
+ * Manage security to edit user.
+ * ROLE_ADMIN can update all users, ROLE_USER can only update their own account
  */
 class UserVoter extends Voter
 {
@@ -37,54 +38,29 @@ class UserVoter extends Voter
     }
 
     /**
-     * @param $attribute
-     * @param $subject
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     protected function supports($attribute, $subject): bool
     {
-        return in_array($attribute, [self::EDIT])
-            && $subject instanceof User;
+        return self::EDIT === $attribute && $subject instanceof User;
     }
 
     /**
-     * @param string         $attribute
-     * @param User           $subject
-     * @param TokenInterface $token
-     *
-     * @return bool|void
+     * {@inheritdoc}
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute($attribute, $editedUser, TokenInterface $token): bool
     {
-        /** @var User $user */
+        /** @var User $loggedUser */
         $loggedUser = $token->getUser();
 
         if (!$loggedUser instanceof User) {
-            // the user must be logged in; if not, deny access
             return false;
         }
 
-        /** @var User $user */
-        $user = $subject;
-
         if (self::EDIT === $attribute) {
-            return $this->isEditable($user, $loggedUser);
+            return $loggedUser->isEqualTo($editedUser) || $this->security->isGranted(User::ROLE_ADMIN);
         }
 
         throw new LogicException('This code should not be reached!');
-    }
-
-    /**
-     * Admin can delete anonymous Tasks.
-     *
-     * @param User $user
-     * @param User $loggedUser
-     *
-     * @return bool
-     */
-    private function isEditable(User $user, User $loggedUser): bool
-    {
-        return $loggedUser === $user || $this->security->isGranted('ROLE_ADMIN');
     }
 }

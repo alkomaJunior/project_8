@@ -33,8 +33,8 @@ class UserVoterTest extends TestCase
         $this->token = $this->createMock(TokenInterface::class);
         $this->security = $this->createMock(Security::class);
         $this->voter = new UserVoter($this->security);
-        $this->editedUser = new User();
-        $this->loggedUser = (new User())->setRoles([User::ROLE_ADMIN]);
+        $this->editedUser = (new User())->setUsername('edited-user');
+        $this->loggedUser = (new User())->setUsername('logged-user')->setRoles([User::ROLE_ADMIN]);
     }
 
     public function testDeniedEditUserFromAnonymous(): void
@@ -61,6 +61,21 @@ class UserVoterTest extends TestCase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $result);
     }
 
+    public function testUserEditHisAccount(): void
+    {
+
+        $this->loggedUser->setRoles([User::ROLE_USER]);
+        $this->token->expects($this->once())->method('getUser')->willReturn(
+            $this->loggedUser
+        );
+
+        $this->security->method('isGranted')->with(User::ROLE_ADMIN)->willReturn(true);
+
+        $result = $this->voter->vote($this->token, $this->loggedUser, [UserVoter::EDIT]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $result);
+    }
+
     public function testDeniedEditUserFromRoleUser(): void
     {
         $this->loggedUser->setRoles([User::ROLE_USER]);
@@ -78,7 +93,7 @@ class UserVoterTest extends TestCase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $result);
     }
 
-    public function testDeleteTaskWithWrongAttribute(): void
+    public function testDeleteUserWithWrongAttribute(): void
     {
         $this->token->expects($this->never())->method('getUser');
 

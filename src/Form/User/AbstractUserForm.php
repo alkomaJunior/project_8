@@ -9,16 +9,17 @@
  * Inc., Munich, Germany.
  */
 
-namespace App\Form\Helper;
+namespace App\Form\User;
 
 use App\Entity\User;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * functions will be used in users formType to manage roles
-  */
-trait RolesFormTrait
+ */
+abstract class AbstractUserForm extends AbstractType
 {
     /**
      * Retrieve user roles from entity User as array and add them to choice type in form.
@@ -51,11 +52,11 @@ trait RolesFormTrait
         $builder->get('roles')
             ->addModelTransformer(new CallbackTransformer(
                 function (array $rolesArray) {
-                    // transform the array to a string
+                    // Transform the array to a string
                     return implode(', ', $rolesArray);
                 },
                 function (string $rolesString) {
-                    // transform the string back to an array
+                    // Transform the string back to an array
                     return explode(', ', $rolesString);
                 }
             ))

@@ -11,7 +11,6 @@
 
 namespace App\Security\Guard;
 
-use App\Security\DataTransferObject\Credentials;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,8 +62,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 
-
-
     /**
      * {@inheritdoc}
      */
@@ -76,38 +73,43 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     /**
      * {@inheritdoc}
+     *
+     * @return mixed Any non-null value
+     *
+     * @throws \UnexpectedValueException If null is returned
      */
-    public function getCredentials(Request $request): credentials
+    public function getCredentials(Request $request): ?array
     {
         $parametersBag = $request->request;
+        $credentials = [
+            'username'   => $parametersBag->get('_username'),
+            'password'   => $parametersBag->get('_password'),
+            'csrf_token' => $parametersBag->get('_csrf_token'),
+        ];
 
-        $credentials = new Credentials(
-            $parametersBag->get('_username'),
-            $parametersBag->get('_password'),
-            $parametersBag->get('_csrf_token')
+        $request->getSession()->set(
+            Security::LAST_USERNAME,
+            $credentials['username']
         );
-
-        if ($request->hasSession()) {
-            $request->getSession()->set(
-                Security::LAST_USERNAME,
-                $credentials->getUsername()
-            );
-        }
 
         return $credentials;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @throws InvalidCsrfTokenException|UsernameNotFoundException
      */
     public function getUser($credentials, UserProviderInterface $userProvider): ?UserInterface
     {
-        $token = new CsrfToken('authenticate', $credentials->getCsrfToken());
+        $token = new CsrfToken('authenticate', $credentials['csrf_token']);
+
         if (!$this->csrfTokenManager->isTokenValid($token)) {
+            // Fail authentication with an error
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $userProvider->loadUserByUsername($credentials->getUsername());
+        $user = $userProvider->loadUserByUsername($credentials['username']);
 
         if (!$user) {
             // Fail authentication with a custom error
@@ -119,10 +121,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     /**
      * {@inheritdoc}
+     *
+     * @throws UsernameNotFoundException
      */
     public function checkCredentials($credentials, UserInterface $user): bool
     {
-        if ($this->passwordEncoder->isPasswordValid($user, $credentials->getPassword())) {
+        // Fail authentication with an UsernameNotFoundError if user is not found
+        if ($this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
             return true;
         }
 
@@ -130,18 +135,16 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     }
 
     /**
-     * @inxheritDoc
+     * {@inheritdoc}
+     *
+     * @param Request        $request
+     * @param TokenInterface $token
+     * @param string         $providerKey
+     *
+     * @return RedirectResponse|null
      */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): RedirectResponse
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?RedirectResponse
     {
         return new RedirectResponse($this->urlGenerator->generate('homepage'));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPassword(Credentials $credentials): ?string
-    {
-        return $credentials->getPassword();
     }
 }
