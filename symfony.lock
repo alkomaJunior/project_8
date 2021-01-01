@@ -168,6 +168,12 @@
             "./.php_cs.dist"
         ]
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.1"
+    },
+    "halleck45/phpmetrics-collector-bundle": {
+        "version": "v0.0.2"
+    },
     "jean85/pretty-package-versions": {
         "version": "1.5.1"
     },
@@ -255,6 +261,9 @@
     },
     "phpmetrics/phpmetrics": {
         "version": "v2.7.4"
+    },
+    "phpmetrics/symfony-bundle": {
+        "version": "v0.2.0"
     },
     "phpstan/phpdoc-parser": {
         "version": "0.4.9"
@@ -382,6 +391,9 @@
     },
     "symfony/dependency-injection": {
         "version": "v4.4.16"
+    },
+    "symfony/deprecation-contracts": {
+        "version": "v2.2.0"
     },
     "symfony/doctrine-bridge": {
         "version": "v4.4.16"

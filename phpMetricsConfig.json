@@ -1,0 +1,14 @@
+{
+  "includes": [
+    "src"
+  ],
+  "exclude": [
+    "src/DataFixtures"
+  ],
+  "report": {
+    "html": "/analyzes/LTS/backend/metrics/phpMetricsReport-v2/",
+    "csv": "/analyzes/LTS/backend/metrics/phpMetricsReport-v2.csv",
+    "json": "/analyzes/LTS/backend/metrics/phpMetricsReport-v2.json",
+    "violations": "/analyzes/LTS/backend/metrics/violations-v2.xml"
+  }
+}

@@ -41,7 +41,7 @@ yarn-error.log
 ###< Psalm ###
 
 ###> PHPMetrics ###
-/phpMetricsConfig.json
+#/phpMetricsConfig.json
 ###< PHPMetrics ###
 
 ###> PHPMD ###
