@@ -34,7 +34,6 @@ use Symfony\Component\Security\Csrf\CsrfTokenManager;
 class LoginFormAuthenticatorTest extends TestCase
 {
     private ?array $credentials;
-    private ?EntityManager $entityManager;
     private ?UrlGenerator $urlGenerator;
     private ?CsrfTokenManager $csrfTokenManager;
     private ?UserPasswordEncoder $encoder;
@@ -45,14 +44,12 @@ class LoginFormAuthenticatorTest extends TestCase
     protected function setUp(): void
     {
         $this->generateData();
-        $this->entityManager = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->getMock();
         $this->urlGenerator = $this->getMockBuilder(UrlGenerator::class)->disableOriginalConstructor()->getMock();
         $this->csrfTokenManager = $this->getMockBuilder(CsrfTokenManager::class)->getMock();
         $this->encoder = $this->getMockBuilder(UserPasswordEncoder::class)->disableOriginalConstructor()->getMock();
         $this->request = $this->initializePostRequest();
 
         $this->formAuthenticator = new LoginFormAuthenticator(
-            $this->entityManager,
             $this->urlGenerator,
             $this->csrfTokenManager,
             $this->encoder
@@ -141,8 +138,6 @@ class LoginFormAuthenticatorTest extends TestCase
 
     protected function tearDown(): void
     {
-        $this->entityManager->close();
-        $this->entityManager = null;
         $this->urlGenerator = null;
         $this->csrdToken = null;
         $this->encoder = null;
