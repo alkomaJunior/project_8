@@ -33,7 +33,7 @@ yarn-error.log
 ###< squizlabs/php_codesniffer ###
 
 ###> PHPstan ###
-/phpstan.neon
+#/phpstan.neon
 ###< PHPStan ###
 
 ###> Psalm ###
