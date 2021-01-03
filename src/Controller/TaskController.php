@@ -13,6 +13,7 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Helper\UrlManagerTrait;
 use App\Repository\TaskRepository;
 use App\Service\Cache\CacheValidationInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,6 +33,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TaskController extends AbstractController
 {
+    use UrlManagerTrait;
     /**
      * @var EntityManagerInterface
      */
@@ -59,12 +61,12 @@ class TaskController extends AbstractController
      */
     public function listAction(CacheValidationInterface $cache, TaskRepository $repo, ?string $isDone = null): Response
     {
-        $response = $this->render('task/list.html.twig', [
-            'tasks' => $repo->findTasks($isDone),
-            'isDone' => $isDone,
-        ]);
-
-        return $cache->set($response);
+        return $cache->set(
+            $this->render('task/list.html.twig', [
+                'tasks' => $repo->findTasks($isDone),
+                'isDone' => $isDone,
+            ])
+        );
     }
 
     /**
@@ -112,7 +114,9 @@ class TaskController extends AbstractController
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
 
-            return $this->redirect($request->request->get('referer'));
+            return $this->redirect(
+                $this->validReferer($request->request->get('referer'), 'task_list_all')
+            );
         }
 
         return $this->render('task/edit.html.twig', [
@@ -145,7 +149,9 @@ class TaskController extends AbstractController
             )
         );
 
-        return $this->redirect($request->headers->get('referer'));
+        return $this->redirect(
+            $this->validReferer($request->headers->get('referer'), 'task_list_all')
+        );
     }
 
     /**
@@ -160,17 +166,22 @@ class TaskController extends AbstractController
      */
     public function deleteTaskAction(Task $task, Request $request): RedirectResponse
     {
+        $url = $this->validReferer(
+            $request->headers->get('referer'),
+            'task_list_all'
+        );
+
         if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->get('_token'))) {
             $this->entityManager->remove($task);
             $this->entityManager->flush();
 
             $this->addFlash('success', 'La tâche a bien été supprimée.');
 
-            return $this->redirect($request->headers->get('referer'));
+            return $this->redirect($url);
         }
 
         $this->addFlash('warning', 'la tâche n\'a pas été supprimée. le token n\'est pas valid!');
 
-        return $this->redirect($request->headers->get('referer'));
+        return $this->redirect($url);
     }
 }

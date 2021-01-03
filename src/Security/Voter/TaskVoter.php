@@ -26,7 +26,7 @@ class TaskVoter extends Voter
 {
     public const DELETE = 'DELETE';
 
-    private $security;
+    private Security $security;
 
     /**
      * TaskVoter constructor.
@@ -51,7 +51,7 @@ class TaskVoter extends Voter
      */
     protected function voteOnAttribute($attribute, $task, TokenInterface $token): bool
     {
-        /** @var User $user */
+        /** @var User $loggedUser */
         $loggedUser = $token->getUser();
         $author = $task->getUser();
 

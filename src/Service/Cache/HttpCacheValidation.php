@@ -36,10 +36,15 @@ class HttpCacheValidation implements CacheValidationInterface
      */
     public function set(Response $response): Response
     {
-        $response->setEtag(md5($response->getContent()));
-        $response->setPublic();
+        $content = $response->getContent();
+        $request = $this->requestStack->getCurrentRequest();
 
-        if ($response->isNotModified($this->requestStack->getCurrentRequest())) {
+        if ($content) {
+            $response->setEtag(md5($content));
+            $response->setPublic();
+        }
+
+        if (!empty($request) && $response->isNotModified($request)) {
             return $response;
         }
 

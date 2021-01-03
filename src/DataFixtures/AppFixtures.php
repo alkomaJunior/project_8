@@ -46,21 +46,30 @@ final class AppFixtures extends Fixture
      *
      * @SuppressWarnings(PHPMD.StaticAccess)
      *
-     * @return array
+     * @return array[]|null
      */
-    private function getDataFixture(string $entityName): array
+    private function getDataFixture(string $entityName): ?array
     {
-        return Yaml::parse(file_get_contents(__DIR__.'/Fixtures/'.$entityName.'s.yaml', true));
+        $input = file_get_contents(__DIR__.'/Fixtures/'.$entityName.'s.yaml', true);
+        if (!$input) {
+            return null;
+        }
+
+        return Yaml::parse($input);
     }
 
     /**
      * Create users.
      *
-     * @param array         $users
-     * @param ObjectManager $manager
+     * @param array[] | null $users
+     * @param ObjectManager  $manager
      */
-    private function addUsers(array $users, ObjectManager $manager): void
+    private function addUsers(?array $users, ObjectManager $manager): void
     {
+        if (!$users) {
+            return;
+        }
+
         foreach ($users as $name => $user) {
             /** @var User $userEntity */
             $userEntity = new User();
@@ -78,13 +87,17 @@ final class AppFixtures extends Fixture
     /**
      * Create tasks.
      *
-     * @param array         $tasks
-     * @param ObjectManager $manager
+     * @param array[] | null $tasks
+     * @param ObjectManager  $manager
      */
-    private function addTasks(array $tasks, ObjectManager $manager): void
+    private function addTasks(?array $tasks, ObjectManager $manager): void
     {
+        if (!$tasks) {
+            return;
+        }
+
         foreach ($tasks as $task) {
-            /** @var Task $userEntity */
+            /** @var Task $taskEntity */
             $taskEntity = new Task();
 
             $taskEntity->setTitle($task['Title'])

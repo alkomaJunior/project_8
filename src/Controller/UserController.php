@@ -16,6 +16,7 @@ use App\Form\DataTransferObject\PasswordUpdate;
 use App\Form\User\AccountType;
 use App\Form\User\UpdatePasswordType;
 use App\Form\User\UserType;
+use App\Helper\UrlManagerTrait;
 use App\Repository\UserRepository;
 use App\Service\Cache\CacheValidationInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,6 +37,8 @@ use Symfony\Component\Security\Core\Security;
  */
 class UserController extends AbstractController
 {
+    use UrlManagerTrait;
+
     private Security $security;
     private EntityManagerInterface $entityManager;
 
@@ -63,12 +66,15 @@ class UserController extends AbstractController
      */
     public function listAction(CacheValidationInterface $cache, UserRepository $repository): Response
     {
+        /** @var User $user */
+        $user = $this->security->getUser();
+
         return $cache->set(
             $this->render(
                 'user/list.html.twig',
                 [
                     'users' => $repository->findAllExceptOne(
-                        $this->security->getUser()->getId()
+                        $user->getId()
                     ),
                 ]
             )
@@ -130,9 +136,10 @@ class UserController extends AbstractController
 
             $this->addFlash('success', "L'utilisateur a bien été modifié.");
 
-            return $this->redirectToRoute(
-                in_array(User::ROLE_ADMIN, $this->security->getUser()->getRoles()) ? 'user_list' : 'homepage'
-            );
+            return $this->redirectToRoute($this->urlForRole(
+                $this->security->getUser(),
+                'user_list'
+            ));
         }
 
         return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
@@ -150,14 +157,14 @@ class UserController extends AbstractController
      */
     public function editPasswordAction(User $user, Request $request): Response
     {
+        $loggedUser = $this->security->getUser();
         $passwordUpdate = new PasswordUpdate();
-        $isAccount = $user->isEqualTo($this->getUser());
+        $isAccount = $user->isEqualTo($loggedUser);
 
-        $form = $this->createForm(
-            UpdatePasswordType::class,
-            $passwordUpdate,
-            ['update_account' => $isAccount, 'validation_groups' => [$isAccount ? 'account' : '']]
-        );
+        $form = $this->createForm(UpdatePasswordType::class, $passwordUpdate, [
+            'update_account' => $isAccount,
+            'validation_groups' => [$isAccount ? 'account' : ''],
+        ]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -165,9 +172,10 @@ class UserController extends AbstractController
             $this->entityManager->flush();
             $this->addFlash('success', 'Le mot de passe a bien été modifié.');
 
-            return $this->redirectToRoute(
-                in_array(User::ROLE_ADMIN, $this->security->getUser()->getRoles()) ? 'user_list' : 'homepage'
-            );
+            return $this->redirectToRoute($this->urlForRole(
+                $loggedUser,
+                'user_list'
+            ));
         }
 
         return $this->render('user/password.html.twig', ['form' => $form->createView(), 'user' => $user]);

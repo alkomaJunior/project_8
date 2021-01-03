@@ -24,7 +24,7 @@ class PasswordUpdate implements PasswordInterface
      *
      * @CustomAssert\MatchPassword(message="Ce n'est pas votre mot de passe actuel: {{ string }}")
      */
-    private $actualPassword;
+    private ?string $actualPassword;
 
     /**
      * @Assert\Length(
@@ -45,12 +45,12 @@ class PasswordUpdate implements PasswordInterface
      *     message="Votre mot de passe devrait contenir au moin un caractère spécial!"
      * )
      */
-    private $newPassword;
+    private ?string $newPassword;
 
     /**
      * @Assert\EqualTo(propertyPath="newPassword", message="Vous avez entrer deux mots de passes diffèrents")
      */
-    private $confirmPassword;
+    private ?string $confirmPassword;
 
     /**
      * {@inheritdoc}

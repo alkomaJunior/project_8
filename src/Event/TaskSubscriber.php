@@ -59,7 +59,7 @@ class TaskSubscriber implements EventSubscriber
         /** @var User $loggedUser */
         $loggedUser = $this->security->getUser();
 
-        if (!$entity instanceof Task || null === $loggedUser) {
+        if (!$entity instanceof Task || empty($loggedUser)) {
             return;
         }
 

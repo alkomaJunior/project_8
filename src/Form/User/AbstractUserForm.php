@@ -17,14 +17,14 @@ use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * functions will be used in users formType to manage roles
+ * functions will be used in users formType to manage roles.
  */
 abstract class AbstractUserForm extends AbstractType
 {
     /**
      * Retrieve user roles from entity User as array and add them to choice type in form.
      *
-     * @return array
+     * @return string[]
      */
     protected function getRolesOptions(): array
     {

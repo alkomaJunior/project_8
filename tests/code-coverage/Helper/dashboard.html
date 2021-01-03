@@ -2,7 +2,7 @@
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <title>Dashboard for C:\wamp64\www\project_8\src\Security</title>
+  <title>Dashboard for C:\wamp64\www\project_8\src\Helper</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="../_css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../_css/nv.d3.min.css" rel="stylesheet" type="text/css">
@@ -17,7 +17,7 @@
       <nav aria-label="breadcrumb">
        <ol class="breadcrumb">
          <li class="breadcrumb-item"><a href="../index.html">C:\wamp64\www\project_8\src</a></li>
-         <li class="breadcrumb-item"><a href="index.html">Security</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Helper</a></li>
          <li class="breadcrumb-item active">(Dashboard)</li>
 
        </ol>
@@ -58,7 +58,6 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="Voter/UserVoter.php.html#24">App\Security\Voter\UserVoter</a></td><td class="text-right">88%</td></tr>
 
        </tbody>
       </table>
@@ -75,7 +74,6 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="Voter/UserVoter.php.html#24">App\Security\Voter\UserVoter</a></td><td class="text-right">7</td></tr>
 
        </tbody>
       </table>
@@ -113,8 +111,6 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="Voter/UserVoter.php.html#51"><abbr title="App\Security\Voter\UserVoter::voteOnAttribute">voteOnAttribute</abbr></a></td><td class="text-right">83%</td></tr>
-       <tr><td><a href="Voter/TaskVoter.php.html#52"><abbr title="App\Security\Voter\TaskVoter::voteOnAttribute">voteOnAttribute</abbr></a></td><td class="text-right">87%</td></tr>
 
        </tbody>
       </table>
@@ -131,8 +127,6 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="Voter/TaskVoter.php.html#52"><abbr title="App\Security\Voter\TaskVoter::voteOnAttribute">voteOnAttribute</abbr></a></td><td class="text-right">5</td></tr>
-       <tr><td><a href="Voter/UserVoter.php.html#51"><abbr title="App\Security\Voter\UserVoter::voteOnAttribute">voteOnAttribute</abbr></a></td><td class="text-right">4</td></tr>
 
        </tbody>
       </table>
@@ -161,7 +155,7 @@ $(document).ready(function() {
       .yAxis.tickFormat(d3.format('d'));
 
     d3.select('#classCoverageDistribution svg')
-      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,1,1,1], "Class Coverage"))
+      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,0,0,1], "Class Coverage"))
       .transition().duration(500).call(chart);
 
     nv.utils.windowResize(chart.update);
@@ -179,7 +173,7 @@ $(document).ready(function() {
       .yAxis.tickFormat(d3.format('d'));
 
     d3.select('#methodCoverageDistribution svg')
-      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,2,0,11], "Method Coverage"))
+      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,0,0,2], "Method Coverage"))
       .transition().duration(500).call(chart);
 
     nv.utils.windowResize(chart.update);
@@ -229,7 +223,7 @@ $(document).ready(function() {
     chart.yAxis.axisLabel('Cyclomatic Complexity');
 
     d3.select('#classComplexity svg')
-      .datum(getComplexityData([[100,11,"<a href=\"Guard\/LoginFormAuthenticator.php.html#31\">App\\Security\\Guard\\LoginFormAuthenticator<\/a>"],[90.9090909090909,8,"<a href=\"Voter\/TaskVoter.php.html#25\">App\\Security\\Voter\\TaskVoter<\/a>"],[88.88888888888889,7,"<a href=\"Voter\/UserVoter.php.html#24\">App\\Security\\Voter\\UserVoter<\/a>"]], 'Class Complexity'))
+      .datum(getComplexityData([[100,5,"<a href=\"UrlManagerTrait.php.html#20\">App\\Helper\\UrlManagerTrait<\/a>"]], 'Class Complexity'))
       .transition()
       .duration(500)
       .call(chart);
@@ -253,7 +247,7 @@ $(document).ready(function() {
     chart.yAxis.axisLabel('Method Complexity');
 
     d3.select('#methodComplexity svg')
-      .datum(getComplexityData([[100,1,"<a href=\"Guard\/LoginFormAuthenticator.php.html#46\">App\\Security\\Guard\\LoginFormAuthenticator::__construct<\/a>"],[100,1,"<a href=\"Guard\/LoginFormAuthenticator.php.html#56\">App\\Security\\Guard\\LoginFormAuthenticator::getLoginUrl<\/a>"],[100,2,"<a href=\"Guard\/LoginFormAuthenticator.php.html#64\">App\\Security\\Guard\\LoginFormAuthenticator::supports<\/a>"],[100,1,"<a href=\"Guard\/LoginFormAuthenticator.php.html#75\">App\\Security\\Guard\\LoginFormAuthenticator::getCredentials<\/a>"],[100,3,"<a href=\"Guard\/LoginFormAuthenticator.php.html#99\">App\\Security\\Guard\\LoginFormAuthenticator::getUser<\/a>"],[100,2,"<a href=\"Guard\/LoginFormAuthenticator.php.html#125\">App\\Security\\Guard\\LoginFormAuthenticator::checkCredentials<\/a>"],[100,1,"<a href=\"Guard\/LoginFormAuthenticator.php.html#140\">App\\Security\\Guard\\LoginFormAuthenticator::onAuthenticationSuccess<\/a>"],[100,1,"<a href=\"Voter\/TaskVoter.php.html#36\">App\\Security\\Voter\\TaskVoter::__construct<\/a>"],[100,2,"<a href=\"Voter\/TaskVoter.php.html#44\">App\\Security\\Voter\\TaskVoter::supports<\/a>"],[87.5,5,"<a href=\"Voter\/TaskVoter.php.html#52\">App\\Security\\Voter\\TaskVoter::voteOnAttribute<\/a>"],[100,1,"<a href=\"Voter\/UserVoter.php.html#35\">App\\Security\\Voter\\UserVoter::__construct<\/a>"],[100,2,"<a href=\"Voter\/UserVoter.php.html#43\">App\\Security\\Voter\\UserVoter::supports<\/a>"],[83.33333333333334,4,"<a href=\"Voter\/UserVoter.php.html#51\">App\\Security\\Voter\\UserVoter::voteOnAttribute<\/a>"]], 'Method Complexity'))
+      .datum(getComplexityData([[100,2,"<a href=\"UrlManagerTrait.php.html#30\">App\\Helper\\UrlManagerTrait::validReferer<\/a>"],[100,3,"<a href=\"UrlManagerTrait.php.html#44\">App\\Helper\\UrlManagerTrait::urlForRole<\/a>"]], 'Method Complexity'))
       .transition()
       .duration(500)
       .call(chart);

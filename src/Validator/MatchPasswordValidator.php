@@ -48,8 +48,8 @@ class MatchPasswordValidator extends ConstraintValidator
 
         $loggedUser = $this->security->getUser();
 
-        if (null === $loggedUser) {
-            throw new LogicException('User is not log in !');
+        if (null === $loggedUser || empty($loggedUser->getPassword())) {
+            throw new LogicException('User should be log in !');
         }
 
         // If passwords don't match, add violation

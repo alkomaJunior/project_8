@@ -72,7 +72,7 @@
                             <div class="form-row">
                                 <div class="col-lg-4 col-sm-12 mt-lg-0 mt-5">
                                     <label for="username" class="d-none">Username</label>
-                                    <input class="form-control" placeholder="Username" type="text" id="username" name="_username" value="{% if var is defined and var is not null %}last_username {% endif %}" />
+                                    <input class="form-control" placeholder="Username" type="text" id="username" name="_username" value="{% if last_username is defined and last_username is not null %}{{ last_username }}{% endif %}"/>
                                 </div>
                                 <div class="col-lg-4 col-sm-12 mt-lg-0 mt-1">
                                     <label for="password" class="d-none">Username</label>

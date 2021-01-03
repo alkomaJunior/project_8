@@ -87,6 +87,9 @@ header.masthead .overlay{border-radius: 0 0 40px 40px;position:absolute;backgrou
     transform: scale(1.05);
     background-color: darkgreen;
 }
+.input-value {
+    font-weight: bold;
+}
 /*** Drop-menu ***/
 .nav-deco:hover {
     color: grey  !important;

@@ -36,9 +36,9 @@ class TaskRepository extends ServiceEntityRepository
     /**
      * Retrieve task list based on the value of isDone.
      *
-     * @param string|null $isDone
+     * @param string | null $isDone
      *
-     * @return array
+     * @return Task[]
      */
     public function findTasks(?string $isDone = null): array
     {

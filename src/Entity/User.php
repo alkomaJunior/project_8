@@ -12,6 +12,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -107,13 +108,17 @@ class User implements UserInterface, EquatableInterface
      * @ORM\Column(type="json")
      *
      * @Assert\Choice({{User::ROLE_ADMIN},{User::ROLE_USER}}, message="Choisissez un rôle valide.")
+     *
+     * @var string[]
      */
-    private array $roles;
+    private ?array $roles = [];
 
     /**
      * @ORM\OneToMany(targetEntity="Task", mappedBy="user")
+     *
+     * @var Task[]|PersistentCollection
      */
-    protected $tasks;
+    protected PersistentCollection $tasks;
 
     /**
      * Initialize User Object with ROLE_USER as default role.
@@ -124,17 +129,17 @@ class User implements UserInterface, EquatableInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->username;
     }
@@ -162,19 +167,19 @@ class User implements UserInterface, EquatableInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
     /**
-     * @param string $password
+     * @param string|null $password
      *
      * @return User
      */
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
 
@@ -182,9 +187,9 @@ class User implements UserInterface, EquatableInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -202,15 +207,15 @@ class User implements UserInterface, EquatableInterface
     }
 
     /**
-     * @return array
+     * @return string[]|null
      */
-    public function getRoles(): array
+    public function getRoles(): ?array
     {
         return $this->roles;
     }
 
     /**
-     * @param array $roles
+     * @param string[] $roles
      *
      * @return User
      */

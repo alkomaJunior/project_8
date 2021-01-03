@@ -19,13 +19,13 @@ use Symfony\Component\Security\Core\Security;
 
 /**
  * Manage security to edit user.
- * ROLE_ADMIN can update all users, ROLE_USER can only update their own account
+ * ROLE_ADMIN can update all users, ROLE_USER can only update their own account.
  */
 class UserVoter extends Voter
 {
     public const EDIT = 'EDIT';
 
-    private $security;
+    private Security $security;
 
     /**
      * UserVoter constructor.

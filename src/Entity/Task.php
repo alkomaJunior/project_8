@@ -66,17 +66,17 @@ class Task
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @return Datetime
+     * @return Datetime|null
      */
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
@@ -94,9 +94,9 @@ class Task
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -114,9 +114,9 @@ class Task
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getContent(): string
+    public function getContent(): ?string
     {
         return $this->content;
     }
@@ -154,9 +154,9 @@ class Task
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isDone(): bool
+    public function isDone(): ?bool
     {
         return $this->isDone;
     }

@@ -70,7 +70,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     /**
      * {@inheritdoc}
      *
-     * @return array $credentials
+     * @return string[] $credentials
      */
     public function getCredentials(Request $request): array
     {
@@ -92,7 +92,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     /**
      * {@inheritdoc}
      *
-     * @param array $credentials
+     * @param string[] $credentials
      *
      * @throws InvalidCsrfTokenException|UsernameNotFoundException
      */
@@ -107,7 +107,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
         $user = $userProvider->loadUserByUsername($credentials['username']);
 
-        if (!$user) {
+        if (empty($user)) {
             // Fail authentication with a custom error
             throw new UsernameNotFoundException();
         }
@@ -118,7 +118,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     /**
      * {@inheritdoc}
      *
-     * @param array $credentials
+     * @param string[] $credentials
      *
      * @throws UsernameNotFoundException
      */
