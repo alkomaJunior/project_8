@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class DataFixturesTest extends KernelTestCase
+class FixturesLoadingTest extends KernelTestCase
 {
     use TestPrivateMethodTrait;
 
@@ -71,7 +71,7 @@ class DataFixturesTest extends KernelTestCase
             ['--force' => true]
         );
         $this->application = null;
-        $this->appFixtures = new AppFixtures();
+        $this->appFixtures = null;
         self::ensureKernelShutdown();
     }
 
