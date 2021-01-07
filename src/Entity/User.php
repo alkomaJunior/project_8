@@ -11,8 +11,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\PersistentCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -44,81 +44,81 @@ class User implements UserInterface, EquatableInterface
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private ?int $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
      *
-     * @Assert\NotBlank(message="Vous devez saisir un nom d'utilisateur.")
+     * @Assert\NotBlank(message="Vous devez saisir un nom d'utilisateur!")
      * @Assert\Length(
      *      min = 2,
      *      max = 25,
-     *      minMessage = "Votre prénom doit comporter au moins {{ limit }} caractères",
-     *      maxMessage = "Votre prénom ne peut pas comporter plus de {{ limit }} caractères",
+     *      minMessage = "Votre nom d'utilisateur doit comporter au moins {{ limit }} caractères!",
+     *      maxMessage = "Votre nom d'utilisateur ne peut pas comporter plus de {{ limit }} caractères!",
      *      allowEmptyString = false
      * )
      * @Assert\Regex(
      *     pattern="/^[a-zA-Z]/",
-     *     message="Votre username devrait commencer par une lettre !"
+     *     message="Votre nom d'utilisateur devrait commencer par une lettre!"
      * )
      * @Assert\Regex(
      *     pattern="/^[a-zA-Z0-9-]*$/",
-     *     message="Votre username devrait contenir seulement des lettres, des chiffres et le caractère -"
+     *     message="Votre nom d'utilisateur devrait contenir seulement des lettres, des chiffres et le caractère '-'!"
      * )
      */
-    private ?string $username;
+    private string $username = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      *
+     * @Assert\NotBlank(message="Vous devez saisir un mot de passe!")
      * @Assert\Length(
      *     min=8,
-     *     minMessage="Votre mot de passe doit faire au moins {{ limit }} caractères !",
-     *     allowEmptyString = false
+     *     minMessage="Votre mot de passe doit faire au moins {{ limit }} caractères!"
      * )
      * @Assert\Regex(
      *     pattern="/(?=.*[a-z])(?=.*[A-Z])/",
-     *     message="Votre mot de passe devrait contenir au moin une lettre en majuscule et en minuscule !"
+     *     message="Votre mot de passe devrait contenir au moin une lettre en majuscule et en minuscule!"
      * )
      * @Assert\Regex(
      *     pattern="/(?=.*[0-9])/",
-     *     message="Votre mot de passe devrait contenir des nombres !"
+     *     message="Votre mot de passe devrait contenir des nombres!"
      * )
      * @Assert\Regex(
      *     pattern="/(?=.*[\W])/",
      *     message="Votre mot de passe devrait contenir au moin un caractère spécial!"
      * )
      */
-    private ?string $password;
+    private string $password = '';
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      *
-     * @Assert\NotBlank(message="Vous devez saisir une adresse email.")
-     * @Assert\Email(message="Le format de l'adresse n'est pas correcte.")
-     *  @Assert\Length(
+     * @Assert\NotBlank(message="Vous devez saisir une adresse email!")
+     * @Assert\Email(message="Le format de l'adresse n'est pas correcte!")
+     * @Assert\Length(
      *      max = 255,
-     *      maxMessage = "Votre adresse e-mail ne peut pas comporter plus de {{ limit }} caractères",
+     *      maxMessage = "Votre adresse e-mail ne peut pas comporter plus de {{ limit }} caractères!",
      *      allowEmptyString = false
      * )
      */
-    private ?string $email;
+    private string $email = '';
 
     /**
      * @ORM\Column(type="json")
      *
-     * @Assert\Choice({{User::ROLE_ADMIN},{User::ROLE_USER}}, message="Choisissez un rôle valide.")
+     * @Assert\Choice({{User::ROLE_ADMIN},{User::ROLE_USER}}, message="Choisissez un rôle valide!")
      *
      * @var string[]
      */
-    private ?array $roles = [];
+    private array $roles = [];
 
     /**
      * @ORM\OneToMany(targetEntity="Task", mappedBy="user")
      *
-     * @var Task[]|PersistentCollection
+     * @var Collection<int, Task>
      */
-    protected PersistentCollection $tasks;
+    protected Collection $tasks;
 
     /**
      * Initialize User Object with ROLE_USER as default role.
@@ -129,17 +129,17 @@ class User implements UserInterface, EquatableInterface
     }
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getUsername(): ?string
+    public function getUsername(): string
     {
         return $this->username;
     }
@@ -157,9 +157,9 @@ class User implements UserInterface, EquatableInterface
     }
 
     /**
-     * @codeCoverageIgnore
+     * {@inheritdoc}
      *
-     * @return null|string
+     * @codeCoverageIgnore
      */
     public function getSalt(): ?string
     {
@@ -167,19 +167,19 @@ class User implements UserInterface, EquatableInterface
     }
 
     /**
-     * @return string|null
+     * {@inheritdoc}
      */
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->password;
     }
 
     /**
-     * @param string|null $password
+     * @param string $password
      *
      * @return User
      */
-    public function setPassword(?string $password): self
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
@@ -187,9 +187,9 @@ class User implements UserInterface, EquatableInterface
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -207,9 +207,11 @@ class User implements UserInterface, EquatableInterface
     }
 
     /**
-     * @return string[]|null
+     * {@inheritdoc}
+     *
+     * @return string[]
      */
-    public function getRoles(): ?array
+    public function getRoles(): array
     {
         return $this->roles;
     }
@@ -227,6 +229,8 @@ class User implements UserInterface, EquatableInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @codeCoverageIgnore
      */
     public function eraseCredentials(): void

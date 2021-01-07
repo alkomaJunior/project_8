@@ -12,7 +12,6 @@
 namespace App\Helper;
 
 use App\Entity\User;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Manage Url.
@@ -22,32 +21,28 @@ trait UrlManagerTrait
     /**
      * Check if referer returned from form.
      *
-     * @param string | null $refererUrl
-     * @param string        $defaultUrl
+     * @param string | null $refererRoute
+     * @param string        $defaultRoute
      *
      * @return string
      */
-    private function validReferer(?string $refererUrl, string $defaultUrl): string
+    private function validReferer(?string $refererRoute, string $defaultRoute): string
     {
-        //if refererUrl equals null return user to default url
-        return $refererUrl ? $refererUrl : $defaultUrl;
+        //If refererUrl equals null return user to default url
+        return $refererRoute ? $refererRoute : $defaultRoute;
     }
 
     /**
-     * Check if url returned from form.
+     * Return the given url if user is admin.
      *
-     * @param UserInterface | null $user
-     * @param string               $defaultUrl
+     * @param string[] $roles
+     * @param string   $route
      *
      * @return string
      */
-    private function urlForRole(?UserInterface $user, string $defaultUrl): string
+    private function getRoute(array $roles, string $route): string
     {
-        // If refererUrl equals null return user to default url
-        if ($user && in_array(User::ROLE_ADMIN, $user->getRoles())) {
-            return $defaultUrl;
-        }
-        // If refererUrl equals null return user to default url
-        return 'homepage';
+        // If user is not admin return homepage
+        return in_array(User::ROLE_ADMIN, $roles) ? $route : 'homepage';
     }
 }

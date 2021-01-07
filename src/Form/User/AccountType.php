@@ -30,10 +30,10 @@ class AccountType extends AbstractUserForm
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username', TextType::class)
-            ->add('email', EmailType::class)
+            ->add('username', TextType::class, ['empty_data' => ''])
+            ->add('email', EmailType::class, ['empty_data' => ''])
         ;
-        // Add select role field, if logged user(ADMIN) edit other user.
+        // Display select role field only for admin.
         if (!$options['update_account']) {
             $builder->add(
                 'roles',

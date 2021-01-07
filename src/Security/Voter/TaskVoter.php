@@ -48,10 +48,11 @@ class TaskVoter extends Voter
 
     /**
      * {@inheritdoc}
+     * @param string $attribute
+     * @param Task   $task
      */
     protected function voteOnAttribute($attribute, $task, TokenInterface $token): bool
     {
-        /** @var User $loggedUser */
         $loggedUser = $token->getUser();
         $author = $task->getUser();
 
@@ -64,6 +65,6 @@ class TaskVoter extends Voter
                 || $loggedUser->isEqualTo($author);
         }
 
-        throw new LogicException('This code should not be reached!');
+        throw new LogicException('This code should not be reached!');// @codeCoverageIgnore
     }
 }

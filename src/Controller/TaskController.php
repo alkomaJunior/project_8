@@ -166,22 +166,23 @@ class TaskController extends AbstractController
      */
     public function deleteTaskAction(Task $task, Request $request): RedirectResponse
     {
-        $url = $this->validReferer(
-            $request->headers->get('referer'),
-            'task_list_all'
-        );
-
         if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->get('_token'))) {
             $this->entityManager->remove($task);
             $this->entityManager->flush();
 
             $this->addFlash('success', 'La tâche a bien été supprimée.');
 
-            return $this->redirect($url);
+            return $this->redirect($this->validReferer(
+                $request->headers->get('referer'),
+                'task_list_all'
+            ));
         }
 
         $this->addFlash('warning', 'la tâche n\'a pas été supprimée. le token n\'est pas valid!');
 
-        return $this->redirect($url);
+        return $this->redirect($this->validReferer(
+            $request->headers->get('referer'),
+            'task_list_all'
+        ));
     }
 }

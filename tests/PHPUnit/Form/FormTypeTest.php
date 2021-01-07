@@ -105,10 +105,7 @@ class FormTypeTest extends TypeTestCase
             ->setActualPassword($data['actualPassword'])
             ->setNewPassword($data['newPassword'])
             ->setConfirmPassword($data['confirmPassword']);
-        $options =[
-            'update_account' => true,
-            'validation_groups' => ['account']
-        ];
+        $options = ['validation_groups' => ['account']];
 
 
         $this->formHasError($formModel, $expectedObject, $data, UpdatePasswordType::class, $options);
@@ -124,10 +121,7 @@ class FormTypeTest extends TypeTestCase
         $expectedObject = (new PasswordUpdate())
             ->setNewPassword($data['newPassword'])
             ->setConfirmPassword($data['confirmPassword']);
-        $options =[
-            'update_account' => false,
-            'validation_groups' => ['']
-        ];
+        $options = ['validation_groups' => ['']];
 
 
         $this->formHasError($formModel, $expectedObject, $data, UpdatePasswordType::class, $options);

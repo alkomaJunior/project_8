@@ -23,9 +23,9 @@ namespace App\Form\DataTransferObject;
 interface PasswordInterface
 {
     /**
-     * @return string|null
+     * @return string
      */
-    public function getActualPassword(): ?string;
+    public function getActualPassword(): string;
 
     /**
      * @param string $actualPassword
@@ -35,9 +35,9 @@ interface PasswordInterface
     public function setActualPassword(string $actualPassword): self;
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getNewPassword(): ?string;
+    public function getNewPassword(): string;
 
     /**
      * @param string $newPassword
@@ -47,9 +47,9 @@ interface PasswordInterface
     public function setNewPassword(string $newPassword): self;
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getConfirmPassword(): ?string;
+    public function getConfirmPassword(): string;
 
     /**
      * @param string $confirmPassword

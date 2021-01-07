@@ -50,7 +50,7 @@
 <div class="page">
     <div class="content content-first">
         <div class="report-details">
-            Created at 2021-01-03 16:02:12        , with PHPMetrics v2.7.4 (<a href="https://twitter.com/Halleck45">Jean-François Lépine</a>).
+            Created at 2021-01-07 20:47:59        , with PHPMetrics v2.7.4 (<a href="https://twitter.com/Halleck45">Jean-François Lépine</a>).
         </div>
 
         
@@ -249,18 +249,6 @@
 
     var relations = [
     {
-        "name": "\\App\\CacheKernel",
-        "size": 3000,
-        "relations": [
-            "\\Symfony\\Bundle\\FrameworkBundle\\HttpCache\\HttpCache"
-        ]
-    },
-    {
-        "name": "\\Symfony\\Bundle\\FrameworkBundle\\HttpCache\\HttpCache",
-        "size": 3000,
-        "relations": []
-    },
-    {
         "name": "\\App\\Controller\\DefaultController",
         "size": 3000,
         "relations": [
@@ -329,11 +317,7 @@
     {
         "name": "\\App\\Repository\\TaskRepository",
         "size": 3000,
-        "relations": [
-            "\\Doctrine\\Bundle\\DoctrineBundle\\Repository\\ServiceEntityRepository",
-            "\\Doctrine\\Persistence\\ManagerRegistry",
-            "\\Doctrine\\ORM\\QueryBuilder"
-        ]
+        "relations": []
     },
     {
         "name": "\\Symfony\\Component\\HttpFoundation\\Request",
@@ -362,7 +346,6 @@
         "size": 3000,
         "relations": [
             "\\Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController",
-            "\\Symfony\\Component\\Security\\Core\\Security",
             "\\Doctrine\\ORM\\EntityManagerInterface",
             "\\Symfony\\Component\\HttpFoundation\\Response",
             "\\App\\Service\\Cache\\CacheValidationInterface",
@@ -375,17 +358,9 @@
         ]
     },
     {
-        "name": "\\Symfony\\Component\\Security\\Core\\Security",
-        "size": 3000,
-        "relations": []
-    },
-    {
         "name": "\\App\\Repository\\UserRepository",
         "size": 3000,
-        "relations": [
-            "\\Doctrine\\Bundle\\DoctrineBundle\\Repository\\ServiceEntityRepository",
-            "\\Doctrine\\Persistence\\ManagerRegistry"
-        ]
+        "relations": []
     },
     {
         "name": "\\App\\Entity\\User",
@@ -401,38 +376,6 @@
         "relations": [
             "\\App\\Form\\DataTransferObject\\PasswordInterface"
         ]
-    },
-    {
-        "name": "\\App\\DataFixtures\\AppFixtures",
-        "size": 3000,
-        "relations": [
-            "\\Doctrine\\Bundle\\FixturesBundle\\Fixture",
-            "\\Doctrine\\Persistence\\ObjectManager",
-            "\\Symfony\\Component\\Yaml\\Yaml",
-            "\\App\\Entity\\User",
-            "\\App\\Entity\\Task",
-            "\\DateTime"
-        ]
-    },
-    {
-        "name": "\\Doctrine\\Bundle\\FixturesBundle\\Fixture",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\Doctrine\\Persistence\\ObjectManager",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\Symfony\\Component\\Yaml\\Yaml",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\DateTime",
-        "size": 3000,
-        "relations": []
     },
     {
         "name": "\\Datetime",
@@ -488,6 +431,16 @@
             "\\Doctrine\\Persistence\\Event\\LifecycleEventArgs",
             "\\DateTime"
         ]
+    },
+    {
+        "name": "\\Symfony\\Component\\Security\\Core\\Security",
+        "size": 3000,
+        "relations": []
+    },
+    {
+        "name": "\\DateTime",
+        "size": 3000,
+        "relations": []
     },
     {
         "name": "\\App\\Form\\DataTransferObject\\PasswordInterface",
@@ -557,63 +510,6 @@
     },
     {
         "name": "\\App\\Helper\\UrlManagerTrait",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\App\\Kernel",
-        "size": 3000,
-        "relations": [
-            "\\Symfony\\Component\\HttpKernel\\Kernel",
-            "\\class",
-            "\\Symfony\\Component\\DependencyInjection\\ContainerBuilder",
-            "\\Symfony\\Component\\Config\\Loader\\LoaderInterface",
-            "\\Symfony\\Component\\Config\\Resource\\FileResource",
-            "\\Symfony\\Component\\Routing\\RouteCollectionBuilder"
-        ]
-    },
-    {
-        "name": "\\Symfony\\Component\\HttpKernel\\Kernel",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\class",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\Symfony\\Component\\DependencyInjection\\ContainerBuilder",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\Symfony\\Component\\Config\\Loader\\LoaderInterface",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\Symfony\\Component\\Config\\Resource\\FileResource",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\Symfony\\Component\\Routing\\RouteCollectionBuilder",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\Doctrine\\Bundle\\DoctrineBundle\\Repository\\ServiceEntityRepository",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\Doctrine\\Persistence\\ManagerRegistry",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\Doctrine\\ORM\\QueryBuilder",
         "size": 3000,
         "relations": []
     },
@@ -738,8 +634,7 @@
             "\\Symfony\\Component\\Validator\\ConstraintValidator",
             "\\Symfony\\Component\\Security\\Core\\Security",
             "\\Symfony\\Component\\Validator\\Constraint",
-            "\\Symfony\\Component\\Validator\\Exception\\UnexpectedValueException",
-            "\\Symfony\\Component\\Validator\\Exception\\LogicException"
+            "\\Symfony\\Component\\Validator\\Exception\\UnexpectedValueException"
         ]
     },
     {
@@ -749,11 +644,6 @@
     },
     {
         "name": "\\Symfony\\Component\\Validator\\Exception\\UnexpectedValueException",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\Symfony\\Component\\Validator\\Exception\\LogicException",
         "size": 3000,
         "relations": []
     }

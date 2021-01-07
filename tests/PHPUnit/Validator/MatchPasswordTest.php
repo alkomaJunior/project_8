@@ -85,17 +85,6 @@ class MatchPasswordTest extends KernelTestCase
         $this->matchPasswordValidator->validate($value, $this->constraintMock);
     }
 
-    public function testMatchPasswordThrowLogicException(): void
-    {
-        $value = 'incorrectPassword';
-        $this->security->expects($this->once())->method('getUser')->willReturn(null);
-
-        $this->expectException(LogicException::class);
-
-        $this->matchPasswordValidator->initialize($this->executionContextMock);
-        $this->matchPasswordValidator->validate($value, $this->constraintMock);
-    }
-
     public function testMatchPasswordThrowUnexpectedValueException(): void
     {
         $value = 5;

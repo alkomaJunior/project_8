@@ -12,7 +12,6 @@
 namespace App\Form\User;
 
 use App\Form\DataTransferObject\PasswordInterface;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,13 +27,13 @@ class UpdatePasswordType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        // Ask logged user for his actual password
-        if ($options['update_account']) {
-            $builder->add('actualPassword', PasswordType::class);
+        // Display input actualPassword field only by editing profile
+        if (in_array('account', $options['validation_groups'])) {
+            $builder->add('actualPassword', PasswordType::class, ['empty_data' => '']);
         }
 
-        $builder->add('newPassword', PasswordType::class)
-            ->add('confirmPassword', PasswordType::class)
+        $builder->add('newPassword', PasswordType::class, ['empty_data' => ''])
+            ->add('confirmPassword', PasswordType::class, ['empty_data' => ''])
         ;
     }
 
@@ -45,7 +44,6 @@ class UpdatePasswordType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => PasswordInterface::class,
-            'update_account' => Boolean::class,
             'translation_domain' => 'forms',
         ]);
     }

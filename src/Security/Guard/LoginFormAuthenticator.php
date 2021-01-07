@@ -105,9 +105,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             throw new InvalidCsrfTokenException();
         }
 
+        /** @var UserInterface|null $user */
         $user = $userProvider->loadUserByUsername($credentials['username']);
 
-        if (empty($user)) {
+        if (!$user) {
             // Fail authentication with a custom error
             throw new UsernameNotFoundException();
         }
@@ -135,7 +136,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     /**
      * {@inheritdoc}
      *
-     * @return RedirectResponse|null
+     * @param string $providerKey
+     *
+     * @return RedirectResponse | null
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?RedirectResponse
     {

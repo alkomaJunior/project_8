@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ToDoAndCo Project
  * Copyright (c) 2020 BigBoss 2020.  BigBoss Oualid
@@ -24,9 +25,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class TaskRepository extends ServiceEntityRepository
 {
     /**
-     * TaskRepository constructor.
-     *
-     * @param ManagerRegistry $registry
+     * @inheritDoc
      */
     public function __construct(ManagerRegistry $registry)
     {

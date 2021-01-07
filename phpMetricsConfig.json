@@ -1,9 +1,15 @@
 {
   "includes": [
-    "src"
+    "src/Controller",
+    "src/Entity",
+    "src/Event",
+    "src/Form",
+    "src/Helper",
+    "src/Security",
+    "src/Service",
+    "src/Validator"
   ],
   "exclude": [
-    "src/DataFixtures"
   ],
   "report": {
     "html": "/analyzes/LTS/backend/metrics/phpMetricsReport-v2/",

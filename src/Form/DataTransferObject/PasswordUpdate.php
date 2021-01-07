@@ -24,9 +24,10 @@ class PasswordUpdate implements PasswordInterface
      *
      * @CustomAssert\MatchPassword(message="Ce n'est pas votre mot de passe actuel: {{ string }}")
      */
-    private ?string $actualPassword;
+    private string $actualPassword = '';
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir un mot de passe!")
      * @Assert\Length(
      *     min=8,
      *     minMessage="Votre mot de passe doit faire au moins {{ limit }} caractères !",
@@ -45,17 +46,17 @@ class PasswordUpdate implements PasswordInterface
      *     message="Votre mot de passe devrait contenir au moin un caractère spécial!"
      * )
      */
-    private ?string $newPassword;
+    private string $newPassword = '';
 
     /**
      * @Assert\EqualTo(propertyPath="newPassword", message="Vous avez entrer deux mots de passes diffèrents")
      */
-    private ?string $confirmPassword;
+    private string $confirmPassword = '';
 
     /**
      * {@inheritdoc}
      */
-    public function getActualPassword(): ?string
+    public function getActualPassword(): string
     {
         return $this->actualPassword;
     }
@@ -73,7 +74,7 @@ class PasswordUpdate implements PasswordInterface
     /**
      * {@inheritdoc}
      */
-    public function getNewPassword(): ?string
+    public function getNewPassword(): string
     {
         return $this->newPassword;
     }
@@ -91,7 +92,7 @@ class PasswordUpdate implements PasswordInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfirmPassword(): ?string
+    public function getConfirmPassword(): string
     {
         return $this->confirmPassword;
     }

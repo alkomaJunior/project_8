@@ -11,6 +11,7 @@
 
 namespace App\Service\Cache;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -36,15 +37,15 @@ class HttpCacheValidation implements CacheValidationInterface
      */
     public function set(Response $response): Response
     {
+        /** @var string $content */
         $content = $response->getContent();
+        /** @var Request $request */
         $request = $this->requestStack->getCurrentRequest();
 
-        if ($content) {
-            $response->setEtag(md5($content));
-            $response->setPublic();
-        }
+        $response->setEtag(md5($content));
+        $response->setPublic();
 
-        if (!empty($request) && $response->isNotModified($request)) {
+        if ($response->isNotModified($request)) {
             return $response;
         }
 

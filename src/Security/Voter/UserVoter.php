@@ -47,10 +47,12 @@ class UserVoter extends Voter
 
     /**
      * {@inheritdoc}
+     *
+     * @param string $attribute
+     * @param User   $editedUser
      */
     protected function voteOnAttribute($attribute, $editedUser, TokenInterface $token): bool
     {
-        /** @var User $loggedUser */
         $loggedUser = $token->getUser();
 
         if (!$loggedUser instanceof User) {
@@ -61,6 +63,6 @@ class UserVoter extends Voter
             return $loggedUser->isEqualTo($editedUser) || $this->security->isGranted(User::ROLE_ADMIN);
         }
 
-        throw new LogicException('This code should not be reached!');
+        throw new LogicException('This code should not be reached!');// @codeCoverageIgnore
     }
 }

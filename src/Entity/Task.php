@@ -26,36 +26,36 @@ class Task
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private ?int $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private ?DateTime $createdAt;
+    private ?DateTime $createdAt = null;
 
     /**
      * @ORM\Column(type="string")
      *
      * @Assert\NotBlank(message="Vous devez saisir un titre.")
      */
-    private ?string $title;
+    private string $title = '';
 
     /**
      * @ORM\Column(type="text")
      *
      * @Assert\NotBlank(message="Vous devez saisir du contenu.")
      */
-    private ?string $content;
+    private string $content = '';
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private ?bool $isDone;
+    private bool $isDone;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tasks")
      */
-    private ?User $user;
+    private ?User $user = null;
 
     /**
      * Initialize task Object as unaccomplished.
@@ -66,9 +66,9 @@ class Task
     }
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -94,9 +94,9 @@ class Task
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -114,9 +114,9 @@ class Task
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getContent(): ?string
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -154,9 +154,9 @@ class Task
     }
 
     /**
-     * @return bool|null
+     * @return bool
      */
-    public function isDone(): ?bool
+    public function isDone(): bool
     {
         return $this->isDone;
     }

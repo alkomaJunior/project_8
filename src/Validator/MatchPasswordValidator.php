@@ -11,6 +11,7 @@
 
 namespace App\Validator;
 
+use App\Entity\User;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -46,14 +47,13 @@ class MatchPasswordValidator extends ConstraintValidator
             // separate multiple types using pipes: e.g ($value, 'string|int');
         }
 
+        /** @var User $loggedUser */
         $loggedUser = $this->security->getUser();
-
-        if (null === $loggedUser || empty($loggedUser->getPassword())) {
-            throw new LogicException('User should be log in !');
-        }
+        /** @var string $password*/
+        $password = $loggedUser->getPassword();
 
         // If passwords don't match, add violation
-        if (!password_verify($value, $loggedUser->getPassword())) {
+        if (!password_verify($value, $password)) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ string }}', $value)
                 ->addViolation();

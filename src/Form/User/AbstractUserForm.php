@@ -22,7 +22,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 abstract class AbstractUserForm extends AbstractType
 {
     /**
-     * Retrieve user roles from entity User as array and add them to choice type in form.
+     * Retrieve user roles from entity User and add them to choice type in form.
+     * E.g: from ['ROLE_ADMIN', 'ROLE_USER'] to ['Admin' => 'ROLE_ADMIN', 'User' => 'ROLE_USER'].
+     * Change translation in the file translations/forms.fr.yaml.
      *
      * @return string[]
      */
@@ -31,8 +33,6 @@ abstract class AbstractUserForm extends AbstractType
         $roles = User::ALL_ROLES;
         $values = [];
 
-        // Add roles with new key in array
-        // Change translation in the file translations/forms.fr.yaml
         foreach ($roles as $role) {
             $prefix = 'ROLE_';
             $key = strtolower(str_replace($prefix, '', $role));
@@ -43,7 +43,7 @@ abstract class AbstractUserForm extends AbstractType
     }
 
     /**
-     * Transform roles type from string to array or array to string.
+     * Transform roles type from string to array or from array to string.
      *
      * @param FormBuilderInterface $builder
      */

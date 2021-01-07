@@ -26,7 +26,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * Manage users contents.
@@ -39,18 +38,15 @@ class UserController extends AbstractController
 {
     use UrlManagerTrait;
 
-    private Security $security;
     private EntityManagerInterface $entityManager;
 
     /**
      * UserController constructor.
      *
-     * @param Security               $security
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(Security $security, EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->security = $security;
         $this->entityManager = $entityManager;
     }
 
@@ -66,15 +62,15 @@ class UserController extends AbstractController
      */
     public function listAction(CacheValidationInterface $cache, UserRepository $repository): Response
     {
-        /** @var User $user */
-        $user = $this->security->getUser();
+        /** @var User $loggedUser */
+        $loggedUser = $this->getUser();
 
         return $cache->set(
             $this->render(
                 'user/list.html.twig',
                 [
                     'users' => $repository->findAllExceptOne(
-                        $user->getId()
+                        $loggedUser->getId()
                     ),
                 ]
             )
@@ -123,10 +119,12 @@ class UserController extends AbstractController
      */
     public function editAction(User $user, Request $request): Response
     {
+        /** @var User $loggedUser */
+        $loggedUser = $this->getUser();
         $form = $this->createForm(
             AccountType::class,
             $user,
-            ['update_account' => ($user === $this->getUser()) ? true : false]
+            ['update_account' => $loggedUser->isEqualTo($user)]
         );
 
         $form->handleRequest($request);
@@ -136,8 +134,8 @@ class UserController extends AbstractController
 
             $this->addFlash('success', "L'utilisateur a bien été modifié.");
 
-            return $this->redirectToRoute($this->urlForRole(
-                $this->security->getUser(),
+            return $this->redirectToRoute($this->getRoute(
+                $loggedUser->getRoles(),
                 'user_list'
             ));
         }
@@ -157,23 +155,22 @@ class UserController extends AbstractController
      */
     public function editPasswordAction(User $user, Request $request): Response
     {
-        $loggedUser = $this->security->getUser();
+        /** @var User $loggedUser */
+        $loggedUser = $this->getUser();
         $passwordUpdate = new PasswordUpdate();
-        $isAccount = $user->isEqualTo($loggedUser);
 
         $form = $this->createForm(UpdatePasswordType::class, $passwordUpdate, [
-            'update_account' => $isAccount,
-            'validation_groups' => [$isAccount ? 'account' : ''],
+            'validation_groups' => [$user->isEqualTo($loggedUser) ? 'account' : ''],
         ]);
-
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword($passwordUpdate->getNewPassword());
             $this->entityManager->flush();
             $this->addFlash('success', 'Le mot de passe a bien été modifié.');
 
-            return $this->redirectToRoute($this->urlForRole(
-                $loggedUser,
+            return $this->redirectToRoute($this->getRoute(
+                $loggedUser->getRoles(),
                 'user_list'
             ));
         }

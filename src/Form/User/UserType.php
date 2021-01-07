@@ -31,12 +31,12 @@ class UserType extends AbstractUserForm
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username', TextType::class)
-            ->add('email', EmailType::class)
+            ->add('username', TextType::class, ['empty_data' => ''])
+            ->add('email', EmailType::class, ['empty_data' => ''])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
+                'empty_data' => '',
                 'invalid_message' => 'Les deux mots de passe doivent correspondre.',
-                'required' => true,
                 'first_options' => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Tapez le mot de passe à nouveau'],
             ])
