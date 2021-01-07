@@ -10,16 +10,20 @@
 
 namespace App\Tests\PHPUnit\DataFixtures;
 
+use App\DataFixtures\AppFixtures;
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
+use App\Tests\PHPUnit\Helper\TestPrivateMethodTrait;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\Yaml\Yaml;
 
 class DataFixturesTest extends KernelTestCase
 {
+    use TestPrivateMethodTrait;
+
     private ?Application $application;
+    private ?AppFixtures $appFixtures;
 
     protected function setUp(): void
     {
@@ -30,6 +34,8 @@ class DataFixturesTest extends KernelTestCase
             'doctrine:database:drop',
             ['--force' => true]
         );
+
+        $this->appFixtures = new AppFixtures();
     }
 
     public function testExecute(): void
@@ -58,6 +64,17 @@ class DataFixturesTest extends KernelTestCase
         $this->fixturesGoodLoaded();
     }
 
+    protected function tearDown(): void
+    {
+        $this->runCommand(
+            'doctrine:database:drop',
+            ['--force' => true]
+        );
+        $this->application = null;
+        $this->appFixtures = new AppFixtures();
+        self::ensureKernelShutdown();
+    }
+
     /**
      * Check if Db contains the same number of users & tasks in fixtures files.
      */
@@ -66,21 +83,13 @@ class DataFixturesTest extends KernelTestCase
         $storedTasks = self::$container->get(TaskRepository::class)->findTasks();
         $storedUsers = self::$container->get(UserRepository::class)->findAll();
 
-        $users = $this->getDataFixture('User');
-        $tasks = $this->getDataFixture('Task');
+        $users = $this->invokeMethod($this->appFixtures, 'getDataFixture', ['User']);
+        $tasks = $this->invokeMethod($this->appFixtures, 'getDataFixture', ['Task']);
+        $emptyArray = $this->invokeMethod($this->appFixtures, 'getDataFixture', ['Wrong_class']);
 
+        $this->assertEquals(count($emptyArray), 0);
         $this->assertEquals(count($tasks), count($storedTasks));
         $this->assertEquals(count($users), count($storedUsers));
-    }
-
-    protected function tearDown(): void
-    {
-        $this->runCommand(
-            'doctrine:database:drop',
-            ['--force' => true]
-        );
-        $this->application = null;
-        self::ensureKernelShutdown();
     }
 
     protected function runCommand(string $command, array $args = []): CommandTester
@@ -101,19 +110,6 @@ class DataFixturesTest extends KernelTestCase
             $stringContains,
             $commandTester->getDisplay(),
             $message
-        );
-    }
-
-    /**
-     * @SuppressWarnings(PHPMD.StaticAccess)
-     */
-    protected function getDataFixture(string $fileName): array
-    {
-        return Yaml::parse(
-            file_get_contents(
-                self::$kernel->getProjectDir().'/src/DataFixtures/Fixtures/'.$fileName.'s.yaml',
-                true
-            )
         );
     }
 }

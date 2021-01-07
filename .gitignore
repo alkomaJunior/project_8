@@ -37,7 +37,7 @@ yarn-error.log
 ###< PHPStan ###
 
 ###> Psalm ###
-/psalm.xml
+#/psalm.xml
 ###< Psalm ###
 
 ###> PHPMetrics ###

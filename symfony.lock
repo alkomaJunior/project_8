@@ -223,6 +223,9 @@
     "nette/finder": {
         "version": "v2.5.2"
     },
+    "nette/neon": {
+        "version": "v3.2.1"
+    },
     "nette/robot-loader": {
         "version": "v3.3.1"
     },
@@ -231,6 +234,9 @@
     },
     "nikic/php-parser": {
         "version": "v4.10.2"
+    },
+    "noximo/phpstan-fileoutput": {
+        "version": "0.1.8"
     },
     "ocramius/proxy-manager": {
         "version": "2.9.1"
@@ -297,6 +303,9 @@
     },
     "rector/rector": {
         "version": "0.8.53"
+    },
+    "roave/psalm-html-output": {
+        "version": "1.0.1"
     },
     "sebastian/comparator": {
         "version": "4.0.6"
@@ -715,6 +724,9 @@
     },
     "symplify/symplify-kernel": {
         "version": "8.3.48"
+    },
+    "thecodingmachine/safe": {
+        "version": "v1.3.3"
     },
     "theofidry/alice-data-fixtures": {
         "version": "1.0",

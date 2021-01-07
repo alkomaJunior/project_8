@@ -9,3 +9,6 @@ parameters:
     level: 8
     symfony:
         container_xml_path: var/cache/dev/srcApp_KernelDevDebugContainer.xml
+services:
+    errorFormatter.fileoutput:
+        factory: noximo\FileOutput(./analyzes/LTS/backend/stan/phpStan.html, @errorFormatter.prettyJson, ./analyzes/LTS/backend/stan/alternative_table.phtml)
