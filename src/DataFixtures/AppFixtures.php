@@ -32,13 +32,17 @@ class AppFixtures extends Fixture
         $users = $this->getDataFixture('User');
         $tasks = $this->getDataFixture('Task');
         // Add 2 users
-        $loadedUsers = $this->persistFixtures($manager, $users, User::class);
+        $usersNum = $this->persistFixtures($manager, $users, User::class);
         // Add 6 tasks
-        $loadedTasks = $this->persistFixtures($manager, $tasks, Task::class);
+        $tasksNum = $this->persistFixtures($manager, $tasks, Task::class);
 
         $manager->flush();
-        echo "\n ${loadedUsers} users & ${loadedTasks} tasks are loaded!";
-        echo "\n Loading fixtures is terminated!\n";
+
+        $successMessage = "\033[0;32m";
+        $successMessage .= "   > ".$usersNum." users & ".$tasksNum." tasks are loaded!\n";
+        $successMessage .= "   > Loading fixtures is terminated!\n";
+        $successMessage .= "\e[0m";
+        print_r($successMessage);
     }
 
     /**

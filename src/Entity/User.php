@@ -243,7 +243,7 @@ class User implements UserInterface, EquatableInterface
      */
     public function isEqualTo(?UserInterface $user): bool
     {
-        if (is_null($user)) {
+        if (null === $user) {
             return false;
         }
 
