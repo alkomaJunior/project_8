@@ -160,7 +160,7 @@ class UserController extends AbstractController
         $passwordUpdate = new PasswordUpdate();
 
         $form = $this->createForm(UpdatePasswordType::class, $passwordUpdate, [
-            'validation_groups' => [$user->isEqualTo($loggedUser) ? 'account' : ''],
+            'validation_groups' => ['Default', $user->isEqualTo($loggedUser) ? 'account' : ''],
         ]);
         $form->handleRequest($request);
 

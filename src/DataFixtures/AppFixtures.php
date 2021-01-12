@@ -39,7 +39,7 @@ class AppFixtures extends Fixture
         $manager->flush();
 
         $successMessage = "\033[0;32m";
-        $successMessage .= "   > ".$usersNum." users & ".$tasksNum." tasks are loaded!\n";
+        $successMessage .= "\n   > ".$usersNum." users & ".$tasksNum." tasks are loaded!\n";
         $successMessage .= "   > Loading fixtures is terminated!\n";
         $successMessage .= "\e[0m";
         print_r($successMessage);

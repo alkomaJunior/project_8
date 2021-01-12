@@ -12,7 +12,7 @@
 namespace App\Form\DataTransferObject;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator as CustomAssert;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 
 /**
  * Transfer data from form Password update to user.
@@ -20,9 +20,10 @@ use App\Validator as CustomAssert;
 class PasswordUpdate implements PasswordInterface
 {
     /**
-     * @Assert\NotBlank(groups={"account"})
-     *
-     * @CustomAssert\MatchPassword(message="Ce n'est pas votre mot de passe actuel: {{ string }}")
+     * @SecurityAssert\UserPassword(
+     *     groups={"account"},
+     *     message = "Mauvaise valeur pour votre mot de passe actuel!"
+     * )
      */
     private string $actualPassword = '';
 
@@ -49,7 +50,10 @@ class PasswordUpdate implements PasswordInterface
     private string $newPassword = '';
 
     /**
-     * @Assert\EqualTo(propertyPath="newPassword", message="Vous avez entrer deux mots de passes diffèrents")
+     * @Assert\EqualTo(
+     *     propertyPath="newPassword",
+     *      message="Vous avez entrer deux mots de passes diffèrents"
+     * )
      */
     private string $confirmPassword = '';
 

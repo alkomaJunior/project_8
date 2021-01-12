@@ -16,8 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -94,12 +94,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      *
      * @param string[] $credentials
      *
-     * @throws InvalidCsrfTokenException|UsernameNotFoundException
+     * @throws InvalidCsrfTokenException|AuthenticationException
      */
     public function getUser($credentials, UserProviderInterface $userProvider): ?UserInterface
     {
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
-
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             // Fail authentication with an error
             throw new InvalidCsrfTokenException();
@@ -110,7 +109,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
         if (!$user) {
             // Fail authentication with a custom error
-            throw new UsernameNotFoundException();
+            throw new AuthenticationException('User could not be found.');
         }
 
         return $user;
@@ -121,7 +120,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      *
      * @param string[] $credentials
      *
-     * @throws UsernameNotFoundException
+     * @throws AuthenticationException
      */
     public function checkCredentials($credentials, UserInterface $user): bool
     {
@@ -130,7 +129,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         // Fail authentication with an UsernameNotFoundError if password doesn't match
-        throw new UsernameNotFoundException();
+        throw new AuthenticationException();
     }
 
     /**

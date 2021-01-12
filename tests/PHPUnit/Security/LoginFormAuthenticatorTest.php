@@ -25,6 +25,8 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Security;
@@ -73,6 +75,13 @@ class LoginFormAuthenticatorTest extends TestCase
         $this->assertEquals($this->credentials, $this->formAuthenticator->getCredentials($this->request));
     }
 
+    public function testGetPassword(): void
+    {
+        $this->assertIsArray($this->formAuthenticator->getCredentials( $this->request));
+        $this->assertEquals($this->user->getPassword(), $this->formAuthenticator->getPassword
+        ($this->formAuthenticator->getCredentials($this->request)));
+    }
+
     public function testGetUserValid(): void
     {
         $userProvider = $this->getMockBuilder(UserProviderInterface::class)->getMock();
@@ -81,7 +90,7 @@ class LoginFormAuthenticatorTest extends TestCase
         $this->assertInstanceOf(User::class, $this->formAuthenticator->getUser($this->credentials, $userProvider));
     }
 
-    public function testGetUserThrowingExceptionInvalidToken(): void
+    public function testGetUserThrowingInvalidCsrfTokenException(): void
     {
         $this->credentials['csrf_token'] = 'Invalid_token';
         $userProvider = $this->getMockBuilder(UserProviderInterface::class)->getMock();
@@ -92,7 +101,7 @@ class LoginFormAuthenticatorTest extends TestCase
         $this->formAuthenticator->getUser($this->credentials, $userProvider);
     }
 
-    public function testGetUserThrowingExceptionUsernameNotFound(): void
+    public function testGetUserThrowingUsernameNotFoundException(): void
     {
         $this->credentials['username'] = 'username-not-found';
         $this->credentials['csrf_token'] = 'Invalid_token';
@@ -112,12 +121,12 @@ class LoginFormAuthenticatorTest extends TestCase
             $this->credentials, $this->user));
     }
 
-    public function testCheckCredentialsThrowingExceptionUsernameNotFound(): void
+    public function testCheckCredentialsThrowingExceptionAuthenticationException(): void
     {
         $this->credentials['username'] = 'username-not-found';
 
         $this->encoder->expects($this->once())->method('isPasswordValid')->willReturn(false);
-        $this->expectException(UsernameNotFoundException::class);
+        $this->expectException(AuthenticationException::class);
         $this->formAuthenticator->checkCredentials($this->credentials, $this->user);
     }
 
