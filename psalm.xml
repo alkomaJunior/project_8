@@ -34,11 +34,6 @@
                 <file name="vendor/doctrine/orm/lib/Doctrine/ORM/EntityRepository.php" />
             </errorLevel>
         </InvalidDocblock>
-        <UndefinedMagicPropertyFetch>
-            <errorLevel type="suppress">
-                <file name="src/Validator/MatchPasswordValidator.php" />
-            </errorLevel>
-        </UndefinedMagicPropertyFetch>
         <LessSpecificImplementedReturnType>
             <errorLevel type="suppress">
                 <directory name="src/Repository" />

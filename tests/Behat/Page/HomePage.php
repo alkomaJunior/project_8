@@ -16,7 +16,7 @@ class HomePage extends SymfonyPage
 {
     public function getRouteName(): string
     {
-        return 'login';
+        return 'homepage';
     }
 
     public function login(string $username, string $password): void

@@ -51,7 +51,7 @@ Feature: User with ROLE_USER
     And  I press "Sauvegarder"
     Then I should be on homepage
     When I follow "Se déconnecter"
-    Then I should be on "/login"
+    Then I should be on homepage
     When I connect as "changed-username" with the password "-123NewPassword"
     Then I should be on homepage
     And  I should see "changed-username"

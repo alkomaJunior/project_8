@@ -16,11 +16,11 @@ security:
             anonymous: lazy
             provider: users_in_database
             form_login:
-                #login_path: login
-                check_path: login
+                login_path: homepage
+                check_path: homepage
             logout:
                 path: logout
-                target: login
+                target: homepage
             guard:
                 authenticators:
                     - App\Security\Guard\LoginFormAuthenticator

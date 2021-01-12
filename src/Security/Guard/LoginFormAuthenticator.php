@@ -30,7 +30,7 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
  */
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
-    public const LOGIN_ROUTE = 'login';
+    public const LOGIN_ROUTE = 'homepage';
 
     private UrlGeneratorInterface $urlGenerator;
     private CsrfTokenManagerInterface $csrfTokenManager;
@@ -109,7 +109,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
         if (!$user) {
             // Fail authentication with a custom error
-            throw new AuthenticationException('User could not be found.');
+            throw new AuthenticationException();
         }
 
         return $user;

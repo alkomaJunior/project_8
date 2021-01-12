@@ -6,8 +6,7 @@
     "src/Form",
     "src/Helper",
     "src/Security",
-    "src/Service",
-    "src/Validator"
+    "src/Service"
   ],
   "exclude": [
   ],

@@ -62,4 +62,4 @@ Feature: Create & edit user
     When move backward one page
     Then I should be on "/"
     When I follow "Se déconnecter"
-    Then I should be on "/login"
+    Then I should be on "/"

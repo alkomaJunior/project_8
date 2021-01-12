@@ -22,15 +22,15 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="login")
+     * @Route("/", name="homepage")
      *
      * @param AuthenticationUtils $authenticationUtils
      *
      * @return Response
      */
-    public function loginAction(AuthenticationUtils $authenticationUtils): Response
+    public function homepageAction(AuthenticationUtils $authenticationUtils): Response
     {
-        return $this->render('default/index.html.twig', [
+        return $this->render('homepage/index.html.twig', [
             'last_username' => $authenticationUtils->getLastUsername(),
             'error' => $authenticationUtils->getLastAuthenticationError(),
         ]);

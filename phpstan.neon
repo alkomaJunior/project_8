@@ -1,11 +1,6 @@
 parameters:
     paths:
         - src
-    ignoreErrors:
-        -
-            message: '#Access to an undefined property Symfony\\Component\\Validator\\Constraint::\$message.#'
-            path: src/Validator/MatchPasswordValidator.php
-
     level: 8
     symfony:
         container_xml_path: var/cache/dev/srcApp_KernelDevDebugContainer.xml

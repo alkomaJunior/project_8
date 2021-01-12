@@ -50,7 +50,7 @@
 <div class="page">
     <div class="content content-first">
         <div class="report-details">
-            Created at 2021-01-07 20:47:59        , with PHPMetrics v2.7.4 (<a href="https://twitter.com/Halleck45">Jean-François Lépine</a>).
+            Created at 2021-01-12 13:57:12        , with PHPMetrics v2.7.4 (<a href="https://twitter.com/Halleck45">Jean-François Lépine</a>).
         </div>
 
         
@@ -249,12 +249,12 @@
 
     var relations = [
     {
-        "name": "\\App\\Controller\\DefaultController",
+        "name": "\\App\\Controller\\SecurityController",
         "size": 3000,
         "relations": [
             "\\Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController",
             "\\Symfony\\Component\\HttpFoundation\\Response",
-            "\\App\\Service\\Cache\\CacheValidationInterface",
+            "\\Symfony\\Component\\Security\\Http\\Authentication\\AuthenticationUtils",
             "\\Symfony\\Component\\Routing\\Annotation\\Route"
         ]
     },
@@ -269,27 +269,12 @@
         "relations": []
     },
     {
-        "name": "\\App\\Service\\Cache\\CacheValidationInterface",
+        "name": "\\Symfony\\Component\\Security\\Http\\Authentication\\AuthenticationUtils",
         "size": 3000,
         "relations": []
     },
     {
         "name": "\\Symfony\\Component\\Routing\\Annotation\\Route",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\App\\Controller\\SecurityController",
-        "size": 3000,
-        "relations": [
-            "\\Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController",
-            "\\Symfony\\Component\\HttpFoundation\\Response",
-            "\\Symfony\\Component\\Security\\Http\\Authentication\\AuthenticationUtils",
-            "\\Symfony\\Component\\Routing\\Annotation\\Route"
-        ]
-    },
-    {
-        "name": "\\Symfony\\Component\\Security\\Http\\Authentication\\AuthenticationUtils",
         "size": 3000,
         "relations": []
     },
@@ -311,6 +296,11 @@
     },
     {
         "name": "\\Doctrine\\ORM\\EntityManagerInterface",
+        "size": 3000,
+        "relations": []
+    },
+    {
+        "name": "\\App\\Service\\Cache\\CacheValidationInterface",
         "size": 3000,
         "relations": []
     },
@@ -525,7 +515,7 @@
             "\\Symfony\\Component\\Security\\Core\\User\\UserProviderInterface",
             "\\Symfony\\Component\\Security\\Csrf\\CsrfToken",
             "\\Symfony\\Component\\Security\\Core\\Exception\\InvalidCsrfTokenException",
-            "\\Symfony\\Component\\Security\\Core\\Exception\\UsernameNotFoundException",
+            "\\Symfony\\Component\\Security\\Core\\Exception\\AuthenticationException",
             "\\Symfony\\Component\\Security\\Core\\User\\UserInterface",
             "\\Symfony\\Component\\Security\\Core\\Authentication\\Token\\TokenInterface",
             "\\Symfony\\Component\\HttpFoundation\\RedirectResponse"
@@ -562,7 +552,7 @@
         "relations": []
     },
     {
-        "name": "\\Symfony\\Component\\Security\\Core\\Exception\\UsernameNotFoundException",
+        "name": "\\Symfony\\Component\\Security\\Core\\Exception\\AuthenticationException",
         "size": 3000,
         "relations": []
     },
@@ -612,38 +602,6 @@
     },
     {
         "name": "\\Symfony\\Component\\HttpFoundation\\RequestStack",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\App\\Validator\\MatchPassword",
-        "size": 3000,
-        "relations": [
-            "\\Symfony\\Component\\Validator\\Constraint"
-        ]
-    },
-    {
-        "name": "\\Symfony\\Component\\Validator\\Constraint",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\App\\Validator\\MatchPasswordValidator",
-        "size": 3000,
-        "relations": [
-            "\\Symfony\\Component\\Validator\\ConstraintValidator",
-            "\\Symfony\\Component\\Security\\Core\\Security",
-            "\\Symfony\\Component\\Validator\\Constraint",
-            "\\Symfony\\Component\\Validator\\Exception\\UnexpectedValueException"
-        ]
-    },
-    {
-        "name": "\\Symfony\\Component\\Validator\\ConstraintValidator",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "\\Symfony\\Component\\Validator\\Exception\\UnexpectedValueException",
         "size": 3000,
         "relations": []
     }

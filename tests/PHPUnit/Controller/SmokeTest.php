@@ -41,7 +41,7 @@ class SmokeTest extends WebTestCase
 
     const UNRESTRICTED_URIS = [
         'homepage' => ['Homepage', '/'],
-        'login' => ['Login page', '/login'],
+        'login' => ['Login page', '/'],
     ];
 
     private ?KernelBrowser $client = null;
@@ -68,7 +68,7 @@ class SmokeTest extends WebTestCase
         $this->client->request('GET', $uri);
 
         $this->assertResponseRedirects(
-            $this->client->getRequest()->getSchemeAndHttpHost().'/login',
+            $this->client->getRequest()->getSchemeAndHttpHost().'/',
             Response::HTTP_FOUND,
             sprintf(
                 'La page ne "%s" devrait pas être accessible, mais le code HTTP est "%s".',

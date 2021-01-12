@@ -7,7 +7,7 @@
     {% endif %}
 {% endif %}
 <nav class="navbar navbar-light fixed-top navbar-expand-lg" >
-	<div class="container navigation-cont">
+	<div class="container">
         <a class="navbar-brand font-weight-bold" href="{{ path('homepage') }}">
             <img src="{{ asset('build/images/Logo_OpenClassrooms.png') }}" alt="OpenClassrooms">
         </a>
@@ -69,7 +69,7 @@
                 </ul>
                 <ul class="navbar-nav float-lg-right mr-5">
                     <li class="nav-item">
-                        <form action="{{ path('login') }}" method="post">
+                        <form action="{{ path('homepage') }}" method="post">
                             <div class="form-row">
                                 <div class="col-lg-4 col-sm-12 mt-lg-0 mt-5">
                                     <label for="username" class="d-none">Username</label>

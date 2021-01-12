@@ -50,7 +50,7 @@
 <div class="page">
     <div class="content content-first">
         <div class="report-details">
-            Created at 2021-01-07 20:47:59        , with PHPMetrics v2.7.4 (<a href="https://twitter.com/Halleck45">Jean-François Lépine</a>).
+            Created at 2021-01-12 13:57:12        , with PHPMetrics v2.7.4 (<a href="https://twitter.com/Halleck45">Jean-François Lépine</a>).
         </div>
 
         
@@ -254,10 +254,10 @@
         "relations": [
             "Symfony\\Bundle\\FrameworkBundle\\Controller",
             "Symfony\\Component\\HttpFoundation",
-            "App\\Service\\Cache",
-            "Symfony\\Component\\Routing\\Annotation",
             "Symfony\\Component\\Security\\Http\\Authentication",
+            "Symfony\\Component\\Routing\\Annotation",
             "Doctrine\\ORM",
+            "App\\Service\\Cache",
             "App\\Repository",
             "App\\Entity",
             "Sensio\\Bundle\\FrameworkExtraBundle\\Configuration",
@@ -275,11 +275,9 @@
         "relations": []
     },
     {
-        "name": "App\\Service\\Cache",
+        "name": "Symfony\\Component\\Security\\Http\\Authentication",
         "size": 3000,
-        "relations": [
-            "Symfony\\Component\\HttpFoundation"
-        ]
+        "relations": []
     },
     {
         "name": "Symfony\\Component\\Routing\\Annotation",
@@ -287,14 +285,16 @@
         "relations": []
     },
     {
-        "name": "Symfony\\Component\\Security\\Http\\Authentication",
+        "name": "Doctrine\\ORM",
         "size": 3000,
         "relations": []
     },
     {
-        "name": "Doctrine\\ORM",
+        "name": "App\\Service\\Cache",
         "size": 3000,
-        "relations": []
+        "relations": [
+            "Symfony\\Component\\HttpFoundation"
+        ]
     },
     {
         "name": "App\\Repository",
@@ -448,25 +448,6 @@
     },
     {
         "name": "Symfony\\Component\\Security\\Core\\Authorization\\Voter",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "App\\Validator",
-        "size": 3000,
-        "relations": [
-            "Symfony\\Component\\Validator",
-            "Symfony\\Component\\Security\\Core",
-            "Symfony\\Component\\Validator\\Exception"
-        ]
-    },
-    {
-        "name": "Symfony\\Component\\Validator",
-        "size": 3000,
-        "relations": []
-    },
-    {
-        "name": "Symfony\\Component\\Validator\\Exception",
         "size": 3000,
         "relations": []
     }
