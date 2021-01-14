@@ -1,8 +1,8 @@
-#Guide de l'authentification
+# Guide de l'authentification
 
 Dans ce tutorial, je vais vous montrer comment il est facile d'ajouter un système d'authentification personnalisé à une Application Symfony !
 
-##Avant de commencer
+## Avant de commencer
 
 Nous allons travailler avec Symfony 4.4 (Version lts actuelle). Cette version est livrée avec beaucoup d’avantages que nous verrons plus tard dans le tutorial. Une fois que nous aurons ajouté l’authentification à notre application, tous les utilisateurs connectés auront le privilège de gérer les tâches et modifier leur propre compte. Par contre les utilisateurs qui possèdent le rôle administrateur auront l'accès au système de gestion des utilisateurs et le droit de supprimer les tâches anonymes.
 
@@ -11,9 +11,9 @@ Pour mettre en place le système d'authentification nous allons besoin des compo
 - [symfony/maker-bundle](https://symfony.com/doc/current/bundles/SymfonyMakerBundle/index.html): Ce bundle aide à créer des commandes vides, des contrôleurs, des classes de formulaires, des tests, et encore plus....
 - [symfony/security-bundle](https://symfony.com/doc/current/security.html): Ce pack intègre le système de sécurité complet de notre application Web Symfony et fournit des moyens d’autoriser les utilisateurs authentifiés en fonction de leurs rôles.
 
-##Commencer
+## Commencer
 
-###Création d’une classe _User_
+### Création d’une classe _User_
 
 Avant de pouvoir enregistrer ou authentifier un utilisateur au sein de notre application, nous devons créer une classe ou une entité. Pour faciliter la tâche, utiliser le pack ``symfony/maker`` à partir du terminal pour la générer.
 
@@ -77,9 +77,9 @@ class User implements UserInterface
 ```
 >Afin de simplifier la gestion des rôles, nous allons modifier la méthode ``getRoles()`` et ajouter un constructeur à la classe pour donner une valeur par défaut à cette propriété.
 
-###Mise en place des contrôleurs
+### Mise en place des contrôleurs
 
-####Contrôleur : _Login_
+#### Contrôleur : _Login_
 
 Ici nous allons générer un nouveau contrôleur qui gérera le processus de connexion pour les utilisateurs enregistrés dans notre base de données.
 
