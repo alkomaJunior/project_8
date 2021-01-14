@@ -1,9 +1,11 @@
 #Contribution
+
 Please take a moment to review this document, so that you can easily follow the contribution process.
 
 ##How to contribute?
 You saw a **bug**? You thought of an awesome **feature**, that we can add to the application? Then you can contribute by sending ``issues`` or submitting ``pull-requests``.
-##Bug report
+
+## Bug report
 A bug is a concrete error, caused by the present code in this repository.
 
 Guide:

@@ -1,18 +1,20 @@
-# Guide de l'authentification
+#Guide de l'authentification
 
 Dans ce tutorial, je vais vous montrer comment il est facile d'ajouter un système d'authentification personnalisé à une Application Symfony !
 
-## Avant de commencer
+##Avant de commencer
+
 Nous allons travailler avec Symfony 4.4 (Version lts actuelle). Cette version est livrée avec beaucoup d’avantages que nous verrons plus tard dans le tutorial. Une fois que nous aurons ajouté l’authentification à notre application, tous les utilisateurs connectés auront le privilège de gérer les tâches et modifier leur propre compte. Par contre les utilisateurs qui possèdent le rôle administrateur auront l'accès au système de gestion des utilisateurs et le droit de supprimer les tâches anonymes.
 
 Pour mettre en place le système d'authentification nous allons besoin des composants suivants :
 
 - [symfony/maker-bundle](https://symfony.com/doc/current/bundles/SymfonyMakerBundle/index.html): Ce bundle aide à créer des commandes vides, des contrôleurs, des classes de formulaires, des tests, et encore plus....
-- [symfony/security-bundle](https://symfony.com/doc/current/security.html): Ce pack intègre le système de sécurité complet de notre application Web Symfony et fournit 
-des moyens d’autoriser les utilisateurs authentifiés en fonction de leurs rôles.
+- [symfony/security-bundle](https://symfony.com/doc/current/security.html): Ce pack intègre le système de sécurité complet de notre application Web Symfony et fournit des moyens d’autoriser les utilisateurs authentifiés en fonction de leurs rôles.
 
 ##Commencer
+
 ###Création d’une classe _User_
+
 Avant de pouvoir enregistrer ou authentifier un utilisateur au sein de notre application, nous devons créer une classe ou une entité. Pour faciliter la tâche, utiliser le pack ``symfony/maker`` à partir du terminal pour la générer.
 
 ```bash
@@ -51,7 +53,6 @@ class User implements UserInterface
     }
 }
 ```
-
 >En plus des propriétés créées automatiquement par le ``MakerBundle Symfony``, ajoutez une nouvelle propriété ``email`` et créer à la fois ses méthodes getter et setter. Toutes les propriétés définies ici représenteront chaque champ pour la table ``user`` dans la base de données.
 
 ```php
@@ -74,28 +75,30 @@ class User implements UserInterface
         return $this->roles;
     }
 ```
-
 >Afin de simplifier la gestion des rôles, nous allons modifier la méthode ``getRoles()`` et ajouter un constructeur à la classe pour donner une valeur par défaut à cette propriété.
 
 ###Mise en place des contrôleurs
+
 ####Contrôleur : _Login_
+
 Ici nous allons générer un nouveau contrôleur qui gérera le processus de connexion pour les utilisateurs enregistrés dans notre base de données.
 
 ```bash
 $ php bin/console make:controller SecurityController
 ```
-
-Après avoir exécuté la commande ci-dessus, Deux fichiers seront créés comme l'image en dessous le montre.
+>Après avoir exécuté la commande ci-dessus, Deux fichiers seront créés comme l'image en dessous le montre.
 
 [![Make securityController](make-securityControler.png)](make-securityControler.png)
 [Voir la doc](https://symfony.com/doc/4.4/controller.html)
 
 Supprimez le fichier ``templates/security/index.twig``, car on va intégrer le formulaire de connexion dans le menu de navigation.
 
-####Contrôleur des utilisateurs (_UserController_)
+#### Contrôleur des utilisateurs (_UserController_)
+
 Nous allons commencer par créer le fichier ``src/Controller/UserController.php``. 
 
-#####Action : Créer utilisateur  (_createAction_)
+##### Action : Créer utilisateur  (_createAction_)
+
 Ensuite créer l'action qui s’occupe de l’enregistrement des utilisateurs. Ajouter le contenu suivant :
 
 ```php
@@ -150,12 +153,15 @@ class UserController extends AbstractController
 }
 ```
 
-#####Action : liste des utilisateurs (_listAction_)
+##### Action : liste des utilisateurs (_listAction_)
+
 Nous allons créer l'action qui généra la liste des utilisateurs créés, comme indiqué précédemment. 
 Ajouter le contenu suivant au fichier ``src/Controller/UserController.php``.
 
 ```php
 // src/Controller/UserController.php
+
+...
 
     /**
      * @Route("", name="user_list")
@@ -176,8 +182,10 @@ Maintenant que nous avons terminé la création de tous les contrôleurs requis 
 1. ``@Route("/routename", name="routename")`` Ceci est utilisé par **Symfony** pour définir l’itinéraire qui recevra une demande particulière et rendre une vue où et quand cela est nécessaire. [plus d'info](https://symfony.com/doc/4.4/routing.html).
 2. ``@IsGranted("ROLE_ADMIN")`` Ceci est le moyen le plus simple de limiter l'accès des utilisateurs aux routes. [plus d'info](https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/security.html).
 
-###Création des formulaires
-####Formulaire : Création d'un utilisateur _UserType_
+### Création des formulaires
+
+#### Formulaire : Création d'un utilisateur _UserType_
+
 Plus tôt, nous avons fait référence à un formulaire dans le fichier ``UserController::createAction()`` exactement la ligne **#27**.
 
 ```php
@@ -257,14 +265,15 @@ class UserType extends AbstractType
 
 >Tout d’abord, nous avons modifié le contenu généré pour ce fichier en incluant le type pour chacun des champs de formulaire et également inclus un deuxième champ de mot de passe pour sa confirmation. Ces champs de formulaires seront affichés sur le formulaire d’inscription. À-propos de la méthode ``getRolesOptions()``, son rôle est de générer un **tableau associatif** avec les bonnes valeurs pour le passer après à notre champ select.
 
-####Formulaire de connexion
+#### Formulaire de connexion
+
 Créer un formulaire de connexion puissant pour l'application **Symfony** est assez simple. Le ``Makerbundle`` peut être utilisé pour démarrer facilement une nouvelle forme de connexion sans casse de tête. Selon votre configuration, on peut vous poser différentes questions, et votre code généré peut être légèrement différent. Pour créer le formulaire de connexion, exécutez la commande suivante :
 
 ```bash
 $ php bin/console make:auth
 ```
-
- Vous serez invité à fournir des réponses à quelques questions. Voici un exemple aux réponses que vous pouvez rencontrer à la commande précédente : 
+>Vous serez invité à fournir des réponses à quelques questions. Voici un exemple aux réponses que vous pouvez 
+rencontrer à la commande précédente : 
  
 [![Make authentication](make-auth.png)](make-auth.png)
 [Voir la doc](https://symfony.com/doc/4.4/security/form_login_setup.html)
@@ -433,7 +442,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 }
 ```
 
-###Mise en place de l’authentification
+### Mise en place de l’authentification
+
 **Symfony** est expédié avec un composant de sécurité impressionnant appelé ``Guard`` qui simplifie le processus d’authentification. Profitons-en dans notre application. La première étape consiste à configurer les paramètres de sécurité Symfony.
 
 Ouvrez le fichier ``config/packages/security.yaml`` et configurez-le comme ici :
@@ -474,7 +484,7 @@ security:
       - { path: ^/,      roles: IS_AUTHENTICATED_ANONYMOUSLY }
 ```
 
-Grace au ``MakerBundle`` La plupart des sections du fichier précédent ont été préconfigurées automatiquement. Il gère ce qui suit comme indiqué par chaque section :
+Grace au ``MakerBundle`` La plupart des sections du fichier précédent ont été préconfigurées automatiquement. Il gère ce qui suit comme indiqué par les 3 premières sections :
 
 - **encoders** : Ceci est utilisé pour configurer la façon dont les mots de passe créés dans l’application seront hachages et depuis quelle entité (ici User). Laisser la valeur en ``auto`` pour ``algorithm`` ce qui sélectionnera automatiquement le meilleur algorithme de hachage possible.
 - **providers** : Cela indique la classe PHP qui sera utilisé pour charger un objet utilisateur depuis la session.
@@ -486,12 +496,15 @@ Grace au ``MakerBundle`` La plupart des sections du fichier précédent ont ét�
     - **guard** : Cela indique la classe PHP qui gère la surveillance du système d'authetification.
 - **role_hierarchy** : Au lieu de donner de nombreux rôles à chaque utilisateur, vous pouvez définir des règles 
     d'héritage de rôle en créant une hiérarchie de rôles. Les utilisateurs avec le rôle ``ROLE_ADMIN`` auront également le rôle ``ROLE_USER``.
-- **access_control** : Nous allons définir les limitations d'accès à certaines pages du site.
+- **access_control** : en se basant sur le rôle d'utilisateur, nous allons définir les limitations d'accès à certaines pages du site.
+>Avant d'aller plus loin j'aimerais vous expliquez une chose, **Symfony** considère les visiteurs non connectés de votre application, comme des utilisateurs authentifiés avec le rôle ``annonymous``. C'est d'ici d'où vient le rôle ``IS_AUTHENTICATED_ANONYMOUSLY``. Si je ne me trompe pas vous avez déjà remarqué, que nous avons laissé l'accès ouvert à tous nos visiteurs. (Dernière ligne du ficher ``security.yaml``)
 
 Pour plus d'info [visitez la doc](https://symfony.com/doc/4.4/reference/configuration/security.html)
 
-###Mise en place des vues
-####Vue : Liste des utilisateurs
+### Mise en place des vues
+
+#### Vue : Liste des utilisateurs
+
 Le Framework **Symfony** est livré avec un puissant moteur templates appelé Twig. Twig vous permet d’écrire des templates concis et lisibles qui sont plus amicaux pour les concepteurs web et de plusieurs façons, plus puissants que les templates PHP.
 
 La mise en page de base de notre application a été configurée dans le fichier ``templates/base.html.twig``. Toutes les vues utilisent le framework Bootstrap CSS, mais ce n'est pas une obligation nous somme libre de les personnaliser comme nous souhaitons.
@@ -546,20 +559,28 @@ Créer le fichier suivant ``templates/user/list.html.twig``
 
 >Ici, nous parcourons les données du tableau associatif ``users`` transmis par l'action ``UserController::listAction()`` à la vue``template/user/list.html.twig``.
 
-####Vue : Connexion
-Ouverez le fichier ``temaplates/partials/_header_default.html.twig`` et ajoutez le formulaire de connexion:
+#### Vue : Connexion
+
+Ouvrez le fichier ``temaplates/partials/_header_default.html.twig`` et ajoutez le formulaire de connexion:
 
 ```twig
 {# templates/partials/_navbar.html.twig #}
 
 <nav class="navbar navbar-light fixed-top navbar-expand-lg" >
-    <div class="container navigation-cont">
-        {% if is_granted('ROLE_ADMIN') %}
-            <ul class="navbar-nav mr-auto h4">
+    <div class="container">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <ul class="navbar-nav mr-auto h4 float-right">
                 <li class="nav-item">
-                    <a class="nav-link nav-deco" href="{{ path('user_list') }}">Utilisateurs</a>
+                    <a class="btn-bg-danger" href="{{ path('logout') }}">Se déconnecter</a>
                 </li>
             </ul>
+            {% if is_granted('ROLE_ADMIN') %}
+                <ul class="navbar-nav mr-auto h4 float-left">
+                    <li class="nav-item">
+                        <a class="nav-link nav-deco" href="{{ path('user_list') }}">Utilisateurs</a>
+                    </li>
+                </ul>
+            {%endif%}
         {% else%}
             <ul class="navbar-nav float-lg-right mr-5">
                 <li class="nav-item">
@@ -581,15 +602,21 @@ Ouverez le fichier ``temaplates/partials/_header_default.html.twig`` et ajoutez 
                     </form>
                 </li>
             </ul>
-        {%endif%}
+        {% endif %}
     </div>
 </nav>
 ```
->``is_granted('ROLE_ADMIN')`` avec cette syntaxe nous allons vérifier si un utilisateur avec un rôle **admin** est connecté ou non. La syntaxe retourne ``true`` si c'est vrai, sinon il retourne ``null``.
 
- Nous allons afficher le lien ``liste des utilisateurs`` quand une personne avec le rôle admin sera connecté, sinon nous allons se contenter d'afficher le formulaire de connexion.
+>Dans notre ``_navbar`` template, nous avons utilisé la fonction **helper build-in ``is_granted()``** pour vérifier
+ si l'utilisateur actuel a un certain rôle. La fonction retourne ``true`` si c'est vrai, sinon il retourne ``null``.
 
-####Vue : Créer un utilisateur
+>``is_granted('IS_AUTHENTICATED_FULLY')`` ici nous allons afficher le bouton de déconnexion si un utilisateur est connecté, sinon nous allons se contenter d'afficher le formulaire de connexion.
+
+>``is_granted('ROLE_ADMIN')`` quand un utilisateur avec le rôle **admin** est connecté, nous allons afficher le lien 
+``liste des utilisateurs``.
+
+#### Vue : Créer un utilisateur
+
 Créez le fichier ``template/user/create.html.twig`` et ajoutez le code suivant:
 
 ```twig
@@ -628,7 +655,8 @@ Créez le fichier ``template/user/create.html.twig`` et ajoutez le code suivant:
 ```
 >Ici, nous avons simplement intégré notre formulaire ``Form/UserType.php`` dans cette template, à l'aide des méthodes de [Symfony built-in form](https://symfony.com/doc/4.4/forms.html) 
    
-###La barre d’outils de débogage de profil
+### La barre d’outils de débogage de profil
+
 L’un des éléments les plus reconnaissables et impressionnantes des applications Symfony, c'est sa la barre d’outils de débogage web. Pas seulement elle donne des informations sur l'utilisateur et un liens le déconnecter, mais aussi elle fournit toutes sortes d’informations sur les sessions, les cookies, les variables, le temps de chargement, les fournisseurs de services, le cycle de temps de réponse à la demande, la taille de l’application, un journal d’erreurs étendu. Cette barre d’outils augmente la productivité des développeurs Symfony car elle rend le débogage super facile!
 
 [![Toolbar](profile-debug-Toolbar.png)](profile-debug-Toolbar.png)
