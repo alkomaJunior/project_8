@@ -6,17 +6,17 @@ namespace noximo;
 ?>
 <html lang="">
 <head>
-    <style>
-        body {
-            background-color: #34495e;
-            color: white;
-            font-family: monospace;
-            font-size: 24px;
-        }
+	<style>
+		body {
+			background-color: #34495e;
+			color: white;
+			font-family: monospace;
+			font-size: 24px;
+		}
 
-        b {
-            color: lightskyblue;
-        }
+		b {
+			color: lightskyblue;
+		}
 
 		h1 {
 			color: white;
@@ -30,55 +30,66 @@ namespace noximo;
 			margin: 100px 0 30px 0;
 		}
 
-        .time {
-            font-style: italic;
-            color: white;
-            text-align: center;
-            margin-bottom: 15px;
-        }
+		.time {
+			font-style: italic;
+			color: white;
+			text-align: center;
+			margin-bottom: 15px;
+		}
 
-        a {
-            color: yellow;
-        }
+		a {
+			color: yellow;
+		}
 
-        table {
-            width: 100%;
-            font-size: 12px;
-        }
+		.rot {
+			color: red;
+		}
 
-        th {
-            text-align: left;
-            padding: 25px 0 10px 0;
-        }
+		table {
+			width: 100%;
+			font-size: 12px;
+		}
 
-        td {
-            padding: 5px;
-        }
+		th {
+			text-align: left;
+			padding: 25px 0 10px 0;
+		}
 
-        .section {
-            font-size: 1.4em;
-        }
+		td {
+			padding: 5px;
+		}
 
-        .line {
-            text-align: right;
-            vertical-align: middle;
-        }
+		.section {
+			font-size: 1.4em;
+		}
 
-        .error:nth-child(odd) {
-            background: #374d63
-        }
+		.line {
+			text-align: right;
+			vertical-align: middle;
+		}
 
-        .regex {
-            color: #00000085;
-        }
+		.line-number{
+			padding-top: 0px;
+		}
 
-        #thanks {
-            margin-top: 50px;
-            font-size: 0.65em;
-            text-align: center;
-        }
-    </style>
-    <title>PHPStan analysis result</title>
+		.error:nth-child(odd) {
+			background: #374d63
+		}
+
+		.regex {
+			color: #00000085;
+		}
+		.error-line {
+			font-size: 1.6em;
+		}
+
+		#thanks {
+			margin-top: 50px;
+			font-size: 0.65em;
+			text-align: center;
+		}
+	</style>
+	<title>PHPStan analysis result</title>
 </head>
 <h1>PHPStan analysis result</h1>
 <div class="time"><?= date('Y-m-d H:i:s') ?></div>
@@ -90,55 +101,55 @@ namespace noximo;
 
 
 <div>
-    <table>
+	<table>
         <?php if (count($data[FileOutput::UNKNOWN]) > 0): ?>
-            <thead>
-            <tr>
-                <th colspan="2" class="section">
-                    Errors without specific file: <?= count($data[FileOutput::UNKNOWN]) ?>
-                </th>
-            </tr>
-            </thead>
+			<thead>
+			<tr>
+				<th colspan="2" class="section">
+					Errors without specific file: <?= count($data[FileOutput::UNKNOWN]) ?>
+				</th>
+			</tr>
+			</thead>
             <?php foreach ($data[FileOutput::UNKNOWN] as $error): ?>
-                <tr class="error">
-                    <td colspan="2">
+				<tr class="error">
+					<td colspan="2">
                         <?= $error ?>
-                    </td>
-                </tr>
+					</td>
+				</tr>
             <?php endforeach ?>
         <?php endif ?>
         <?php if (count($data[FileOutput::FILES]) > 0): ?>
-            <thead>
-            <tr>
-                <th colspan="2" class="section">Files with errors: <?= count($data[FileOutput::FILES]) ?></th>
-            </tr>
-            </thead>
+			<thead>
+			<tr>
+				<th colspan="2" class="section">Files with errors: <?= count($data[FileOutput::FILES]) ?></th>
+			</tr>
+			</thead>
             <?php foreach ($data[FileOutput::FILES] as $filename => $errors): ?>
-                <thead>
-                <tr>
-                    <th colspan="2"><?= $filename . ' (' . count($errors) . "\xC3\x97)" ?></th>
-                </tr>
-                </thead>
+				<thead>
+				<tr>
+					<th colspan="2"><?= $filename . ' <span class="rot">(' . count($errors) . "X)</span>" ?></th>
+				</tr>
+				</thead>
                 <?php foreach ($errors as $error): ?>
-                    <tr class="error">
-                        <td class="line">
-                            <a href='<?= $error[FileOutput::LINK] ?>'><?= $error[FileOutput::LINE] ?></a>
-                        </td>
-                        <td>
-                            <?= $error[FileOutput::ERROR] ?>
-                            <br>
-                            <small class="regex"><?= $error[FileOutput::IGNORE] ?></small>
-                        </td>
-                    </tr>
+					<tr class="error">
+						<td class="line line-number">
+							<a href='<?= $error[FileOutput::LINK] ?>'>line: <?= $error[FileOutput::LINE] ?></a>
+						</td>
+						<td>
+							<span class="error-line"><?= $error[FileOutput::ERROR] ?></span>
+							<br>
+							<small class="regex"><?= $error[FileOutput::IGNORE] ?></small>
+						</td>
+					</tr>
                 <?php endforeach ?>
             <?php endforeach ?>
         <?php endif ?>
 
-    </table>
-    <div id="thanks">
-        This file was made thanks to
-        <a href="https://github.com/phpstan/phpstan">PHPStan</a> and was outputted by
-        <a href="https://github.com/noximo/PHPStan-FileOutput">PHPStan FileOutput</a>
-    </div>
+	</table>
+	<div id="thanks">
+		This file was made thanks to
+		<a href="https://github.com/phpstan/phpstan">PHPStan</a> and was outputted by
+		<a href="https://github.com/noximo/PHPStan-FileOutput">PHPStan FileOutput</a>
+	</div>
 </div>
 </html>
