@@ -100,7 +100,7 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "test": [
+        "tests": [
           "vendor/bin/simple-phpunit",
           "vendor/bin/behat"
         ]

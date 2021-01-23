@@ -42,7 +42,7 @@ Visit the application [![ToDo&Co](https://img.shields.io/badge/ToDo&Co-yellow.sv
 ## User accounts
 Use one of the accounts below to login:
 
-Username | Password | Role  | Ability
+Username | Password | Role  | authorized actions
 :------- | :------- | :-----| :--------
  admin   |   admin  | ADMIN | ``Modify own profile``, ``Create & Edit users``, ``Create, Edit Tasks``, ``Delete anonymous Tasks``, ``Delete own Tasks``
  user    |   user   | USER  | ``Modify own profile``,  ``Create, Edit Tasks``, ``Delete own Tasks``

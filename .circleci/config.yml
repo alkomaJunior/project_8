@@ -30,8 +30,8 @@ jobs:
           command: |
             sudo composer self-update --2
             composer install -n --prefer-dist
-            php bin/console cache:clear --env=prod --no-interaction
-            php bin/console cache:warmup --env=prod --no-interaction
+            php bin/console cache:clear --no-interaction
+            php bin/console cache:warmup --no-interaction
       # Force pulling Simple PHPUnit dependencies to be able to cache them as well
       - run: ./vendor/bin/simple-phpunit --version
       - save_cache:
@@ -45,9 +45,9 @@ jobs:
             # Check after deploy works
             #sudo ./vendor/bin/php-cs-fixer --diff --dry-run -v --allow-risky=yes fix
             sudo ./vendor/bin/phpmd ./src/,./templates/ html ./phpmdRules.xml > ./analyzes/LTS/backend/messDetector/phpMDReport.html
-            sudo php -d memory_limit=-1 ./vendor/bin/phpstan analyse -c phpstan.neon --error-format fileoutput
             sudo ./vendor/bin/psalm  --show-info=true --output-format=xml | xsltproc analyzes/LTS/backend/psalm/psalm-html-output.xsl - > analyzes/LTS/backend/psalm/psalm-report.html
             sudo ./vendor/bin/phpmetrics --config=phpMetricsConfig.json
+            sudo php -d memory_limit=-1 ./vendor/bin/phpstan analyse -c phpstan.neon --error-format fileoutput
       - store_artifacts:
           path: /home/circleci/p8_to-do/analyzes/backend
 

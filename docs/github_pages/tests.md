@@ -23,5 +23,3 @@
 # Run only one test (replace TAGS_NAME with the name of tag you want test)
 ./vendor/bin/behat.bat --tags=TAGS_NAME
 ```
-
-[Next step](analysis.html "Code Analysis")

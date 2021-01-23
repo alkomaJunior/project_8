@@ -2,7 +2,7 @@
 
 Please take a moment to review this document, so that you can easily follow the contribution process.
 
-## How to contribute?
+## How to contribute ?
 You saw a **bug**? You thought of an awesome **feature**, that we can add to the application? Then you can contribute by sending ``issues`` or submitting ``pull-requests``.
 
 ## Bug report
@@ -50,7 +50,7 @@ git checkout dev
 git pull upstream dev
 ```
 
-3. Follow the [instructions](docs/github_pages/instal.md) to install the project.
+3. Follow the [instructions](https://bigboss-oualid.github.io/project_8/github_pages/installation.html) to install the project.
 
 4. Create a new branch that will contain your feature, modification or bug fix :
 * For a **new feature** or **modification** :
