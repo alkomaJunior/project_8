@@ -8,8 +8,7 @@ You saw a **bug**? You thought of an awesome **feature**, that we can add to the
 ## Bug report
 A bug is a concrete error, caused by the present code in this repository.
 
-Guide:
-
+Follow these instructions:
 1. Do not create an existing report, think to use the [search system](https://github.com/bigboss-oualid/project_8/issues).
 2. Use the ``prod`` or ``dev`` branch to try the existence of the detected bug.
 3. Create a new scénario test with **Behat** or functional test with **PHPUnit**, to identify the bug.
@@ -109,6 +108,7 @@ git push origin <branch-name>
 * avoid [STUPID](https://openclassrooms.com/fr/courses/6900866-write-maintainable-python-code/7010365-avoid-stupid-practices-in-programming) Practices in Programming.
 * use [Symfony Coding Standards](https://symfony.com/doc/current/contributing/code/standards.html).
 * use [Symfony Coding Conventions](https://symfony.com/doc/current/contributing/code/conventions.html).
+* use [the best practices](https://symfony.com/doc/current/best_practices.html) for developing web applications with Symfony.
 * create unit & functional tests.
     * [Behat](https://docs.behat.org/en/latest/ "Visit Documentation")
     * [PHPUnit](https://phpunit.de/ "Visit Documentation")
@@ -117,5 +117,6 @@ git push origin <branch-name>
 * follow Symfony Directory Structure
     * write your tests in the Top-level ``tests/`` directory.
     * use [Webpack Encore](https://symfony.com/doc/current/frontend.html) to regroup ``JavaScript modules``, pre-processing ``CSS`` & ``JS``, compiling and ``minifying assets``.
+    * try automation process (ci/cd).
 
-###### Thanks for contributing
+###### Thanks for contributing :wave:

@@ -2,7 +2,7 @@
 
 [Back to summary](../index.md)
 
-Respect [**PSR-1**](https://www.php-fig.org/psr/psr-1) & [**PSR-12**](https://www.php-fig.org/psr/psr-12).
+Respect [**PSR-1**](https://www.php-fig.org/psr/psr-1), [**PSR-2**](https://www.php-fig.org/psr/psr-2), [**PSR-4**](https://www.php-fig.org/psr/psr-4), & [**PSR-12**](https://www.php-fig.org/psr/psr-12).
 
 ## Execute analysis
 

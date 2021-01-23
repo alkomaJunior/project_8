@@ -23,19 +23,19 @@ The project objective is carrying out the **LTS version** for the [**mvp version
   areas of performance of the application.
 
 ## Documentation
-Visit [Documentation](https://bigboss-oualid.github.io/project_8/ "Summary") if you want:
+To get started, check out the [Documentation](https://bigboss-oualid.github.io/project_8/ "Summary"):
 * [Install project locally](https://bigboss-oualid.github.io/project_8/github_pages/installation.html).
 * [Execute Test](https://bigboss-oualid.github.io/project_8/github_pages/tests.html)
 * [Analyze code](https://bigboss-oualid.github.io/project_8/github_pages/analysis.html)
 * [Results of current business code analysis reports](https://bigboss-oualid.github.io/project_8/github_pages/lts-reports.html)
 
-## Contributing
+## Interested in contributing?
 ToDo&Co is an Open Source, study project with a lot of student contributors. Join them to [contributing code](https://github.com/bigboss-oualid/project_8/blob/hotfixes/CODE_ANALYSIS/CONTRIBUTING.md).
 
 ## Tutorial
 Understand how I implement authentication feature get [look here ](https://github.com/bigboss-oualid/project_8/blob/hotfixes/CODE_ANALYSIS/docs/authentication_tutorial/authentication.md)
  
-## Demo
+## Live Demo
 ### User accounts
 
 username   | password |    role    |

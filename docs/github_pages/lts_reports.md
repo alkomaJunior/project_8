@@ -11,7 +11,8 @@
 
 Tool     | Report |
 :------- | :----- |
-[![Blackfire](https://img.shields.io/badge/doc-Blackfire_v1.24.1-E03C31)](https://blackfire.io) | 
+[![Blackfire](https://img.shields.io/badge/doc-Blackfire_v1.24.1-E03C31)](https://blackfire.io) |
+[![Test coverage](https://img.shields.io/badge/doc-PHPUnit_coverage-lightgreen)](https://phpunit.readthedocs.io/en/9.0/code-coverage-analysis.html) | 
 [![PHP Metrics](https://img.shields.io/badge/doc-PHP_Metrics_V2.7.4-green)](https://www.phpmetrics.org/ "show doc") | [![PHP Metrics Report](https://img.shields.io/badge/-Report-green)](http://analysis.it-bigboss.de/lts/backend/phpmetrics-report-v2/index.html "show report")
 [![PHP Mess Detector](https://img.shields.io/badge/doc-PHP_MD_v2.9.1-204A87)](https://phpmd.org/ "show doc") | [![PHP MD Report ](https://img.shields.io/badge/Report-204A87)](http://analysis.it-bigboss.de/lts/backend/phpmd-report-v2.html "show report")
 [![PHP Stan](https://img.shields.io/badge/doc-PHP_Stan_v0.11.16-476BA0)](https://phpstan.org/user-guide/getting-started "show doc") | [![PHP Stan Report](https://img.shields.io/badge/Report-476BA0)](https://analysis.it-bigboss.de/lts/backend/phpstan-report-v2.html "show report")

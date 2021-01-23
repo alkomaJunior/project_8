@@ -11,8 +11,8 @@
 
 1. [How can I analyze business code ?](github_pages/analysis.md)
 2. Reports
-    * [Long-term support](github_pages/lts-reports.md)
-    * [Minimum viable product](github_pages/mvp-reports.md)
+    * [Long-term support](github_pages/lts_reports.md)
+    * [Minimum viable product](github_pages/mvp_reports.md)
 
 ### Contributing
 * [How to contribute ?](github_pages/contrib.md)
