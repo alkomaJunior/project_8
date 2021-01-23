@@ -78,3 +78,75 @@ jobs:
           command: |
             ssh-keyscan -H $PRODUCTION_SERVER_IP >> ~/.ssh/known_hosts
             rsync -vzcrSLhp --delete 'mvp' ~/p8_to-do/analyzes/ $SERVER_USER@$PRODUCTION_SERVER_IP:$PRODUCTION_SERVER_PATH
+  deploy:
+    working_directory: ~/p8_to-do
+    docker:
+      - image: circleci/php:7.4.9-node-browsers
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "81:b5:40:3b:41:b2:df:e4:d5:4e:6f:d3:46:a3:16:ec"
+      - run:
+          name:  "Install apt"
+          command: sudo apt update && sudo apt-get install -y rsync
+
+      - run:
+          name: "Prepare production environment variables "
+          command: |
+            > .env
+            echo APP_ENV=${APP_ENV} >> .env
+            echo APP_SECRET=${APP_SECRET} >> .env
+            echo DATABASE_URL=${DATABASE_URL} >> .env
+      - run:
+          name: "Install Dependencies"
+          command: |
+            sudo composer self-update --2
+            composer install --no-dev --verbose --prefer-dist --no-progress --no-interaction --optimize-autoloader --no-scripts
+      - run:
+          name: "Clear Cache"
+          command: |
+            php bin/console cache:clear --env=prod --no-interaction
+            php bin/console cache:warmup --env=prod --no-interaction
+
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "package-lock.json" }}
+            - node-v1-
+      - run:
+          name: "yarn"
+          command: yarn install && yarn run encore production
+      - save_cache:
+          key: node-v1-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+
+      - run:
+          name: "Add Production host to VM"
+          command: ssh-keyscan -H $PRODUCTION_SERVER_IP >> ~/.ssh/known_hosts
+      # Use Zero downtime deployment (switch an old folder with the current app version before posting code)
+      - run:
+          name: "Pre-deploy"
+          command: |
+            #Save server-path env. variable in new file & export to to server
+            echo PRODUCTION_SERVER_PATH=$PRODUCTION_SERVER_PATH > ~/.server-path.txt && chmod -R 700 ~/.server-path.txt
+            rsync -vzcSLhp ~/.server-path.txt $SERVER_USER@$PRODUCTION_SERVER_IP:~/
+            ssh -t $SERVER_USER@$PRODUCTION_SERVER_IP < bin/deploy/pre_deploy.sh
+      - run:
+          name: "Deploy code"
+          command: rsync -vzcrSLhp --exclude '.circleci' --exclude '.git' --exclude 'assets' --exclude 'docs' --exclude 'features' --exclude '*test*' --exclude 'CONTIBUTING' --exclude 'php*' --exclude 'psalm' --delete ~/p8_to-do/ $SERVER_USER@$PRODUCTION_SERVER_IP:$PRODUCTION_SERVER_PATH/current
+      - run:
+          name: "Post Deploy"
+          command:
+            ssh -t $SERVER_USER@$PRODUCTION_SERVER_IP < bin/deploy/deploy.sh
+workflows:
+  version: 2
+  full_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: circleci-project-setup
