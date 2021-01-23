@@ -22,7 +22,8 @@
                 {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
                     <div class="col-12 mt-3">
                         <h5 class="slider-text d-none d-lg-block" >CRÈATION | GÈSTION | SUPPRESSION DES TÂCHES</h5>
-                        <button id="js-btn-login" class="navbar-toggler d-lg-none d-xl-none btn-shadow text-white btn-block" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">Se connecter </button>
+                        <button class="btn-login navbar-toggler d-lg-none d-xl-none btn-shadow text-white btn-block"
+                                data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">Se connecter </button>
                     </div>
                 {% else %}
                     <div class="col-md-12 text-center mt-5">
