@@ -1,30 +1,80 @@
-# PHP CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-php/ for more details
-#
+# .circleci/config.yml
 version: 2
 jobs:
   build:
+    environment:
+      # set up reporter for Test coverage for codeclimate
+      CC_TEST_REPORTER_ID: d9f984c2b302aa6cda6adb9887327b60112826beadd4aef22a20baa6f13bb862
+    working_directory: ~/p8_to-do
     docker:
-      # specify the version you desire here
-      - image: circleci/php:7.1.5-browsers
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mysql:9.4
-    working_directory: ~/repo
+      - image: circleci/php:7.4.9-node-browsers
     steps:
       - checkout
+      - run:
+          name: "Install apt"
+          command: sudo apt update && sudo apt-get install -y rsync xsltproc
+      - add_ssh_keys:
+          fingerprints:
+            - "81:b5:40:3b:41:b2:df:e4:d5:4e:6f:d3:46:a3:16:ec"
+      - run:
+          name: "Create Environment file"
+          command: mv .env.test .env
+
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "composer.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-      - run: composer install -n --prefer-dist
+            - composer-v1-{{ checksum "composer.lock" }}
+            - composer-v1-
+      - run:
+          name: "Install Dependencies"
+          command: |
+            sudo composer self-update --2
+            composer install -n --prefer-dist
+            php bin/console cache:clear --env=prod --no-interaction
+            php bin/console cache:warmup --env=prod --no-interaction
+      # Force pulling Simple PHPUnit dependencies to be able to cache them as well
+      - run: ./vendor/bin/simple-phpunit --version
       - save_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}
           paths:
             - ./vendor
-          key: v1-dependencies-{{ checksum "composer.json" }}
-      # run tests!
-      - run: phpunit
+
+      - run:
+          name: "Execute analysis (PHPMD, PHPStan, Psalm & PHPMetrics)"
+          command: |
+            # Check after deploy works
+            #sudo ./vendor/bin/php-cs-fixer --diff --dry-run -v --allow-risky=yes fix
+            sudo ./vendor/bin/phpmd ./src/,./templates/ html ./phpmdRules.xml > ./analyzes/LTS/backend/messDetector/phpMDReport.html
+            sudo php -d memory_limit=-1 ./vendor/bin/phpstan analyse -c phpstan.neon --error-format fileoutput
+            sudo ./vendor/bin/psalm  --show-info=true --output-format=xml | xsltproc analyzes/LTS/backend/psalm/psalm-html-output.xsl - > analyzes/LTS/backend/psalm/psalm-report.html
+            sudo ./vendor/bin/phpmetrics --config=phpMetricsConfig.json
+      - store_artifacts:
+          path: /home/circleci/p8_to-do/analyzes/backend
+
+      - run:
+          name: "Setup Code Climate test-reporter"
+          command: |
+            # download test reporter as a static binary
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+      - run:
+          name: "Run PHPUnit tests & generate coverage"
+          command: |
+            sudo docker-php-ext-enable xdebug
+            ./cc-test-reporter before-build
+            sudo vendor/bin/simple-phpunit --coverage-clover clover.xml --log-junit ~/phpunit/junit.xml --coverage-html ./analyzes/lts/backend/code-coverage
+            ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
+      - store_test_results:
+          path: ~/phpunit
+      - store_artifacts:
+          path: ~/p8_to-do/analyzes/backend/code-coverage
+
+      - run:
+          name: "Run Behat tests"
+          command: sudo vendor/bin/behat
+
+      - run:
+          name: "Deploy Tests & analysis result"
+          command: |
+            ssh-keyscan -H $PRODUCTION_SERVER_IP >> ~/.ssh/known_hosts
+            rsync -vzcrSLhp --delete 'mvp' ~/p8_to-do/analyzes/ $SERVER_USER@$PRODUCTION_SERVER_IP:$PRODUCTION_SERVER_PATH
