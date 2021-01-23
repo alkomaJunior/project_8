@@ -27,6 +27,8 @@ class TaskTest extends KernelTestCase
 
     protected function setUp(): void
     {
+        self::bootKernel();
+
         $this->task = (new Task())
             ->setTitle('Test')
             ->setContent('Test Content')
@@ -75,6 +77,7 @@ class TaskTest extends KernelTestCase
 
     protected function tearDown(): void
     {
+        self::ensureKernelShutdown();
         unset($this->task);
     }
 }
