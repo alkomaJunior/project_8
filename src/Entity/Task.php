@@ -49,7 +49,6 @@ class Task
 
     public function __construct()
     {
-        $this->createdAt = new Datetime();
         $this->isDone = false;
     }
 
@@ -94,19 +93,21 @@ class Task
         return $this;
     }
 
-    public function isDone(): bool
-    {
-        return $this->isDone;
-    }
-
     public function getUser(): User
     {
         return $this->user;
     }
 
-    public function setUser(User $user): void
+    public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function isDone(): bool
+    {
+        return $this->isDone;
     }
 
     public function toggle(bool $flag): void

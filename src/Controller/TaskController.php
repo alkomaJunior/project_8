@@ -5,19 +5,20 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Entity\User;
 use App\Form\TaskType;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 
 class TaskController extends AbstractController
 {
     /**
      * @Route("/tasks", name="task_list")
      */
-    public function listAction():Response
+    public function listAction(): Response
     {
         $tasks = $this->getDoctrine()->getRepository(Task::class)->findAll();
 
@@ -26,8 +27,8 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/create", name="task_create")
-     * @param Request       $request
      *
+     * @param Request                $request
      * @param EntityManagerInterface $entityManager
      *
      * @return RedirectResponse|Response
@@ -42,7 +43,8 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $task->setUser($user);
+            // TODO: refactoring
+            $task->setUser($user)->setCreatedAt(new DateTime());
             $entityManager->persist($task);
             $entityManager->flush();
 
@@ -56,6 +58,7 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/{id}/edit", name="task_edit")
+     *
      * @param Task                   $task
      * @param Request                $request
      * @param EntityManagerInterface $entityManager
@@ -66,8 +69,7 @@ class TaskController extends AbstractController
         Task $task,
         Request $request,
         EntityManagerInterface $entityManager
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
@@ -88,6 +90,7 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle")
+     *
      * @param Task                   $task
      * @param EntityManagerInterface $entityManager
      *
@@ -105,26 +108,31 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/{id}/delete", name="task_delete")
-     * @param Task $task
+     *
+     * @param Task                   $task
+     *
+     * @param EntityManagerInterface $entityManager
      *
      * @return RedirectResponse
      */
-    public function deleteTaskAction(Task $task): Response
+    public function deleteTaskAction(Task $task, EntityManagerInterface $entityManager): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($task);
-        $em->flush();
+        $entityManager->remove($task);
+        $entityManager->flush();
 
         $this->addFlash('success', 'La tâche a bien été supprimée.');
 
         return $this->redirectToRoute('task_list');
     }
 
+
+    // TODO: Refactoring
     private function taskFlash(bool $isDone, string $title): string
     {
         if ($isDone) {
             return sprintf('La tâche %s a bien été marquée comme faite.', $title);
         }
+
         return sprintf('La tâche %s a bien été marquée comme n\'est pas encore faite.', $title);
     }
 }
