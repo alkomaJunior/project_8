@@ -1,10 +1,20 @@
 <?php
 
+/**
+ * ToDoAndCo Project
+ * Copyright (c) 2020 BigBoss 2020.  BigBoss Oualid
+ * mailto: <bigboss@it-bigboss.de>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code
+ * Inc., Munich, Germany.
+ */
+
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\DataTransferObject\PasswordUpdate;
 use App\Form\User\AccountType;
-use App\Form\User\EditPasswordType;
+use App\Form\User\UpdatePasswordType;
 use App\Form\User\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,15 +31,12 @@ use Symfony\Component\Security\Core\Security;
  */
 class UserController extends AbstractController
 {
-    /**
-     * @var Security
-     */
-    private $security;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private Security $security;
+    private EntityManagerInterface $entityManager;
 
+    /**
+     * UserController constructor.
+     */
     public function __construct(Security $security, EntityManagerInterface $entityManager)
     {
         $this->security = $security;
@@ -38,17 +45,19 @@ class UserController extends AbstractController
 
     /**
      * @Route("/users", name="user_list")
+     *
      * @IsGranted("ROLE_ADMIN")
      */
     public function listAction(UserRepository $repository): Response
     {
-        $users = $repository->findAllExceptOne($this->security->getUser());
+        $users = $repository->findAllExceptOne($this->security->getUser()->getId());
 
         return $this->render('user/list.html.twig', ['users' => $users]);
     }
 
     /**
      * @Route("/users/create", name="user_create")
+     *
      * @IsGranted("ROLE_ADMIN")
      *
      * @return RedirectResponse|Response
@@ -76,22 +85,32 @@ class UserController extends AbstractController
 
     /**
      * @Route("/users/{id}/edit", name="user_edit", requirements={"id"="\d+"})
+     *
      * @IsGranted("EDIT", subject="user")
      *
      * @return RedirectResponse|Response
      */
     public function editAction(User $user, Request $request): Response
     {
-        $form = $this->createForm(AccountType::class, $user, ['logged_user' => $this->getUser()]);
+        $form = $this->createForm(
+            AccountType::class,
+            $user,
+            [
+                'update_account' => ($user === $this->getUser()) ? true : false
+            ]
+        );
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->flush();
 
-            $this->addFlash('success', "L'utilisateur a bien été modifié");
+            $this->addFlash('success', "L'utilisateur a bien été modifié.");
 
-            return $this->redirectToRoute($this->redirectLoggedUser($this->security->getUser()->getRoles()));
+            return $this->redirectToRoute(
+                in_array(User::ROLE_ADMIN, $this->security->getUser()->getRoles()) ?
+                    'user_list' : 'homepage'
+            );
         }
 
         return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
@@ -99,32 +118,34 @@ class UserController extends AbstractController
 
     /**
      * @Route("/users/{id}/edit-password", name="user_password_edit", requirements={"id"="\d+"})
+     *
      * @IsGranted("EDIT", subject="user")
      *
      * @return RedirectResponse|Response
      */
     public function editPasswordAction(User $user, Request $request): Response
     {
-        $form = $this->createForm(EditPasswordType::class, $user);
+        $passwordUpdate = new PasswordUpdate();
+        $isAccount = ($user === $this->getUser()) ? true : false;
+        $form = $this->createForm(UpdatePasswordType::class, $passwordUpdate, [
+            'update_account' => $isAccount,
+            'validation_groups' => [$isAccount?'account':'']
+        ]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword($passwordUpdate->getNewPassword());
+
             $this->entityManager->flush();
+            $this->addFlash('success', 'Le mot de passe a bien été modifié.');
 
-            $this->addFlash('success', 'Le mot de passe a bien été modifié');
-
-            return $this->redirectToRoute($this->redirectLoggedUser($this->security->getUser()->getRoles()));
+            return $this->redirectToRoute(
+                in_array(User::ROLE_ADMIN, $this->security->getUser()->getRoles()) ?
+                    'user_list' : 'homepage'
+            );
         }
 
         return $this->render('user/password.html.twig', ['form' => $form->createView(), 'user' => $user]);
-    }
-
-    /**
-     * Redirect user according to his role.
-     */
-    private function redirectLoggedUser(array $roles): string
-    {
-        return in_array('ROLE_ADMIN', $roles) ? 'user_list' : 'homepage';
     }
 }

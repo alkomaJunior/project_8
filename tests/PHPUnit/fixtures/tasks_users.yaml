@@ -1,0 +1,20 @@
+include:
+  - users.yaml
+
+App\Entity\Task:
+  task (template):
+    user: '@user_<numberBetween(1,10)>'
+    title: title-<current()>
+    content: content-<current()>
+    createdAt: <dateTimeBetween("-200 days", "now")>
+
+  task_not_done_1:
+    user: '@user_1'
+    title: title-1
+    content: content-1
+    createdAt: <dateTimeBetween("-200 days", "now")>
+
+  task_not_done_{2..4} (extends task):
+
+  task_done_{5..10} (extends task):
+    toggle: true

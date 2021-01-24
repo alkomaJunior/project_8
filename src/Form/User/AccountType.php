@@ -11,10 +11,12 @@
 namespace App\Form\User;
 
 use App\Entity\User;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AccountType extends AbstractUserType
 {
@@ -24,7 +26,7 @@ class AccountType extends AbstractUserType
             ->add('username', TextType::class)
             ->add('email', EmailType::class)
         ;
-        if ($this->isRoleEditable($options['logged_user'], $builder->getData())) {
+        if (!$options['update_account']) {
             $builder->add(
                 'roles',
                 ChoiceType::class,
@@ -36,16 +38,12 @@ class AccountType extends AbstractUserType
         }
     }
 
-    /**
-     * Add select input if user has admin role.
-     *
-     * @param User $loggedUser
-     * @param User $editedUser
-     *
-     * @return bool
-     */
-    private function isRoleEditable(User $loggedUser, User $editedUser): bool
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        return in_array('ROLE_ADMIN', $loggedUser->getRoles()) && $loggedUser !== $editedUser;
+        $resolver->setDefaults([
+            'data_class' => User::class,
+            'translation_domain' => 'forms',
+            'update_account' => Boolean::class,
+        ]);
     }
 }

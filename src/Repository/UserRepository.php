@@ -27,11 +27,11 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findAllExceptOne(User $user): array
+    public function findAllExceptOne(int $id): array
     {
         return $this->createQueryBuilder('u')
             ->where('u.id != :identifier')
-            ->setParameter('identifier', $user->getId())
+            ->setParameter('identifier', $id)
             ->orderBy('u.id', 'DESC')
             ->getQuery()
             ->getResult();

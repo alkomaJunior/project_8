@@ -45,10 +45,13 @@ class TaskSubscriber implements EventSubscriber
     public function prePersist(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
+        /** @var User $loggedUser */
+        $loggedUser = $this->security->getUser();
 
-        if (!$entity instanceof Task) {
+        if (!$entity instanceof Task || null === $loggedUser) {
             return;
         }
-        $entity->setUser($this->security->getUser())->setCreatedAt(new DateTime());
+
+        $entity->setUser($loggedUser)->setCreatedAt(new DateTime());
     }
 }

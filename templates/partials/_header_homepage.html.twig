@@ -3,6 +3,9 @@
         <div class="overlay"></div>
         <div class="container slider-top-text">
             <div class="row my-mt-head text-center">
+                <div class="offset-md-3 col-lg-6">
+                    {% include 'partials/_flashes.html.twig' %}
+                </div>
                 <div class="col-12">
                     {% if error is defined and error is not null%}
                         <div class="alert alert-danger" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>

@@ -130,7 +130,7 @@ class TaskController extends AbstractController
             return $this->redirect($request->headers->get('referer'));
         }
 
-        $this->addFlash('warning', 'la tâche n\'a pas été supprimée. le token n\'est pas valid');
+        $this->addFlash('warning', 'la tâche n\'a pas été supprimée. le token n\'est pas valid!');
 
         return $this->redirect($request->headers->get('referer'));
     }

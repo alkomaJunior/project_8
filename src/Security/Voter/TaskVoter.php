@@ -36,8 +36,9 @@ class TaskVoter extends Voter
     }
 
     /**
-     * @param string $attribute
-     * @param Task   $subject
+     * @param string         $attribute
+     * @param Task           $subject
+     * @param TokenInterface $token
      *
      * @return bool|void
      */
