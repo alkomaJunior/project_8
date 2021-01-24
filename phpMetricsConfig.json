@@ -1,0 +1,15 @@
+{
+  "includes": [
+    "src",
+    "app/Resources/views"
+  ],
+  "exclude": [
+    "tests"
+  ],
+  "report": {
+    "html": "/analyzes/backend/metrics/phpMetricsReport/",
+    "csv": "/analyzes/backend/metrics/phpMetricsReport.csv",
+    "json": "/analyzes/backend/metrics/phpMetricsReport.json",
+    "violations": "/analyzes/backend/metrics/violations.xml"
+  }
+}
