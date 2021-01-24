@@ -11,4 +11,8 @@
         <button type="submit" class="btn btn-success pull-right">Modifier</button>
         {{ form_end(form) }}
     </div>
+
+    <a role="button" class="btn btn-primary" href="{{ path('user_password_edit', {'id' : user.id})}}">
+        Changer le mot de passe
+    </a>
 {% endblock %}

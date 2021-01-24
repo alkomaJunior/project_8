@@ -17,7 +17,9 @@
                         <a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a>
                     </h4>
                     <p>{{ task.content }}</p>
-                    <blockquote>crée par: {{ task.user.username }}</blockquote>
+                    {% if task.user %}
+                        <blockquote>crée par: {{ task.user.username }}</blockquote>
+                    {% endif %}
                 </div>
                 <div>
                     <form action="{{ path('task_toggle', {'id' : task.id }) }}">
@@ -25,9 +27,13 @@
                             {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
                         </button>
                     </form>
+                    {% if is_granted('DELETE', task) %}
                     <form action="{{ path('task_delete', {'id' : task.id }) }}">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
                         <button class="btn btn-danger btn-sm float-left">Supprimer</button>
                     </form>
+                    {% endif %}
                 </div>
             </div>
         </div>

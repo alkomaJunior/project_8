@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\TaskType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,9 +29,6 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/create", name="task_create")
      *
-     * @param Request                $request
-     * @param EntityManagerInterface $entityManager
-     *
      * @return RedirectResponse|Response
      */
     public function createAction(Request $request, EntityManagerInterface $entityManager): Response
@@ -48,7 +46,7 @@ class TaskController extends AbstractController
             $entityManager->persist($task);
             $entityManager->flush();
 
-            $this->addFlash('success', 'La tâche a été bien été ajoutée.');
+            $this->addFlash('success', '<strong>Superbe !</strong> La tâche a été bien été ajoutée.');
 
             return $this->redirectToRoute('task_list');
         }
@@ -58,10 +56,6 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/{id}/edit", name="task_edit")
-     *
-     * @param Task                   $task
-     * @param Request                $request
-     * @param EntityManagerInterface $entityManager
      *
      * @return RedirectResponse|Response
      */
@@ -77,7 +71,7 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            $this->addFlash('success', 'La tâche a bien été modifiée.');
+            $this->addFlash('success', '<strong>Superbe !</strong> La tâche a bien été modifiée.');
 
             return $this->redirectToRoute('task_list');
         }
@@ -90,9 +84,6 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle")
-     *
-     * @param Task                   $task
-     * @param EntityManagerInterface $entityManager
      *
      * @return RedirectResponse
      */
@@ -108,31 +99,32 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/{id}/delete", name="task_delete")
-     *
-     * @param Task                   $task
-     *
-     * @param EntityManagerInterface $entityManager
+     * @IsGranted("DELETE", subject="task")
      *
      * @return RedirectResponse
      */
-    public function deleteTaskAction(Task $task, EntityManagerInterface $entityManager): Response
+    public function deleteTaskAction(Task $task, EntityManagerInterface $entityManager, Request $request): Response
     {
-        $entityManager->remove($task);
-        $entityManager->flush();
+        if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->get('_token'))) {
+            /*$entityManager->remove($task);
+            $entityManager->flush();*/
 
-        $this->addFlash('success', 'La tâche a bien été supprimée.');
+            $this->addFlash('success', '<strong>Superbe !</strong> La tâche a bien été supprimée.');
+        } else {
+            $this->addFlash('warning', 'la tâche n\'a pas été supprimée.');
+        }
 
         return $this->redirectToRoute('task_list');
     }
-
 
     // TODO: Refactoring
     private function taskFlash(bool $isDone, string $title): string
     {
         if ($isDone) {
-            return sprintf('La tâche %s a bien été marquée comme faite.', $title);
+            return sprintf('<strong>Superbe !</strong> La tâche %s a bien été marquée comme faite.', $title);
         }
 
-        return sprintf('La tâche %s a bien été marquée comme n\'est pas encore faite.', $title);
+        return sprintf('<strong>Superbe !</strong> La tâche %s a bien été marquée comme n\'est pas encore faite.',
+            $title);
     }
 }

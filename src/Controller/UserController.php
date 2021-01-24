@@ -3,15 +3,21 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserType;
+use App\Form\User\AccountType;
+use App\Form\User\EditPasswordType;
+use App\Form\User\UserType;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * @IsGranted("ROLE_ADMIN")
+ */
 class UserController extends AbstractController
 {
     /**
@@ -20,14 +26,11 @@ class UserController extends AbstractController
     public function listAction(): Response
     {
         return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository(User::class)
-			->findAll()]);
+            ->findAll(), ]);
     }
 
     /**
      * @Route("/users/create", name="user_create")
-     * @param Request                      $request
-     * @param EntityManagerInterface       $entityManager
-     * @param UserPasswordEncoderInterface $encoder
      *
      * @return RedirectResponse|Response
      */
@@ -35,8 +38,7 @@ class UserController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $encoder
-    ): Response
-    {
+    ): Response {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
@@ -53,15 +55,13 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('user/create.html.twig', ['form' => $form->createView()]);
+        return $this->render('user/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
      * @Route("/users/{id}/edit", name="user_edit")
-     * @param User                         $user
-     * @param Request                      $request
-     * @param UserPasswordEncoderInterface $encoder
-     * @param EntityManagerInterface       $entityManager
      *
      * @return RedirectResponse|Response
      */
@@ -70,9 +70,8 @@ class UserController extends AbstractController
         Request $request,
         UserPasswordEncoderInterface $encoder,
         EntityManagerInterface $entityManager
-    ):Response
-    {
-        $form = $this->createForm(UserType::class, $user);
+    ): Response {
+        $form = $this->createForm(AccountType::class, $user);
 
         $form->handleRequest($request);
 
@@ -87,5 +86,33 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+    }
+
+    /**
+     * @Route("/users/{id}/edit-password", name="user_password_edit")
+     *
+     * @return RedirectResponse|Response
+     */
+    public function editPasswordAction(
+        User $user,
+        Request $request,
+        UserPasswordEncoderInterface $encoder,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $form = $this->createForm(EditPasswordType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+
+            $entityManager->flush();
+
+            $this->addFlash('success', "Le mot de passe a bien été modifié");
+
+            return $this->redirectToRoute('user_list');
+        }
+
+        return $this->render('user/password.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
 }
