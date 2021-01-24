@@ -27,6 +27,9 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 
+/**
+ * Class LoginFormAuthenticator.
+ */
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
     public const LOGIN_ROUTE = 'login';
@@ -36,29 +39,44 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     private CsrfTokenManagerInterface $csrfTokenManager;
     private UserPasswordEncoderInterface $passwordEncoder;
 
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        UrlGeneratorInterface $urlGenerator,
-        CsrfTokenManagerInterface $csrfTokenManager,
-        UserPasswordEncoderInterface $passwordEncoder
-    ) {
+    /**
+     * LoginFormAuthenticator constructor.
+     *
+     * @param EntityManagerInterface       $entityManager
+     * @param UrlGeneratorInterface        $urlGenerator
+     * @param CsrfTokenManagerInterface    $csrfTokenManager
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     */
+    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
+    {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getLoginUrl(): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 
+
+
+    /**
+     * {@inheritdoc}
+     */
     public function supports(Request $request): bool
     {
         return self::LOGIN_ROUTE === $request->attributes->get('_route')
             && $request->isMethod(Request::METHOD_POST);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCredentials(Request $request): credentials
     {
         $parametersBag = $request->request;
@@ -79,6 +97,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $credentials;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getUser($credentials, UserProviderInterface $userProvider): ?UserInterface
     {
         $token = new CsrfToken('authenticate', $credentials->getCsrfToken());
@@ -96,6 +117,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $user;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function checkCredentials($credentials, UserInterface $user): bool
     {
         if ($this->passwordEncoder->isPasswordValid($user, $credentials->getPassword())) {
@@ -113,6 +137,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return new RedirectResponse($this->urlGenerator->generate('homepage'));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPassword(Credentials $credentials): ?string
     {
         return $credentials->getPassword();

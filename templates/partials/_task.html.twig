@@ -3,7 +3,11 @@
     <div class="card h-100 {% if taskIsDone %}bg-light{% else %}bg-warning{% endif %}">
         <div class="card-header">
             <h4 class="float-right">
-                {% if taskIsDone %}<span class="glyphicon glyphicon-ok text-success"></span>{% else %}<span class="glyphicon glyphicon-remove text-danger"></span>{% endif %}
+                {% if taskIsDone %}
+                    <span class="glyphicon glyphicon-ok text-success"></span>
+                {% else %}
+                    <span class="glyphicon glyphicon-remove text-danger"></span>
+                {% endif %}
             </h4>
         </div>
         <div class="card-body">
@@ -12,7 +16,9 @@
                 <h4 class="card-title text-center">
                    {{ task.title|title | u.truncate(16, '...', true) }}
                 </h4>
-                <p class="card-text text-justify">{{ task.content|u.truncate(150, '...', true) }}</p>
+                <p class="card-text text-justify">
+                    {{ task.content|u.truncate(150, '...', true) }}
+                </p>
             </a>
         </div>
         <div class="row">
@@ -38,7 +44,9 @@
                         </button>
                     </form>
                 {% else %}
-                    <button disabled class="btn btn-dark btn-sm btn-block btn-shadow"><span class="glyphicon glyphicon-trash text-white"></span></button>
+                    <button disabled class="btn btn-dark btn-sm btn-block btn-shadow">
+                        <span class="glyphicon glyphicon-trash text-white"></span>
+                    </button>
                 {% endif %}
             </div>
             <div class="col-7">
@@ -49,5 +57,4 @@
             </div>
         </div>
     </div>
-
 </div>

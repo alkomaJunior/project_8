@@ -11,14 +11,17 @@
 
 namespace App\Form\DataTransferObject;
 
-
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator as CustomAssert;
 
+/**
+ * Transfer data from form Password update to user.
+ */
 class PasswordUpdate
 {
     /**
      * @Assert\NotBlank(groups={"account"})
+     *
      * @CustomAssert\MatchPassword(message="Ce n'est pas votre mot de passe actuel: {{ string }}")
      */
     private $actualPassword;
@@ -49,11 +52,19 @@ class PasswordUpdate
      */
     private $confirmPassword;
 
+    /**
+     * @return string|null
+     */
     public function getActualPassword(): ?string
     {
         return $this->actualPassword;
     }
 
+    /**
+     * @param string $actualPassword
+     *
+     * @return PasswordUpdate
+     */
     public function setActualPassword(string $actualPassword): self
     {
         $this->actualPassword = $actualPassword;
@@ -61,11 +72,19 @@ class PasswordUpdate
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getNewPassword(): ?string
     {
         return $this->newPassword;
     }
 
+    /**
+     * @param string $newPassword
+     *
+     * @return PasswordUpdate
+     */
     public function setNewPassword(string $newPassword): self
     {
         $this->newPassword = $newPassword;
@@ -73,11 +92,19 @@ class PasswordUpdate
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getConfirmPassword(): ?string
     {
         return $this->confirmPassword;
     }
 
+    /**
+     * @param string $confirmPassword
+     *
+     * @return PasswordUpdate
+     */
     public function setConfirmPassword(string $confirmPassword): self
     {
         $this->confirmPassword = $confirmPassword;

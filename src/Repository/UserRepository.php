@@ -22,11 +22,21 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UserRepository extends ServiceEntityRepository
 {
+    /**
+     * UserRepository constructor.
+     *
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
     }
 
+    /**
+     * @param int $id
+     *
+     * @return array
+     */
     public function findAllExceptOne(int $id): array
     {
         return $this->createQueryBuilder('u')

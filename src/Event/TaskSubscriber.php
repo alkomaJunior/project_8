@@ -18,6 +18,9 @@ use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * Add datetime value of the property createdAt.
+ */
 class TaskSubscriber implements EventSubscriber
 {
     /**
@@ -25,6 +28,11 @@ class TaskSubscriber implements EventSubscriber
      */
     private $security;
 
+    /**
+     * TaskSubscriber constructor.
+     *
+     * @param Security $security
+     */
     public function __construct(Security $security)
     {
         $this->security = $security;
@@ -42,6 +50,9 @@ class TaskSubscriber implements EventSubscriber
         ];
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     */
     public function prePersist(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();

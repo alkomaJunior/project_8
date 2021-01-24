@@ -55,10 +55,11 @@ yarn-error.log
 ###> symfony/phpunit-bridge ###
 .phpunit
 .phpunit.result.cache
-/phpunit.xml
-/phpunit.xml.dist
+/phpunit.xml.dist.bak
+#/phpunit.xml
+#/phpunit.xml.dist
 ###< symfony/phpunit-bridge ###
 
 ###> friends-of-behat/symfony-extension ###
-/behat.yml
+#/behat.yml
 ###< friends-of-behat/symfony-extension ###

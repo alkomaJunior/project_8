@@ -14,18 +14,27 @@ namespace App\Validator;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-use Symfony\Component\Validator\Exception\UnexpectedValueException;
 use Symfony\Component\Validator\Exception\LogicException;
+use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
+/**
+ * Validate actual password.
+ */
 class MatchPasswordValidator extends ConstraintValidator
 {
     private Security $security;
 
+    /**
+     * MatchPasswordValidator constructor.
+     */
     public function __construct(Security $security)
     {
         $this->security = $security;
     }
 
+    /**
+     * @inxheritDoc
+     */
     public function validate($value, Constraint $constraint): void
     {
         if (null === $value || '' === $value) {
@@ -38,8 +47,8 @@ class MatchPasswordValidator extends ConstraintValidator
 
         $loggedUser = $this->security->getUser();
 
-        if($loggedUser === null){
-            throw new LogicException("User is not log in !");
+        if (null === $loggedUser) {
+            throw new LogicException('User is not log in !');
         }
 
         // Verify if passwords don't match, then add violation

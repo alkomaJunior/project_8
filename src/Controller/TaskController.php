@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * ToDoAndCo Project
+ * Copyright (c) 2020 BigBoss 2020.  BigBoss Oualid
+ * mailto: <bigboss@it-bigboss.de>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code
+ * Inc., Munich, Germany.
+ */
+
 namespace App\Controller;
 
 use App\Entity\Task;
@@ -14,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Controller used to manage task contents.
+ * Manage task contents.
  *
  * @IsGranted("ROLE_USER")
  */
@@ -25,6 +34,11 @@ class TaskController extends AbstractController
      */
     private $entityManager;
 
+    /**
+     * TaskController constructor.
+     *
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -33,19 +47,33 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks", name="task_list_all")
      * @Route("/tasks/done/{!isDone}", name="task_list", requirements={"isDone"="true|false"})
+     *
+     * @param Request        $request
+     * @param TaskRepository $repository
+     * @param null|string    $isDone
+     *
+     * @return Response
      */
-    public function listAction(TaskRepository $repository, ?string $isDone = null): Response
+    public function listAction(Request $request, TaskRepository $repository, ?string $isDone = null): Response
     {
-        $tasks = $repository->findTasks($isDone);
-
-        return $this->render('task/list.html.twig', [
-            'tasks' => $tasks,
+        $response = $this->render('task/list.html.twig', [
+            'tasks' => $repository->findTasks($isDone),
             'isDone' => $isDone,
         ]);
+
+        $response->setEtag(md5($response->getContent()));
+        $response->setPublic();
+        if ($response->isNotModified($request)) {
+            return $response;
+        }
+
+        return $response;
     }
 
     /**
      * @Route("/tasks/create", name="task_create")
+     *
+     * @param Request $request
      *
      * @return RedirectResponse|Response
      */
@@ -71,6 +99,9 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/edit", name="task_edit", requirements={"id"="\d+"})
      *
+     * @param Task    $task
+     * @param Request $request
+     *
      * @return RedirectResponse|Response
      */
     public function editAction(Task $task, Request $request): Response
@@ -95,6 +126,11 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle", requirements={"id"="\d+"})
+     *
+     * @param Task    $task
+     * @param Request $request
+     *
+     * @return RedirectResponse
      */
     public function toggleTaskAction(Task $task, Request $request): RedirectResponse
     {
@@ -117,7 +153,13 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/{id}/delete", name="task_delete", requirements={"id"="\d+"})
+     *
      * @IsGranted("DELETE", subject="task")
+     *
+     * @param Task    $task
+     * @param Request $request
+     *
+     * @return RedirectResponse
      */
     public function deleteTaskAction(Task $task, Request $request): RedirectResponse
     {

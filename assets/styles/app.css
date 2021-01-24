@@ -67,7 +67,7 @@ header.masthead .overlay{border-radius: 0 0 40px 40px;position:absolute;backgrou
 /**** /End header_Default ****/
 
 /*Navbar*/
-.navbar,.dropdown-menu-right{
+.navbar,.dropdown-menu{
     background-color: #e3f2fd;
 }
 .btn-bg-danger{
@@ -154,3 +154,14 @@ hr {
     width: 50%;
 }
 /**** end keep footer at the bottom ****/
+
+/**** Responsive ****/
+@media screen and (max-width: 767px) {
+    .slide-image{
+        margin-top: 70px;
+    }
+    .centered>h1{
+        font-size: 14px;
+    }
+}
+/**** end Responsive ****/

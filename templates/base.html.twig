@@ -23,6 +23,7 @@
     </head>
 
     <body>
+        {# Remove Navbar in error page #}
         {% if block("navbar") is not defined %}
             {% include 'partials/_navbar.html.twig' %}
         {% endif %}
@@ -30,9 +31,11 @@
         <div class="main-container">
         {% block body %}{% endblock %}
         </div>
+
         {% if block("footer") is not defined %}
             {% include 'partials/_footer.html.twig' %}
         {% endif %}
+
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
