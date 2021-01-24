@@ -1,0 +1,10 @@
+{% for label, messages in app.flashes %}
+	<div class="btn-block alert alert-{{ label }}" role="alert">
+		{% for message in messages %}
+			{% if label == 'danger' %} <strong>Oops !</strong> {% elseif label == 'success' %} <strong>Superbe
+                !</strong>{%
+				endif %}
+			{{ message | raw }}
+		{% endfor %}
+	</div>
+{% endfor %}

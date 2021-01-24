@@ -1,4 +1,4 @@
-var Encore = require('@symfony/webpack-encore');
+let Encore = require('@symfony/webpack-encore');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -24,15 +24,16 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/javascript/app.js')
-    .addEntry('ie9', './assets/javascript/for-ie9.js')
+    .addEntry('error', './assets/styles/error.css')
+    /*.addEntry('error.js', './assets/javascript/error.js')*/
+    //.addEntry('ie9', './assets/javascript/for-ie9.js')
     //.addEntry('page1', './assets/page1.js')
     //.addEntry('page2', './assets/page2.js')
 
     .copyFiles({
         from: './assets/images',
         to: 'images/[path][name].[ext]',
-        pattern: /\.(png|jpg|jpeg|svg)$/
-    })
+        pattern: /\.(png|jpg|jpeg|svg)$/})
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

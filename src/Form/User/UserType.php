@@ -22,8 +22,8 @@ class UserType extends AbstractUserType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username', TextType::class, ['label' => "Nom d'utilisateur"])
-            ->add('email', EmailType::class, ['label' => 'Adresse email'])
+            ->add('username', TextType::class)
+            ->add('email', EmailType::class)
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les deux mots de passe doivent correspondre.',
@@ -33,8 +33,8 @@ class UserType extends AbstractUserType
             ])
            ->add('roles', ChoiceType::class, [
                'choices' => parent::getRolesOptions(),
-               'multiple' => true,
             ])
         ;
+        parent::transformRolesType($builder);
     }
 }

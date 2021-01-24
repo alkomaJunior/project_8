@@ -37,6 +37,8 @@ class Credentials
      * Credentials constructor.
      *
      * @param string|null $username
+     * @param string|null $password
+     * @param string|null $csrfToken
      */
     public function __construct(?string $username = null, ?string $password = null, ?string $csrfToken = null)
     {

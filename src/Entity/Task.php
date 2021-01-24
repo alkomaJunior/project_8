@@ -42,7 +42,7 @@ class Task
     private ?bool $isDone;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="task")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tasks")
      */
     private ?User $user;
 
@@ -107,6 +107,14 @@ class Task
     public function isDone(): bool
     {
         return $this->isDone;
+    }
+
+    /**
+     * Return isDone value as String for url.
+     */
+    public function urlIsDoneValue(): string
+    {
+        return ($this->isDone) ? 'true' : 'false';
     }
 
     public function toggle(bool $flag): void

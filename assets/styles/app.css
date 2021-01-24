@@ -1,0 +1,156 @@
+@import "~glyphicons-only-bootstrap/css/bootstrap.min.css";
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+/*Homepage Header*/
+header.masthead {
+    position: relative;
+    height: 100vh;
+    background: #343a40 url('/build/images/todolist_homepage.jpg') no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+    border-radius: 0 0 40px 40px;
+    box-shadow: 0 0 80px 25px #000000;
+}
+header.masthead .overlay{border-radius: 0 0 40px 40px;position:absolute;background-color:#212529;height:100%;width:100%;top:0;left:0;opacity:.6}
+
+.slider-top-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.my-mt-head{
+    margin-top: 1rem;
+}
+
+.my-heading {
+    color: #fff;
+    text-shadow: 2px 2px 2px rgba(0,0,0,1);
+    margin:0;
+}
+
+.btn-shadow {
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(0,0,0,1);
+}
+.btn-shadow-light {
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(255,255,255,0.8123);
+}
+/**** /End Homepage Header ****/
+
+/* header_Default */
+.slide-image {
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+.container-header {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.centered>h1 {
+    text-shadow: 2px 2px 2px rgba(0,0,0,1);
+}
+/**** /End header_Default ****/
+
+/*Navbar*/
+.navbar,.dropdown-menu-right{
+    background-color: #e3f2fd;
+}
+.btn-bg-danger{
+    color: red;
+    font-weight: bold;
+}
+.btn-bg-danger:hover{
+    color: #FFFFFF;
+    background-color: red;
+    font-size: 1.2rem;
+}
+#js-btn-login {
+    background-color: #4CAF50;
+}
+#js-btn-login:hover {
+    border-color: #f0fff4;
+    transform: scale(1.05);
+    background-color: darkgreen;
+}
+/*** Drop-menu ***/
+.nav-deco:hover {
+    color: grey  !important;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.8123)
+
+}
+/**** End/Navbar****/
+
+/* Task Card */
+.card-body > a, .glyphicon {
+    text-decoration: none;
+    color: #000000;
+}
+/*** Zoom ***/
+.card {
+    position: relative;
+    border-bottom: none;
+}
+.card {
+    max-width: 100%;
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.card:hover {
+    -moz-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.table-striped tbody tr:nth-of-type(2n+1){
+    background-color: #e3f2fd;
+}
+
+/**** /End Task Card ****/
+
+/* keep footer at the bottom of the page */
+*{
+    box-sizing: border-box;
+}
+*:before,
+*:after{
+    box-sizing: border-box;
+}
+body{
+    height: 100%;
+    position: relative;
+}
+.main-container {
+    min-height: 100vh; /* will cover the 100% of viewport */
+    overflow: hidden;
+    display: block;
+    position: relative;
+}
+.main-container > .container {
+    padding-bottom: 100px;
+}
+footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+hr {
+    width: 50%;
+}
+/**** end keep footer at the bottom ****/
