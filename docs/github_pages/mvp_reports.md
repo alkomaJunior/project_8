@@ -4,7 +4,7 @@
 
 ## Minimum viable product
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/bb48f9269017492e9b1aca3ffef8a81a)](https://www.codacy.com/gh/bigboss-oualid/project_8_mvp/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bigboss-oualid/project_8_mvp&amp;utm_campaign=Badge_Grade)
-[![Maintainability](https://api.codeclimate.com/v1/badges/2e70b303cb799c405dea/maintainability)](https://codeclimate.com/github/bigboss-oualid/project_8_mvp/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d000b391f1318343a401/maintainability)](https://codeclimate.com/github/bigboss-oualid/projet8-TodoList/maintainability)
 
 ### Backend
 
@@ -27,4 +27,4 @@ Tool     | Report |
  * [![HTML Validator](https://img.shields.io/badge/HTMLValidator-v0.9.8.9-43BF4A)](http://users.skynet.be/mgueury/mozilla/ "used locally") 
  * [![WCAG Checker](https://img.shields.io/badge/WCAG-v0.96.0-222222)](https://ainspector.github.io/ "used locally") 
 
-Here you find the [report](mvp-reports.html "LTS Reports") of long-term support version.
+Here you find all [reports](current-reports.html "LTS Reports") of the current version.

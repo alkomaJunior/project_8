@@ -2,7 +2,7 @@
 
 [Back to summary](../index.md)
 
-## Long-term support
+## Current version
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/91d9b378cacd4e52b715c0bdb220b7da)](https://www.codacy.com/gh/bigboss-oualid/project_8/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bigboss-oualid/project_8&amp;utm_campaign=Badge_Grade)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d85d8f92084ad5a6188c/maintainability)](https://codeclimate.com/github/bigboss-oualid/project_8/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/d85d8f92084ad5a6188c/test_coverage)](https://codeclimate.com/github/bigboss-oualid/project_8/test_coverage)
@@ -32,4 +32,4 @@ Tool     | Report |
 
  * [![Sonar Lint](https://img.shields.io/badge/Sonar_Lint-v0.11.16-C51F28)](https://www.sonarlint.org/ "doc")
 
-Here you find the [reports](mvp-reports.html "MVP Reports") of minimum viable product version.
+Here you find all [reports](mvp-reports.html "MVP Reports") of the minimum viable product version.

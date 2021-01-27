@@ -15,12 +15,11 @@
 
 The startup company **ToDo&Co** whose core business is an application to manage its daily tasks, has developed an application based on the MVP technique(known as Minimum Viable Product or MVP).
 
-The project objective is carrying out the **LTS version** for the [**mvp version**](https://github.com/saro0h/projet8-TodoList) to reduce variation, improve code & performance quality:
+The project objective is carrying out the [**mvp version**](https://github.com/saro0h/projet8-TodoList) of the application **ToDo&Co** to reduce variation, improve code & performance quality:
 * Implement a couple of new features.
 * Correct bugs.
 * Implement tests.
-* Analyze the project using tools that allow you to have an overview of the quality of the code and the different 
-  areas of performance of the application.
+* Analyze the project using tools that allow having an overview of the code quality and the different areas of application performance.
 
 ## Documentation
 To get started, check out the [Documentation](https://bigboss-oualid.github.io/project_8/ "Summary"):

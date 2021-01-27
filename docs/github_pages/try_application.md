@@ -4,8 +4,6 @@
 
 ## Test the application Locally
 
-* Start the server
-
 >It is necessary to have installed the [symfony binary](https://symfony.com/download).
 
 ```shell
@@ -15,6 +13,7 @@ symfony server:start
 # Start the server in the background
 symfony server:start [-d]
 ```
+* Start your Database server
 
 * Optional: If you want manage external ``css`` & ``javascript`` ressources, run one of the command below [more info](https://symfony.com/doc/4.4/frontend/encore/simple-example.html#configuring-encore-webpack)
 
@@ -33,11 +32,13 @@ Compile the files for production:
 npm run build
 ```
 
+* Do not forget to start your database server !!!
+
 * Navigate to [localhost:8000](http://localhost:8000)
 
 ## Test the application online
 
-Visit the application [![ToDo&Co](https://img.shields.io/badge/ToDo&Co-yellow.svg)](https://todolist.it-bigboss.de/ "Manage your tasks")
+[![ToDo&Co](https://img.shields.io/badge/ToDo&Co-yellow.svg)](https://todolist.it-bigboss.de/ "Manage your tasks")
 
 ## User accounts
 Use one of the accounts below to login:
