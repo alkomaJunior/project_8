@@ -1,7 +1,7 @@
 # .circleci/config.yml
 version: 2
 jobs:
-  build:
+  build_analysis_and_test:
     environment:
       # set up reporter for Test coverage for codeclimate
       CC_TEST_REPORTER_ID: d9f984c2b302aa6cda6adb9887327b60112826beadd4aef22a20baa6f13bb862
@@ -53,6 +53,13 @@ jobs:
             - ./node_modules
 
       - run:
+          name: "Setup Code Climate test-reporter"
+          command: |
+            # download test reporter as a static binary
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+
+      - run:
           name: "Execute analysis (PHPMD, PHPStan, Psalm & PHPMetrics)"
           command: |
             # Check after deploy works
@@ -60,15 +67,7 @@ jobs:
             sudo ./vendor/bin/phpmd ./src/,./templates/ html ./phpmdRules.xml > ./analyzes/lts/backend/messDetector/phpMDReport.html
             sudo ./vendor/bin/phpmetrics --config=phpMetricsConfig.json
             sudo php -d memory_limit=-1 ./vendor/bin/phpstan analyse -c phpstan.neon --error-format fileoutput
-            sudo ./vendor/bin/psalm  --show-info=true --output-format=xml
             sudo ./vendor/bin/psalm  --show-info=true --output-format=xml | xsltproc analyzes/lts/backend/psalm/psalm-html-output.xsl - > analyzes/lts/backend/psalm/psalm-report.html
-
-      - run:
-          name: "Setup Code Climate test-reporter"
-          command: |
-            # download test reporter as a static binary
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
       - run:
           name: "Run PHPUnit tests & generate coverage"
           command: |
@@ -98,7 +97,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "81:b5:40:3b:41:b2:df:e4:d5:4e:6f:d3:46:a3:16:ec"
+            - "cc:40:d3:e9:f2:56:ec:40:7a:9d:7e:7f:c6:7c:dc:d9"
       - run:
           name:  "Install apt"
           command: sudo apt update && sudo apt-get install -y rsync
@@ -151,14 +150,24 @@ jobs:
           name: "Post Deploy"
           command:
             ssh -t $SERVER_USER@$PRODUCTION_SERVER_IP < bin/deploy/deploy.sh
+      - run:
+          name: Set up testing git repository
+          command: |
+            git config --global user.email "oualid.boulatar@gmail.com"
+            git config --global user.name "bigboss-oualid"
+            git checkout -b testing-branch
+            echo "foo" > bar.txt
+            git add bar.txt
+            git commit -m "Add bar.txt"
+            git push origin testing-branch
 workflows:
   version: 2
   full_deploy:
     jobs:
-      - build
+      - build_analysis_and_test
       - deploy:
           requires:
-            - build
+            - build_analysis_and_test
           filters:
             branches:
               only: circleci-project-setup
