@@ -6,4 +6,4 @@ parameters:
         container_xml_path: var/cache/dev/srcApp_KernelDevDebugContainer.xml
 services:
     errorFormatter.fileoutput:
-        factory: noximo\FileOutput(./analyzes/lts/backend/stan/phpStan.html, @errorFormatter.prettyJson, ./analyzes/lts/backend/stan/alternative_table.phtml)
+        factory: noximo\FileOutput(./analyzes/lts/backend/stan/phpstan.html, @errorFormatter.prettyJson, ./analyzes/lts/backend/stan/alternative_table.phtml)

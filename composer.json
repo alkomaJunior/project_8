@@ -31,7 +31,10 @@
         "twig/twig": "^2.12|^3.0"
     },
     "repositories": [
-      { "type": "vcs", "url": "https://github.com/phpmetrics/PhpMetricsCollectorBundle" }
+        {
+            "type": "vcs",
+            "url": "https://github.com/phpmetrics/PhpMetricsCollectorBundle"
+        }
     ],
     "require-dev": {
         "behat/behat": "^3.8",
@@ -101,8 +104,8 @@
             "@auto-scripts"
         ],
         "tests": [
-          "vendor/bin/simple-phpunit",
-          "vendor/bin/behat"
+            "vendor/bin/simple-phpunit",
+            "vendor/bin/behat"
         ]
     },
     "conflict": {

@@ -1,5 +1,9 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
+# Uncomment parameters for env to improve performance
+#parameters:
+  #env(SECRET): '674643502ed6ff637bf412e6c0333ab9'
 framework:
+    #secret: '%env(string:SECRET)%'
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
     #http_method_override: true

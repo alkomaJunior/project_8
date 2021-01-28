@@ -64,7 +64,7 @@ jobs:
           command: |
             # Check after deploy works
             #sudo ./vendor/bin/php-cs-fixer --diff --dry-run -v --allow-risky=yes fix
-            sudo ./vendor/bin/phpmd ./src/,./templates/ html ./phpmdRules.xml > ./analyzes/lts/backend/messDetector/phpMDReport.html
+            sudo ./vendor/bin/phpmd ./src/,./templates/ html ./phpmdRules.xml > ./analyzes/lts/backend/messdetector/phpmd-report.html
             sudo ./vendor/bin/phpmetrics --config=phpMetricsConfig.json
             sudo php -d memory_limit=-1 ./vendor/bin/phpstan analyse -c phpstan.neon --error-format fileoutput
             sudo ./vendor/bin/psalm  --show-info=true --output-format=xml | xsltproc analyzes/lts/backend/psalm/psalm-html-output.xsl - > analyzes/lts/backend/psalm/psalm-report.html
