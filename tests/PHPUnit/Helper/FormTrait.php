@@ -34,7 +34,7 @@ trait FormTrait
         $client->submit($form);
     }
 
-    protected function formHasError(KernelBrowser $client, string $expectedLocation): void
+    protected function formHasNoError(KernelBrowser $client, string $expectedLocation): void
     {
         $this->assertResponseRedirects(
             $expectedLocation,
