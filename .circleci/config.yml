@@ -89,7 +89,7 @@ jobs:
           command: |
             ssh-keyscan -H $PRODUCTION_SERVER_IP >> ~/.ssh/known_hosts
             rsync -vzcrSLhp --delete ~/p8_to-do/analyzes/lts/backend/ $SERVER_USER@$PRODUCTION_SERVER_IP:$ANALYSIS_SERVER_PATH/lts/backend
-  deploy:
+  production_deploy:
     working_directory: ~/p8_to-do
     docker:
       - image: circleci/php:7.4.9-node-browsers
@@ -155,17 +155,15 @@ jobs:
           command: |
             git config --global user.email "oualid.boulatar@gmail.com"
             git config --global user.name "bigboss-oualid"
-            git checkout -b testing-branch
-            echo "foo" > bar.txt
-            git add bar.txt
-            git commit -m "Add bar.txt"
-            git push origin testing-branch
+            git checkout -b production
+            git commit -m "ci/cd: deployment is successfully completed"
+            git push origin production
 workflows:
   version: 2
-  full_deploy:
+  deploy:
     jobs:
       - build_analysis_and_test
-      - deploy:
+      - production_deploy:
           requires:
             - build_analysis_and_test
           filters:
