@@ -33,19 +33,19 @@ yarn-error.log
 ###< squizlabs/php_codesniffer ###
 
 ###> PHPstan ###
-/phpstan.neon
+#/phpstan.neon
 ###< PHPStan ###
 
 ###> Psalm ###
-/psalm.xml
+#/psalm.xml
 ###< Psalm ###
 
 ###> PHPMetrics ###
-/phpMetricsConfig.json
+#/phpMetricsConfig.json
 ###< PHPMetrics ###
 
 ###> PHPMD ###
-/phpmdRules.xml
+#/phpmdRules.xml
 ###< PHPMD ###
 
 ###> Rector###

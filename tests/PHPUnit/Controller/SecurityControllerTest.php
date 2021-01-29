@@ -41,7 +41,7 @@ class SecurityControllerTest extends WebTestCase
 
     public function testLoginForm(): void
     {
-        $uri = '/login';
+        $uri = '/';
 
         $this->client->request('GET', $uri);
 
@@ -53,7 +53,7 @@ class SecurityControllerTest extends WebTestCase
 
     public function testLoginWithBadCredentials(): void
     {
-        $uri = '/login';
+        $uri = '/';
         $this->logInWithForm([
             'username' => 'fake-username',
             'password' => 'fake-password',
@@ -67,12 +67,12 @@ class SecurityControllerTest extends WebTestCase
     {
         $this->logInWithForm($this->userInputData);
 
-        $this->loginHasErrors("a[href='/logout']", "form[action='/login']", '/');
+        $this->loginHasErrors("a[href='/logout']", "form[action='/']", '/');
     }
 
     public function testSuccessfulLoginWithToken(): void
     {
-        $uri = '/login';
+        $uri = '/';
         $csrfToken = $this->client->getContainer()->get('security.csrf.token_manager')->getToken('authenticate');
 
         $this->client->request('POST', $uri, [
@@ -81,18 +81,18 @@ class SecurityControllerTest extends WebTestCase
             '_password' => $this->userInputData['password'],
         ]);
 
-        $this->loginHasErrors("a[href='/logout']", "form[action='".$uri."']", '/');
+        $this->loginHasErrors("a[href='/logout']", "form[action='".$uri."']",  $uri);
     }
 
     public function testSuccessLogout(): void
     {
         $this->logInWithForm($this->userInputData);
 
-        $this->loginHasErrors("a[href='/logout']", "form[action='/login']", '/');
+        $this->loginHasErrors("a[href='/logout']", "form[action='/']", '/');
 
         $this->client->clickLink('Se déconnecter');
 
-        $this->loginHasErrors("form[action='/login']", "a[href='/logout']", null);
+        $this->loginHasErrors("form[action='/']", "a[href='/logout']", null);
     }
 
     protected function tearDown(): void
@@ -104,7 +104,7 @@ class SecurityControllerTest extends WebTestCase
 
     protected function logInWithForm(array $userInputData): void
     {
-        $crawler = $this->client->request('GET', '/login');
+        $crawler = $this->client->request('GET', '/');
 
         $form = $crawler->selectButton('Se connecter')->form(
             [

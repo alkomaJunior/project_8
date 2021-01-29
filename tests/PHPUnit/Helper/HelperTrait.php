@@ -14,13 +14,11 @@ use Symfony\Component\Validator\ConstraintViolation;
 
 trait HelperTrait
 {
-    protected function assertHasErrors(object $entity, int $errorNumber = 0, bool $hasBootKernel = true): void
+    protected function assertHasErrors(object $entity, int $errorNumber = 0, $groups = null): void
     {
-        if($hasBootKernel){
-            self::bootKernel();
-        }
+        self::bootKernel();
 
-        $errors = self::$container->get('validator')->validate($entity);
+        $errors = self::$container->get('validator')->validate($entity, null, $groups);
         $messages = [];
 
         $numErrors = count($errors);

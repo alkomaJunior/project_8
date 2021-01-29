@@ -23,17 +23,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class TaskType extends AbstractType
 {
+
     /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', textType::class)
-            ->add('content', TextareaType::class, [
-                'required' => false,
-            ])
+            ->add('title', textType::class, ['empty_data' => ''])
+            ->add('content', TextareaType::class, ['empty_data' => ''])
         ;
     }
 

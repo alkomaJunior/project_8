@@ -20,12 +20,13 @@ use Symfony\Component\Security\Core\Security;
 
 /**
  * Manage security to delete task.
+ * ROLE_ADMIN can delete Anonymous Tasks, and only author can delete their own tasks.
  */
 class TaskVoter extends Voter
 {
     public const DELETE = 'DELETE';
 
-    private $security;
+    private Security $security;
 
     /**
      * TaskVoter constructor.
@@ -38,58 +39,32 @@ class TaskVoter extends Voter
     }
 
     /**
-     * Determines if the attribute and subject are supported by this voter.
-     *
-     * @param string $attribute
-     * @param mixed  $subject
-     *
-     * @return bool True if the attribute and subject are supported, false otherwise
+     * {@inheritdoc}
      */
     protected function supports($attribute, $subject): bool
     {
-        return in_array($attribute, [self::DELETE])
-            && $subject instanceof Task;
+        return self::DELETE === $attribute && $subject instanceof Task;
     }
 
     /**
-     * @param string         $attribute
-     * @param Task           $subject
-     * @param TokenInterface $token
-     *
-     * @return bool|void
+     * {@inheritdoc}
+     * @param string $attribute
+     * @param Task   $task
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute($attribute, $task, TokenInterface $token): bool
     {
-        /** @var User $user */
         $loggedUser = $token->getUser();
+        $author = $task->getUser();
 
         if (!$loggedUser instanceof User) {
-            // the user must be logged in; if not, deny access
             return false;
         }
 
-        /** @var Task $task */
-        $task = $subject;
-
         if (self::DELETE === $attribute) {
-            return $this->isDeletable($task, $loggedUser);
+            return ((!isset($author)) && $this->security->isGranted(User::ROLE_ADMIN))
+                || $loggedUser->isEqualTo($author);
         }
 
-        throw new LogicException('This code should not be reached!');
-    }
-
-    /**
-     * Admin can delete anonymous Tasks.
-     *
-     * @param Task $task
-     * @param User $loggedUser
-     *
-     * @return bool
-     */
-    private function isDeletable(Task $task, User $loggedUser): bool
-    {
-        $author = $task->getUser();
-
-        return  ((!isset($author)) && $this->security->isGranted('ROLE_ADMIN')) || $loggedUser === $task->getUser();
+        throw new LogicException('This code should not be reached!');// @codeCoverageIgnore
     }
 }

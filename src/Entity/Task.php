@@ -26,36 +26,36 @@ class Task
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private ?int $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private ?DateTime $createdAt;
+    private ?DateTime $createdAt = null;
 
     /**
      * @ORM\Column(type="string")
      *
      * @Assert\NotBlank(message="Vous devez saisir un titre.")
      */
-    private ?string $title;
+    private string $title = '';
 
     /**
      * @ORM\Column(type="text")
      *
      * @Assert\NotBlank(message="Vous devez saisir du contenu.")
      */
-    private ?string $content;
+    private string $content = '';
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private ?bool $isDone;
+    private bool $isDone;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tasks")
      */
-    private ?User $user;
+    private ?User $user = null;
 
     /**
      * Initialize task Object as unaccomplished.
@@ -74,9 +74,9 @@ class Task
     }
 
     /**
-     * @return Datetime
+     * @return Datetime|null
      */
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }

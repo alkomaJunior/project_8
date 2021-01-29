@@ -1,0 +1,8 @@
+theme: jekyll-theme-leap-day
+title: Welcome to 'ToDo&Co' Repository homepage!
+description: Feel free to bookmark this to keep an eye on my project updates.
+exclude: [authentication_tutorial]
+show_downloads: true
+author:
+  name: BigBoss Walid
+  email: "oualid.boulatar@it-bigboss.de"

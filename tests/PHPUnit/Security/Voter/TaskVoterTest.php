@@ -56,6 +56,7 @@ class TaskVoterTest extends TestCase
 
         $this->security->method('isGranted')->with(User::ROLE_USER)->willReturn(true);
 
+        $this->loggedUser->setUsername('username');
         $this->task->setUser($this->loggedUser);
 
         $result = $this->voter->vote($this->token, $this->task, [TaskVoter::DELETE]);
@@ -91,17 +92,17 @@ class TaskVoterTest extends TestCase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $result);
     }
 
-    public function testDeniedDeleteKnownAuthorTask(): void
+    public function testDeniedDeleteTaskCreatedFromAuthor(): void
     {
-        $this->loggedUser->setRoles([User::ROLE_ADMIN]);
+        $author = (new User())->setUsername('other-user');
+        $this->loggedUser->setUsername('admin')->setRoles([User::ROLE_ADMIN]);
 
         $this->token->expects($this->once())->method('getUser')->willReturn(
             $this->loggedUser
         );
 
         $this->security->method('isGranted')->with(User::ROLE_ADMIN)->willReturn(true);
-
-        $this->task->setUser(new User());
+        $this->task->setUser($author);
 
         $result = $this->voter->vote($this->token, $this->task, [TaskVoter::DELETE]);
 

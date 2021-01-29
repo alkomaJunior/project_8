@@ -28,8 +28,7 @@ Feature: Manage users
     And  I fill in "account_email" with "changed@mail.de"
     And  I select "Administrateur" from "account_roles"
     And  I press "Sauvegarder"
-    Then the response status code should be 200
-    And  I should be on "/users"
+    Then I should be on "/users"
     And  I should see "changed-username"
     And  I should see "changed@mail.de"
     But  I should not see "userx@todoandco.de"
@@ -40,6 +39,7 @@ Feature: Manage users
     When I connect as "admin" with the password "admin"
     Then I should be on homepage
     When I follow "Tâches"
+    When I follow "Toutes les tâches"
     Then I should be on "/tasks"
     When I press "task-delete-1"
     Then the response status code should be 200

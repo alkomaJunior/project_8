@@ -1,8 +1,11 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
+
+/**
+ * ToDoAndCo Project
+ * Copyright (c) 2020 BigBoss 2020.  BigBoss Oualid
+ * mailto: <bigboss@it-bigboss.de>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code
+ * Inc., Munich, Germany.
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
@@ -20,34 +23,11 @@ import 'glyphicons-only-bootstrap/fonts/glyphicons-halflings-regular.woff2';
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 //import $ from 'jquery';
 // create global $ and jQuery variables
-//
 
 
-//console.log('Hello Webpack Encore! Edit me in assets/app.js');
+const inputUsername = document.getElementById('username');
+if (inputUsername && inputUsername.value !== '') {
+    inputUsername.classList.add('input-value');
+}
 
-/*close dropdown menu after mouse leaves*/
-/*const $dropdown = $('.dropdown');
-const $dropdownToggle = $('.dropdown-toggle');
-const $dropdownMenu = $('.dropdown-menu');
-const showClass = 'show';
-$(window).on('load resize', function () {
-    if (this.matchMedia('(min-width: 768px)').matches) {
-        $dropdown.hover(
-            function () {
-                const $this = $(this);
-                $this.addClass(showClass);
-                $this.find($dropdownToggle).attr('aria-expanded', 'true');
-                $this.find($dropdownMenu).addClass(showClass);
-            },
-            function () {
-                const $this = $(this);
-                $this.removeClass(showClass);
-                $this.find($dropdownToggle).attr('aria-expanded', 'false');
-                $this.find($dropdownMenu).removeClass(showClass);
-            }
-        );
-    } else {
-        $dropdown.off('mouseenter mouseleave');
-    }
-});*/
 

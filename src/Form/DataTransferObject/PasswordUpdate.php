@@ -12,21 +12,23 @@
 namespace App\Form\DataTransferObject;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator as CustomAssert;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 
 /**
  * Transfer data from form Password update to user.
  */
-class PasswordUpdate
+class PasswordUpdate implements PasswordInterface
 {
     /**
-     * @Assert\NotBlank(groups={"account"})
-     *
-     * @CustomAssert\MatchPassword(message="Ce n'est pas votre mot de passe actuel: {{ string }}")
+     * @SecurityAssert\UserPassword(
+     *     groups={"account"},
+     *     message = "Mauvaise valeur pour votre mot de passe actuel!"
+     * )
      */
-    private $actualPassword;
+    private string $actualPassword = '';
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir un mot de passe!")
      * @Assert\Length(
      *     min=8,
      *     minMessage="Votre mot de passe doit faire au moins {{ limit }} caractères !",
@@ -45,27 +47,28 @@ class PasswordUpdate
      *     message="Votre mot de passe devrait contenir au moin un caractère spécial!"
      * )
      */
-    private $newPassword;
+    private string $newPassword = '';
 
     /**
-     * @Assert\EqualTo(propertyPath="newPassword", message="Vous avez entrer deux mots de passes diffèrents")
+     * @Assert\EqualTo(
+     *     propertyPath="newPassword",
+     *      message="Vous avez entrer deux mots de passes diffèrents"
+     * )
      */
-    private $confirmPassword;
+    private string $confirmPassword = '';
 
     /**
-     * @return string|null
+     * {@inheritdoc}
      */
-    public function getActualPassword(): ?string
+    public function getActualPassword(): string
     {
         return $this->actualPassword;
     }
 
     /**
-     * @param string $actualPassword
-     *
-     * @return PasswordUpdate
+     * {@inheritdoc}
      */
-    public function setActualPassword(string $actualPassword): self
+    public function setActualPassword(string $actualPassword): PasswordInterface
     {
         $this->actualPassword = $actualPassword;
 
@@ -73,19 +76,17 @@ class PasswordUpdate
     }
 
     /**
-     * @return string|null
+     * {@inheritdoc}
      */
-    public function getNewPassword(): ?string
+    public function getNewPassword(): string
     {
         return $this->newPassword;
     }
 
     /**
-     * @param string $newPassword
-     *
-     * @return PasswordUpdate
+     * {@inheritdoc}
      */
-    public function setNewPassword(string $newPassword): self
+    public function setNewPassword(string $newPassword): PasswordInterface
     {
         $this->newPassword = $newPassword;
 
@@ -93,19 +94,17 @@ class PasswordUpdate
     }
 
     /**
-     * @return string|null
+     * {@inheritdoc}
      */
-    public function getConfirmPassword(): ?string
+    public function getConfirmPassword(): string
     {
         return $this->confirmPassword;
     }
 
     /**
-     * @param string $confirmPassword
-     *
-     * @return PasswordUpdate
+     * {@inheritdoc}
      */
-    public function setConfirmPassword(string $confirmPassword): self
+    public function setConfirmPassword(string $confirmPassword): PasswordInterface
     {
         $this->confirmPassword = $confirmPassword;
 

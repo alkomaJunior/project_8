@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ToDoAndCo Project
  * Copyright (c) 2020 BigBoss 2020.  BigBoss Oualid
@@ -24,9 +25,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class TaskRepository extends ServiceEntityRepository
 {
     /**
-     * TaskRepository constructor.
-     *
-     * @param ManagerRegistry $registry
+     * @inheritDoc
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -34,9 +33,11 @@ class TaskRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string|null $isDone
+     * Retrieve task list based on the value of isDone.
      *
-     * @return array
+     * @param string | null $isDone
+     *
+     * @return Task[]
      */
     public function findTasks(?string $isDone = null): array
     {
@@ -45,7 +46,7 @@ class TaskRepository extends ServiceEntityRepository
             ->leftJoin('t.user', 'u');
 
         if (null !== $isDone) {
-            $queryBuilder = $this->filterDoneTasks($queryBuilder, $isDone);
+            $queryBuilder = $this->filterTasks($queryBuilder, $isDone);
         }
 
         return $queryBuilder
@@ -62,7 +63,7 @@ class TaskRepository extends ServiceEntityRepository
      *
      * @return QueryBuilder
      */
-    private function filterDoneTasks(QueryBuilder $queryBuilder, string $isDone): QueryBuilder
+    private function filterTasks(QueryBuilder $queryBuilder, string $isDone): QueryBuilder
     {
         // Convert string value to bool e.g: 'true'= True | false = False
         $isDone = filter_var($isDone, FILTER_VALIDATE_BOOLEAN);

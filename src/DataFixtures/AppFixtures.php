@@ -16,12 +16,13 @@ use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Console\Exception\LogicException;
+use Symfony\Component\Yaml\Parser;
 
 /**
  * Class AppFixtures.
  */
-final class AppFixtures extends Fixture
+class AppFixtures extends Fixture
 {
     /**
      * {@inheritdoc}
@@ -30,13 +31,18 @@ final class AppFixtures extends Fixture
     {
         $users = $this->getDataFixture('User');
         $tasks = $this->getDataFixture('Task');
-        // Add user => 'ROLE_ADMIN', user => 'ROLE_USER'
-        $this->addUsers($users, $manager);
+        // Add 2 users
+        $usersNum = $this->persistFixtures($manager, $users, User::class);
         // Add 6 tasks
-        $this->addTasks($tasks, $manager);
+        $tasksNum = $this->persistFixtures($manager, $tasks, Task::class);
 
         $manager->flush();
-        echo "\n Loading fixtures is terminated!\n";
+
+        $successMessage = "\033[0;32m";
+        $successMessage .= "\n   > ".$usersNum." users & ".$tasksNum." tasks are loaded!\n";
+        $successMessage .= "   > Loading fixtures is terminated!\n";
+        $successMessage .= "\e[0m";
+        print_r($successMessage);
     }
 
     /**
@@ -44,60 +50,97 @@ final class AppFixtures extends Fixture
      *
      * @param string $entityName
      *
-     * @SuppressWarnings(PHPMD.StaticAccess)
-     *
-     * @return array
+     * @return array[]
      */
     private function getDataFixture(string $entityName): array
     {
-        return Yaml::parse(file_get_contents(__DIR__.'/Fixtures/'.$entityName.'s.yaml', true));
-    }
+        $yaml = new Parser();
+        $fileName = __DIR__.'/Fixtures/'.$entityName.'s.yaml';
 
-    /**
-     * Create users.
-     *
-     * @param array         $users
-     * @param ObjectManager $manager
-     */
-    private function addUsers(array $users, ObjectManager $manager): void
-    {
-        foreach ($users as $name => $user) {
-            /** @var User $userEntity */
-            $userEntity = new User();
+        if (file_exists($fileName)) {
+            /** @var string $input */
+            $input = file_get_contents($fileName, true);
 
-            $userEntity->setUsername($user['Username'])
-                ->setPassword($user['Password'])
-                ->setEmail($user['Email'])
-                ->setRoles($user['Roles']);
-
-            $manager->persist($userEntity);
-            $this->addReference($name, $userEntity);
+            return $yaml->parse($input);
         }
+
+        return [];
     }
 
     /**
-     * Create tasks.
+     * @param ObjectManager       $manager
+     * @param array<string,array> $fixtures
+     * @param string              $className
      *
-     * @param array         $tasks
-     * @param ObjectManager $manager
+     * @return int
      */
-    private function addTasks(array $tasks, ObjectManager $manager): void
+    private function persistFixtures(ObjectManager $manager, array $fixtures, string $className): int
     {
-        foreach ($tasks as $task) {
-            /** @var Task $userEntity */
-            $taskEntity = new Task();
+        $count = 0;
+        foreach ($fixtures as $name => $properties) {
+            $entity = $this->createEntity($className, $properties);
 
-            $taskEntity->setTitle($task['Title'])
-                ->setContent($task['Content'])
-                ->setCreatedAt(new DateTime());
+            $manager->persist($entity);
 
-            if (isset($task['Reference']['Author'])) {
-                /** @var User $author */
-                $author = $this->getReference($task['Reference']['Author']);
-                $taskEntity->setUser($author);
+            if (!$this->hasReference($name)) {
+                $this->addReference($name, $entity);
             }
+            ++$count;
+        }
 
-            $manager->persist($taskEntity);
+        return $count;
+    }
+
+    /**
+     * @param string               $className
+     * @param array<string, mixed> $properties
+     *
+     * @throws LogicException
+     *
+     * @return object
+     */
+    private function createEntity(string $className, array $properties): Object
+    {
+        if (!class_exists($className)) {
+            throw new LogicException("Class '${className}' not found");
+        }
+
+        $entity = new $className();
+        foreach ($properties as $property => $value) {
+            if ('Reference' === $property) {
+                foreach ($value as $referencedProperty => $referencedValue) {
+                    $this->hydrateEntity(
+                        $className,
+                        $referencedProperty,
+                        $entity,
+                        $this->getReference($referencedValue)
+                    );
+                }
+                break;
+            }
+            $this->hydrateEntity($className, $property, $entity, $value);
+        }
+
+        return $entity;
+    }
+
+    /**
+     * @param mixed  $className
+     * @param string $propertyName
+     * @param object $entity
+     * @param mixed  $attribute
+     */
+    private function hydrateEntity($className, string $propertyName, object $entity, $attribute): void
+    {
+        // Get the name of the setter corresponding to the attribute.
+        $method = 'set'.ucfirst($propertyName);
+        // If the corresponding setter exists.
+        if (method_exists($className, $method)) {
+            if (is_string($attribute) && 'NOW()' === $attribute) {
+                $attribute = new DateTime();
+            }
+            // Call the setter.
+            $entity->$method($attribute);
         }
     }
 }

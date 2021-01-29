@@ -1,0 +1,664 @@
+<html lang="">
+<head>
+    <style>
+        body {
+            background-color: #34495e;
+            color: white;
+            font-family: monospace;
+            font-size: 24px;
+        }
+
+        b {
+            color: lightskyblue;
+        }
+
+		h1 {
+			color: white;
+			text-align: center;
+			margin: 5px;
+		}
+
+		h2 {
+			text-align: center;
+			color: #0CCE6B;
+			margin: 100px 0 30px 0;
+		}
+
+        .time {
+            font-style: italic;
+            color: white;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: yellow;
+        }
+
+        .rot {
+            color: red;
+        }
+
+        table {
+            width: 100%;
+            font-size: 12px;
+        }
+
+        th {
+            text-align: left;
+            padding: 25px 0 10px 0;
+        }
+
+        td {
+            padding: 5px;
+        }
+
+        .section {
+            font-size: 1.4em;
+        }
+
+        .line {
+            text-align: right;
+            vertical-align: middle;
+        }
+
+        .line-number{
+            padding-top: 0px;
+        }
+
+        .error:nth-child(odd) {
+            background: #374d63
+        }
+
+        .regex {
+            color: #00000085;
+        }
+        .error-line {
+            font-size: 1.6em;
+        }
+
+        #thanks {
+            margin-top: 50px;
+            font-size: 0.65em;
+            text-align: center;
+        }
+    </style>
+    <title>PHPStan analysis result</title>
+</head>
+<h1>PHPStan analysis result</h1>
+<div class="time">2021-01-17 16:38:05</div>
+<div>
+    </div>
+
+
+<div>
+    <table>
+                            <thead>
+            <tr>
+                <th colspan="2" class="section">Files with errors: 9</th>
+            </tr>
+            </thead>
+                            <thead>
+                <tr>
+                    <th colspan="2">C:\wamp64\www\test\sym3\src\AppBundle\Controller\DefaultController.php <span class="rot">(1X)</span></th>
+                </tr>
+                </thead>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Controller\DefaultController.php&line=13'>line: 13</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Controller\DefaultController::indexAction()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Controller\\DefaultController\:\:indexAction\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                            <thead>
+                <tr>
+                    <th colspan="2">C:\wamp64\www\test\sym3\src\AppBundle\Controller\SecurityController.php <span class="rot">(3X)</span></th>
+                </tr>
+                </thead>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Controller\SecurityController.php&line=38'>line: 38</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Controller\SecurityController::logoutCheck()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Controller\\SecurityController\:\:logoutCheck\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Controller\SecurityController.php&line=30'>line: 30</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Controller\SecurityController::loginCheck()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Controller\\SecurityController\:\:loginCheck\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Controller\SecurityController.php&line=14'>line: 14</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Controller\SecurityController::loginAction()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Controller\\SecurityController\:\:loginAction\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                            <thead>
+                <tr>
+                    <th colspan="2">C:\wamp64\www\test\sym3\src\AppBundle\Controller\TaskController.php <span class="rot">(5X)</span></th>
+                </tr>
+                </thead>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Controller\TaskController.php&line=84'>line: 84</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Controller\TaskController::deleteTaskAction()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Controller\\TaskController\:\:deleteTaskAction\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Controller\TaskController.php&line=71'>line: 71</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Controller\TaskController::toggleTaskAction()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Controller\\TaskController\:\:toggleTaskAction\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Controller\TaskController.php&line=48'>line: 48</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Controller\TaskController::editAction()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Controller\\TaskController\:\:editAction\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Controller\TaskController.php&line=24'>line: 24</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Controller\TaskController::createAction()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Controller\\TaskController\:\:createAction\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Controller\TaskController.php&line=16'>line: 16</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Controller\TaskController::listAction()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Controller\\TaskController\:\:listAction\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                            <thead>
+                <tr>
+                    <th colspan="2">C:\wamp64\www\test\sym3\src\AppBundle\Controller\UserController.php <span class="rot">(3X)</span></th>
+                </tr>
+                </thead>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Controller\UserController.php&line=50'>line: 50</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Controller\UserController::editAction()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Controller\\UserController\:\:editAction\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Controller\UserController.php&line=24'>line: 24</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Controller\UserController::createAction()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Controller\\UserController\:\:createAction\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Controller\UserController.php&line=16'>line: 16</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Controller\UserController::listAction()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Controller\\UserController\:\:listAction\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                            <thead>
+                <tr>
+                    <th colspan="2">C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php <span class="rot">(18X)</span></th>
+                </tr>
+                </thead>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=89'>line: 89</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\Task::toggle()</b> has parameter <b>$flag</b> with no <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\Task\:\:toggle\(\) has parameter \$flag with no typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=89'>line: 89</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\Task::toggle()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\Task\:\:toggle\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=84'>line: 84</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\Task::isDone()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\Task\:\:isDone\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=79'>line: 79</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\Task::setContent()</b> has parameter <b>$content</b> with no <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\Task\:\:setContent\(\) has parameter \$content with no typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=79'>line: 79</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\Task::setContent()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\Task\:\:setContent\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=74'>line: 74</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\Task::getContent()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\Task\:\:getContent\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=69'>line: 69</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\Task::setTitle()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\Task\:\:setTitle\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=69'>line: 69</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\Task::setTitle()</b> has parameter <b>$title</b> with no <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\Task\:\:setTitle\(\) has parameter \$title with no typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=64'>line: 64</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\Task::getTitle()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\Task\:\:getTitle\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=59'>line: 59</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\Task::setCreatedAt()</b> has parameter <b>$createdAt</b> with no <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\Task\:\:setCreatedAt\(\) has parameter \$createdAt with no typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=59'>line: 59</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\Task::setCreatedAt()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\Task\:\:setCreatedAt\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=54'>line: 54</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\Task::getCreatedAt()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\Task\:\:getCreatedAt\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=49'>line: 49</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\Task::getId()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\Task\:\:getId\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=41'>line: 41</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Property <b>AppBundle\Entity\Task::$isDone</b> has no <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Property AppBundle\\Entity\\Task\:\:\$isDone has no typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=36'>line: 36</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Property <b>AppBundle\Entity\Task::$content</b> has no <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Property AppBundle\\Entity\\Task\:\:\$content has no typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=30'>line: 30</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Property <b>AppBundle\Entity\Task::$title</b> has no <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Property AppBundle\\Entity\\Task\:\:\$title has no typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=24'>line: 24</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Property <b>AppBundle\Entity\Task::$createdAt</b> has no <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Property AppBundle\\Entity\\Task\:\:\$createdAt has no typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\Task.php&line=19'>line: 19</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Property <b>AppBundle\Entity\Task::$id</b> has no <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Property AppBundle\\Entity\\Task\:\:\$id has no typehint specified#'</small>
+                        </td>
+                    </tr>
+                                            <thead>
+                <tr>
+                    <th colspan="2">C:\wamp64\www\test\sym3\src\AppBundle\Entity\User.php <span class="rot">(13X)</span></th>
+                </tr>
+                </thead>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\User.php&line=87'>line: 87</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\User::eraseCredentials()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\User\:\:eraseCredentials\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\User.php&line=77'>line: 77</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\User::setEmail()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\User\:\:setEmail\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\User.php&line=77'>line: 77</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\User::setEmail()</b> has parameter <b>$email</b> with no <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\User\:\:setEmail\(\) has parameter \$email with no typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\User.php&line=72'>line: 72</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\User::getEmail()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\User\:\:getEmail\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\User.php&line=67'>line: 67</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\User::setPassword()</b> has parameter <b>$password</b> with no <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\User\:\:setPassword\(\) has parameter \$password with no typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\User.php&line=67'>line: 67</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\User::setPassword()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\User\:\:setPassword\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\User.php&line=52'>line: 52</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\User::setUsername()</b> has parameter <b>$username</b> with no <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\User\:\:setUsername\(\) has parameter \$username with no typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\User.php&line=52'>line: 52</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\User::setUsername()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\User\:\:setUsername\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\User.php&line=42'>line: 42</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Entity\User::getId()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Entity\\User\:\:getId\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\User.php&line=40'>line: 40</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Property <b>AppBundle\Entity\User::$email</b> has no <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Property AppBundle\\Entity\\User\:\:\$email has no typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\User.php&line=33'>line: 33</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Property <b>AppBundle\Entity\User::$password</b> has no <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Property AppBundle\\Entity\\User\:\:\$password has no typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\User.php&line=28'>line: 28</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Property <b>AppBundle\Entity\User::$username</b> has no <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Property AppBundle\\Entity\\User\:\:\$username has no typehint specified#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Entity\User.php&line=22'>line: 22</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Property <b>AppBundle\Entity\User::$id</b> has no <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Property AppBundle\\Entity\\User\:\:\$id has no typehint specified#'</small>
+                        </td>
+                    </tr>
+                                            <thead>
+                <tr>
+                    <th colspan="2">C:\wamp64\www\test\sym3\src\AppBundle\Form\TaskType.php <span class="rot">(1X)</span></th>
+                </tr>
+                </thead>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Form\TaskType.php&line=11'>line: 11</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Form\TaskType::buildForm()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Form\\TaskType\:\:buildForm\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                            <thead>
+                <tr>
+                    <th colspan="2">C:\wamp64\www\test\sym3\src\AppBundle\Form\UserType.php <span class="rot">(1X)</span></th>
+                </tr>
+                </thead>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\src\AppBundle\Form\UserType.php&line=14'>line: 14</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Method <b>AppBundle\Form\UserType::buildForm()</b> has no return <b>typehint</b> specified.</span>
+                            <br>
+                            <small class="regex">- '#Method AppBundle\\Form\\UserType\:\:buildForm\(\) has no return typehint specified#'</small>
+                        </td>
+                    </tr>
+                                            <thead>
+                <tr>
+                    <th colspan="2">C:\wamp64\www\test\sym3\web\config.php <span class="rot">(6X)</span></th>
+                </tr>
+                </thead>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\web\config.php&line=400'>line: 400</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Call to method <b>getPhpIniConfigPath()</b> on an unknown class SymfonyRequirements.</span>
+                            <br>
+                            <small class="regex">- '#Call to method getPhpIniConfigPath\(\) on an unknown class SymfonyRequirements#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\web\config.php&line=399'>line: 399</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Call to method <b>getPhpIniConfigPath()</b> on an unknown class SymfonyRequirements.</span>
+                            <br>
+                            <small class="regex">- '#Call to method getPhpIniConfigPath\(\) on an unknown class SymfonyRequirements#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\web\config.php&line=397'>line: 397</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Call to method <b>hasPhpIniConfigIssue()</b> on an unknown class SymfonyRequirements.</span>
+                            <br>
+                            <small class="regex">- '#Call to method hasPhpIniConfigIssue\(\) on an unknown class SymfonyRequirements#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\web\config.php&line=30'>line: 30</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Call to method <b>getFailedRecommendations()</b> on an unknown class SymfonyRequirements.</span>
+                            <br>
+                            <small class="regex">- '#Call to method getFailedRecommendations\(\) on an unknown class SymfonyRequirements#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\web\config.php&line=29'>line: 29</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Call to method <b>getFailedRequirements()</b> on an unknown class SymfonyRequirements.</span>
+                            <br>
+                            <small class="regex">- '#Call to method getFailedRequirements\(\) on an unknown class SymfonyRequirements#'</small>
+                        </td>
+                    </tr>
+                                    <tr class="error">
+                        <td class="line line-number">
+                            <a href='editor://open/?file=C:\wamp64\www\test\sym3\web\config.php&line=27'>line: 27</a>
+                        </td>
+                        <td>
+                            <span class="error-line">Instantiated class SymfonyRequirements not found.</span>
+                            <br>
+                            <small class="regex">- '#Instantiated class SymfonyRequirements not found#'</small>
+                        </td>
+                    </tr>
+                                    
+    </table>
+    <div id="thanks">
+        This file was made thanks to
+        <a href="https://github.com/phpstan/phpstan">PHPStan</a> and was outputted by
+        <a href="https://github.com/noximo/PHPStan-FileOutput">PHPStan FileOutput</a>
+    </div>
+</div>
+</html>

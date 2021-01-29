@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ToDoAndCo Project
  * Copyright (c) 2020 BigBoss 2020.  BigBoss Oualid
@@ -33,17 +34,20 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $id
+     * @param int | null $id
      *
-     * @return array
+     * @return User[]
      */
-    public function findAllExceptOne(int $id): array
+    public function findAllExceptOne(?int $id): array
     {
-        return $this->createQueryBuilder('u')
-            ->where('u.id != :identifier')
-            ->setParameter('identifier', $id)
-            ->orderBy('u.id', 'DESC')
-            ->getQuery()
-            ->getResult();
+        $queryBuilder = $this->createQueryBuilder('u')
+            ->orderBy('u.id', 'DESC');
+
+        if ($id) {
+            $queryBuilder->where('u.id != :identifier')
+                ->setParameter('identifier', $id);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }

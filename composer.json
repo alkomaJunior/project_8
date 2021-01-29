@@ -29,6 +29,9 @@
         "twig/string-extra": "^3.1",
         "twig/twig": "^2.12|^3.0"
     },
+    "repositories": [
+      { "type": "vcs", "url": "https://github.com/phpmetrics/PhpMetricsCollectorBundle" }
+    ],
     "require-dev": {
         "behat/behat": "^3.8",
         "doctrine/doctrine-fixtures-bundle": "^3.3",
@@ -40,11 +43,15 @@
         "friendsofphp/php-cs-fixer": "^2.16",
         "liip/test-fixtures-bundle": "^1.11",
         "msztorc/php-dpd-api": "^2.1",
+        "noximo/phpstan-fileoutput": "^0.1.8",
         "phpmd/phpmd": "@stable",
-        "phpmetrics/phpmetrics": "^2.7",
+        "phpmetrics/phpmetrics": "^2.5",
+        "phpmetrics/symfony-bundle": "^0.2",
+        "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-symfony": "^0.12.11",
         "psalm/plugin-symfony": "^2.0",
         "rector/rector": "^0.8.53",
+        "roave/psalm-html-output": "^1.0",
         "squizlabs/php_codesniffer": "^3.5",
         "symfony/browser-kit": "4.4.*",
         "symfony/css-selector": "4.4.*",

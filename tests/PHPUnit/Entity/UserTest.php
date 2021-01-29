@@ -38,7 +38,7 @@ class UserTest extends KernelTestCase
 
     public function testInvalidPassword(): void
     {
-        $this->assertHasErrors($this->user->setPassword(''), 1);
+        $this->assertHasErrors($this->user->setPassword(''), 2);
         $this->assertHasErrors($this->user->setPassword('t'), 4);
         $this->assertHasErrors($this->user->setPassword('T1'), 3);
         $this->assertHasErrors($this->user->setPassword('T1v'), 2);

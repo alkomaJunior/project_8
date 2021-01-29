@@ -77,6 +77,11 @@ class PasswordHashSubscriber implements EventSubscriber
             return;
         }
 
-        $entity->setPassword($this->encoder->encodePassword($entity, $entity->getPassword()));
+        $plainText = $entity->getPassword();
+        if ($plainText) {
+            $entity->setPassword(
+                $this->encoder->encodePassword($entity, $plainText)
+            );
+        }
     }
 }

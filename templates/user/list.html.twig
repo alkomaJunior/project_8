@@ -27,7 +27,8 @@
                             <td>
                                 {% set userId = user.id %}
                                 <a id="user-{{ userId }}" href="{{ path('user_edit', {'id' : userId}) }}" class="btn btn-success btn-sm">
-                                    <span class="glyphicon glyphicon-pencil text-white"></span>
+                                    <span class="btn-shadow d-none d-lg-block">Éditer</span>
+                                    <span class=" glyphicon glyphicon-pencil text-white d-lg-none"></span>
                                 </a>
                             </td>
                         </tr>

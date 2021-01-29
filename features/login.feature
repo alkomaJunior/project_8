@@ -9,8 +9,7 @@ Feature: Admin connect to App
   Scenario: User with 'ROLE_ADMIN' connect to app
     Given I am on the login page
     When I connect as "admin" with the password "admin"
-    Then the response status code should be 200
-    And  I should be on the homepage
+    Then I should be on the homepage
     And  I should see "Se déconnecter"
     And  I should see "Créer un utilisateur"
     But  I should not see "Se connecter"
@@ -18,8 +17,7 @@ Feature: Admin connect to App
   Scenario: User with 'ROLE_USER' connect to app
     Given I am on the login page
     When I connect as "user" with the password "user"
-    Then the response status code should be 200
-    And  I should be on the homepage
+    Then I should be on the homepage
     And  I should see "Se déconnecter"
     And  I should see "Créer une nouvelle tâche"
     But  I should not see "Créer un utilisateur"

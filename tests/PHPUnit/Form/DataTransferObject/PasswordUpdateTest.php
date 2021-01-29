@@ -46,17 +46,23 @@ class PasswordUpdateTest extends WebTestCase
         $this->logIn($this->users['user_1'], $this->client);
         $this->client->request('GET', '/');
 
-        $this->assertHasErrors($this->updatePassword, 0, false);
+        $this->assertHasErrors($this->updatePassword, 0);
     }
 
     public function testInvalidEntity(): void
     {
         $this->logIn($this->users['user_1'], $this->client);
         $this->client->request('GET', '/');
-
-        $this->updatePassword->setActualPassword('*incorrect_password/1');
-
-        $this->assertHasErrors($this->updatePassword, 1, false);
+        $this->updatePassword->setNewPassword('12');
+        $this->assertHasErrors($this->updatePassword, 4);
+        $this->updatePassword->setNewPassword('pasword1');
+        $this->assertHasErrors($this->updatePassword, 3);
+        $this->updatePassword->setNewPassword('Pasword1');
+        $this->assertHasErrors($this->updatePassword, 2);
+        $this->updatePassword->setNewPassword('Pasword1-');
+        $this->assertHasErrors($this->updatePassword, 1);
+        $this->updatePassword->setNewPassword('Pasword1-');
+        $this->assertHasErrors($this->updatePassword, 1);
     }
 
     protected function tearDown(): void

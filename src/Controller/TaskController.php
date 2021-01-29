@@ -13,7 +13,9 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Helper\UrlManagerTrait;
 use App\Repository\TaskRepository;
+use App\Service\Cache\CacheValidationInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,10 +27,13 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Manage task contents.
  *
+ * @Route("/tasks")
+ *
  * @IsGranted("ROLE_USER")
  */
 class TaskController extends AbstractController
 {
+    use UrlManagerTrait;
     /**
      * @var EntityManagerInterface
      */
@@ -45,33 +50,27 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks", name="task_list_all")
-     * @Route("/tasks/done/{!isDone}", name="task_list", requirements={"isDone"="true|false"})
+     * @Route("", name="task_list_all")
+     * @Route("/done/{!isDone}", name="task_list", requirements={"isDone"="true|false"})
      *
-     * @param Request        $request
-     * @param TaskRepository $repository
-     * @param null|string    $isDone
+     * @param CacheValidationInterface $cache
+     * @param TaskRepository           $repo
+     * @param null|string              $isDone
      *
      * @return Response
      */
-    public function listAction(Request $request, TaskRepository $repository, ?string $isDone = null): Response
+    public function listAction(CacheValidationInterface $cache, TaskRepository $repo, ?string $isDone = null): Response
     {
-        $response = $this->render('task/list.html.twig', [
-            'tasks' => $repository->findTasks($isDone),
-            'isDone' => $isDone,
-        ]);
-
-        $response->setEtag(md5($response->getContent()));
-        $response->setPublic();
-        if ($response->isNotModified($request)) {
-            return $response;
-        }
-
-        return $response;
+        return $cache->set(
+            $this->render('task/list.html.twig', [
+                'tasks' => $repo->findTasks($isDone),
+                'isDone' => $isDone,
+            ])
+        );
     }
 
     /**
-     * @Route("/tasks/create", name="task_create")
+     * @Route("/create", name="task_create")
      *
      * @param Request $request
      *
@@ -97,7 +96,7 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/{id}/edit", name="task_edit", requirements={"id"="\d+"})
+     * @Route("/{id}/edit", name="task_edit", requirements={"id"="\d+"})
      *
      * @param Task    $task
      * @param Request $request
@@ -115,7 +114,9 @@ class TaskController extends AbstractController
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
 
-            return $this->redirect($request->request->get('referer'));
+            return $this->redirect(
+                $this->validReferer($request->request->get('referer'), 'task_list_all')
+            );
         }
 
         return $this->render('task/edit.html.twig', [
@@ -125,7 +126,7 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/{id}/toggle", name="task_toggle", requirements={"id"="\d+"})
+     * @Route("/{id}/toggle", name="task_toggle", requirements={"id"="\d+"})
      *
      * @param Task    $task
      * @param Request $request
@@ -148,11 +149,13 @@ class TaskController extends AbstractController
             )
         );
 
-        return $this->redirect($request->headers->get('referer'));
+        return $this->redirect(
+            $this->validReferer($request->headers->get('referer'), 'task_list_all')
+        );
     }
 
     /**
-     * @Route("/tasks/{id}/delete", name="task_delete", requirements={"id"="\d+"})
+     * @Route("/{id}/delete", name="task_delete", requirements={"id"="\d+"})
      *
      * @IsGranted("DELETE", subject="task")
      *
@@ -169,11 +172,17 @@ class TaskController extends AbstractController
 
             $this->addFlash('success', 'La tâche a bien été supprimée.');
 
-            return $this->redirect($request->headers->get('referer'));
+            return $this->redirect($this->validReferer(
+                $request->headers->get('referer'),
+                'task_list_all'
+            ));
         }
 
         $this->addFlash('warning', 'la tâche n\'a pas été supprimée. le token n\'est pas valid!');
 
-        return $this->redirect($request->headers->get('referer'));
+        return $this->redirect($this->validReferer(
+            $request->headers->get('referer'),
+            'task_list_all'
+        ));
     }
 }

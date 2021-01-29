@@ -25,9 +25,9 @@ class UserControllerTest extends WebTestCase
 
     protected ?kernelBrowser $client = null;
     /**
-     * @var User[]
+     * @var User[]|null
      */
-    protected array $users = [];
+    protected ?array $users = [];
 
     protected function setUp(): void
     {
@@ -149,6 +149,6 @@ class UserControllerTest extends WebTestCase
     protected function tearDown(): void
     {
         unset($this->client);
-        unset($this->user);
+        $this->users = null;
     }
 }

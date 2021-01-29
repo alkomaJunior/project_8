@@ -1,29 +1,8 @@
 {% set taskIsDone = task.isDone %}
 <div class="col-lg-4 col-sm-6 mb-4">
-    <div class="card h-100 {% if taskIsDone %}bg-light{% else %}bg-warning{% endif %}">
-        <div class="card-header">
-            <h4 class="float-right">
-                {% if taskIsDone %}
-                    <span class="glyphicon glyphicon-ok text-success"></span>
-                {% else %}
-                    <span class="glyphicon glyphicon-remove text-danger"></span>
-                {% endif %}
-            </h4>
-        </div>
-        <div class="card-body">
-            {% set taskId = task.id %}
-            <a id="task-edit-{{ taskId }}" href="{{ path('task_edit', {'id' : taskId }) }}">
-                <h4 class="card-title text-center">
-                   {{ task.title|title | u.truncate(16, '...', true) }}
-                </h4>
-                <p class="card-text text-justify">
-                    {{ task.content|u.truncate(150, '...', true) }}
-                </p>
-            </a>
-        </div>
-        <div class="row">
-            <div class="col-12 small pr-4 pb-3">
-                <div class="float-left font-weight-light pl-3">
+    <div class="card h-100 {% if taskIsDone %}bg-light{% else %}light-warning{% endif %}">
+        <div class="card-header py-1"><div class="small pr-4 pb-3">
+                <div class="float-left text-info font-weight-bold pl-3">
                     {{ task.createdAt | date("m/d/Y")}}
                 </div>
                 {% if task.user %}
@@ -34,25 +13,56 @@
                     <div class="float-right font-weight-bold">Anonyme</div>
                 {% endif %}
             </div>
-            <div class="col-5">
+        </div>
+        <div class="card-body">
+            <h4 class="float-right pt-0">
+                {% if taskIsDone %}
+                    <span class="mt-1 glyphicon glyphicon-ok text-success"></span>
+                {% else %}
+                    <span class="mt-1 glyphicon glyphicon-remove text-danger"></span>
+                {% endif %}
+            </h4>
+            {% set taskId = task.id %}
+            <a id="task-edit-{{ taskId }}" href="{{ path('task_edit', {'id' : taskId }) }}">
+                <h4 class="card-title text-center pb-4">
+                   {{ task.title|title | u.truncate(16, '...', true) }}
+                </h4>
+                <p class="card-text text-justify">
+                    {{ task.content|u.truncate(150, '...', true) }}
+                </p>
+            </a>
+        </div>
+        <div class="row">
+            <div class="col-6">
                 {% if is_granted('DELETE', task) %}
                     <form action="{{ path('task_delete', {'id' : task.id }) }}">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
                         <button id="task-delete-{{ taskId }}" class="btn btn-danger btn-sm btn-block btn-shadow">
-                            <span class="glyphicon glyphicon-trash text-white"></span>
+                            <span class="my-2 text-white d-none d-lg-block">Supprimer</span>
+                            <span class="my-2 glyphicon glyphicon-trash text-white d-lg-none"></span>
                         </button>
                     </form>
                 {% else %}
                     <button disabled class="btn btn-dark btn-sm btn-block btn-shadow">
-                        <span class="glyphicon glyphicon-trash text-white"></span>
+                        <span class="my-2 text-white d-none d-lg-block">Supprimer</span>
+                        <span class="my-2 glyphicon glyphicon-trash text-white d-lg-none"></span>
                     </button>
                 {% endif %}
             </div>
-            <div class="col-7">
+            <div class="col-6">
                 <form action="{{ path('task_toggle', {'id' : task.id }) }}">
-                    <button class="btn btn-sm btn-block {% if not task.isDone %}btn-shadow btn-success">Marquer comme faite{% else %} btn-shadow-light btn-warning">Marquer non terminée{% endif %}
-                    </button>
+                    {% if not task.isDone %}
+                        <button class="btn btn-sm btn-block btn-shadow btn-success float-right px-0">
+                            <span class="my-2 d-none d-lg-block mx-0 px-0">Marquer comme faite</span>
+                            <span class="my-2 glyphicon glyphicon-ok text-white d-lg-none"></span>
+                        </button>
+                    {% else %}
+                        <button class="btn btn-sm btn-block btn-shadow btn-warning text-white px-0">
+                            <span class="my-2 d-none d-lg-block">Marquer non terminée</span>
+                            <span class="my-2 glyphicon glyphicon-remove text-white d-lg-none"></span>
+                        </button>
+                    {% endif %}
                 </form>
             </div>
         </div>
