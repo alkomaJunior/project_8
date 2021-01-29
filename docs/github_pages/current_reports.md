@@ -4,6 +4,7 @@
 
 ## Current version
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/91d9b378cacd4e52b715c0bdb220b7da)](https://www.codacy.com/gh/bigboss-oualid/project_8/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bigboss-oualid/project_8&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/91d9b378cacd4e52b715c0bdb220b7da)](https://www.codacy.com/gh/bigboss-oualid/project_8/dashboard?utm_source=github.com&utm_medium=referral&utm_content=bigboss-oualid/project_8&utm_campaign=Badge_Coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d85d8f92084ad5a6188c/maintainability)](https://codeclimate.com/github/bigboss-oualid/project_8/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/d85d8f92084ad5a6188c/test_coverage)](https://codeclimate.com/github/bigboss-oualid/project_8/test_coverage)
 

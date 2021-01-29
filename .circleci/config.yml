@@ -1,5 +1,7 @@
 # .circleci/config.yml
-version: 2
+version: 2.1
+orbs:
+  coverage-reporter: codacy/coverage-reporter@11.9.0
 jobs:
   build_analysis_and_test:
     environment:
@@ -75,6 +77,8 @@ jobs:
             ./cc-test-reporter before-build
             sudo vendor/bin/simple-phpunit --coverage-clover clover.xml --log-junit ~/phpunit/junit.xml --coverage-html ./analyzes/lts/backend/code-coverage
             ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
+            # Clover report should be in root directory generated from PHPUnit (look PHPunit.xml)
+            bash <(curl -Ls https://coverage.codacy.com/get.sh) report
       - store_test_results:
           path: ~/phpunit
       - store_artifacts:
@@ -155,7 +159,8 @@ jobs:
           command: |
             git config --global user.email "oualid.boulatar@gmail.com"
             git config --global user.name "bigboss-oualid"
-            git checkout -b production
+            git checkout production || git checkout -b production
+            git add .
             git commit -m "ci/cd: deployment is successfully completed"
             git push origin production
 workflows:
