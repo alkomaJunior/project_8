@@ -161,7 +161,7 @@ jobs:
             git merge dev
             git add .
             git commit -m "ci/cd: deployment is successfully completed"
-            git push origin production
+            git push origin production -f
 workflows:
   version: 2.1
   deploy:
