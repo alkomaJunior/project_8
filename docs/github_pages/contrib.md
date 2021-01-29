@@ -103,6 +103,8 @@ git push origin <branch-name>
 ```
 
 7. Open a new ``pull request`` with a specific **title** & **description**.
+
+
 ## Don't forget
 * use [SOLID](https://openclassrooms.com/fr/courses/6900866-write-maintainable-python-code/7009965-discover-good-programming-practices-with-the-solid-principles) Principles for a good Programming Practices.
 * avoid [STUPID](https://openclassrooms.com/fr/courses/6900866-write-maintainable-python-code/7010365-avoid-stupid-practices-in-programming) Practices in Programming.
