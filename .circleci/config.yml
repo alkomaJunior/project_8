@@ -166,7 +166,10 @@ workflows:
   version: 2.1
   deploy:
     jobs:
-      - build_analysis_and_test
+      - build_analysis_and_test:
+          filters:
+            branches:
+              only: dev
       - production_deploy:
           requires:
             - build_analysis_and_test
