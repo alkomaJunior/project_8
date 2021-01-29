@@ -1,0 +1,176 @@
+# .circleci/config.yml
+version: 2.1
+orbs:
+  coverage-reporter: codacy/coverage-reporter@11.9.0
+jobs:
+  build_analysis_and_test:
+    environment:
+      # set up reporter for Test coverage for codeclimate
+      CC_TEST_REPORTER_ID: d9f984c2b302aa6cda6adb9887327b60112826beadd4aef22a20baa6f13bb862
+    working_directory: ~/p8_to-do
+    docker:
+      - image: circleci/php:7.4.9-node-browsers
+    steps:
+      - checkout
+      - run:
+          name: "Install apt"
+          command: sudo apt update && sudo apt-get install -y rsync xsltproc
+      - add_ssh_keys:
+          fingerprints:
+            - "81:b5:40:3b:41:b2:df:e4:d5:4e:6f:d3:46:a3:16:ec"
+      - run:
+          name: "Create Environment file"
+          command: mv .env.test .env
+
+      # Download and cache composer dependencies
+      - restore_cache:
+          keys:
+            - composer-v1-{{ checksum "composer.lock" }}
+            - composer-v1-
+      - run:
+          name: "Install Composer Dependencies"
+          command: |
+            sudo composer self-update --2
+            composer install -n --prefer-dist
+            php bin/console cache:clear --env=dev --no-interaction
+            php bin/console cache:warmup --env=dev --no-interaction
+            # Force pulling Simple PHPUnit dependencies to be able to cache them as well
+            ./vendor/bin/simple-phpunit --version
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}
+          paths:
+            - ./vendor
+
+      # Download and cache node dependencies
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "package-lock.json" }}
+            - node-v1-
+      - run:
+          name: "Install node Dependencies with yarn"
+          command: yarn install && yarn run encore production
+      - save_cache:
+          key: node-v1-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+
+      - run:
+          name: "Setup Code Climate test-reporter"
+          command: |
+            # download test reporter as a static binary
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+
+      - run:
+          name: "Execute analysis (PHPMD, PHPStan, Psalm & PHPMetrics)"
+          command: |
+            # Check after deploy works
+            #sudo ./vendor/bin/php-cs-fixer --diff --dry-run -v --allow-risky=yes fix
+            sudo ./vendor/bin/phpmd ./src/,./templates/ html ./phpmdRules.xml > ./analyzes/lts/backend/messdetector/phpmd-report.html
+            sudo ./vendor/bin/phpmetrics --config=phpMetricsConfig.json
+            sudo php -d memory_limit=-1 ./vendor/bin/phpstan analyse -c phpstan.neon --error-format fileoutput
+            sudo ./vendor/bin/psalm  --show-info=true --output-format=xml | xsltproc analyzes/lts/backend/psalm/psalm-html-output.xsl - > analyzes/lts/backend/psalm/psalm-report.html
+      - run:
+          name: "Run PHPUnit tests & generate coverage"
+          command: |
+            sudo docker-php-ext-enable xdebug
+            ./cc-test-reporter before-build
+            sudo vendor/bin/simple-phpunit --coverage-clover clover.xml --log-junit ~/phpunit/junit.xml --coverage-html ./analyzes/lts/backend/code-coverage
+            ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
+            # Clover report should be in root directory generated from PHPUnit (look PHPunit.xml)
+            bash <(curl -Ls https://coverage.codacy.com/get.sh) report
+      - store_test_results:
+          path: ~/phpunit
+      - store_artifacts:
+          path: ~/p8_to-do/analyzes/lts/backend
+
+      - run:
+          name: "Run Behat tests"
+          command: sudo vendor/bin/behat
+
+      - run:
+          name: "Deploy Tests & analysis result"
+          command: |
+            ssh-keyscan -H $PRODUCTION_SERVER_IP >> ~/.ssh/known_hosts
+            rsync -vzcrSLhp --delete ~/p8_to-do/analyzes/lts/backend/ $SERVER_USER@$PRODUCTION_SERVER_IP:$ANALYSIS_SERVER_PATH/lts/backend
+  production_deploy:
+    working_directory: ~/p8_to-do
+    docker:
+      - image: circleci/php:7.4.9-node-browsers
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "cc:40:d3:e9:f2:56:ec:40:7a:9d:7e:7f:c6:7c:dc:d9"
+      - run:
+          name:  "Install apt"
+          command: sudo apt update && sudo apt-get install -y rsync
+
+      - run:
+          name: "Update Environment file for production"
+          command: |
+            > .env
+            echo APP_ENV=${APP_ENV} >> .env
+            echo APP_SECRET=${APP_SECRET} >> .env
+            echo DATABASE_URL=${DATABASE_URL} >> .env
+      - run:
+          name: "Install Composer Dependencies"
+          command: |
+            sudo composer self-update --2
+            composer install --no-dev --verbose --prefer-dist --no-progress --no-interaction --optimize-autoloader --classmap-authoritative --apcu-autoloader --no-scripts
+      - run:
+          name: "Clear Cache"
+          command: |
+            php bin/console cache:clear --env=prod --no-interaction
+            php bin/console cache:warmup --env=prod --no-interaction
+
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "package-lock.json" }}
+            - node-v1-
+      - run:
+          name: "Install node Dependencies with yarn"
+          command: yarn install && yarn run encore production
+      - save_cache:
+          key: node-v1-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+
+      - run:
+          name: "Add Production host to VM"
+          command: ssh-keyscan -H $PRODUCTION_SERVER_IP >> ~/.ssh/known_hosts
+      # Use Zero downtime deployment (switch an old folder with the current app version before posting code)
+      - run:
+          name: "Pre-deploy"
+          command: |
+            #Save server-path env. variable in new file & export to to server
+            echo PRODUCTION_SERVER_PATH=$PRODUCTION_SERVER_PATH > ~/.server-path.txt && chmod -R 700 ~/.server-path.txt
+            rsync -vzcSLhp ~/.server-path.txt $SERVER_USER@$PRODUCTION_SERVER_IP:~/
+            ssh -t $SERVER_USER@$PRODUCTION_SERVER_IP < bin/deploy/pre_deploy.sh
+      - run:
+          name: "Deploy code"
+          command: rsync -vzcrSLhp --exclude '.circleci' --exclude '.git' --exclude 'assets' --exclude 'docs' --exclude 'features' --exclude '*test*' --exclude 'CONTIBUTING' --exclude 'php*' --exclude 'psalm' --delete ~/p8_to-do/ $SERVER_USER@$PRODUCTION_SERVER_IP:$PRODUCTION_SERVER_PATH/current
+      - run:
+          name: "Post Deploy"
+          command:
+            ssh -t $SERVER_USER@$PRODUCTION_SERVER_IP < bin/deploy/deploy.sh
+      - run:
+          name: Set up testing git repository
+          command: |
+            git config --global user.email "oualid.boulatar@gmail.com"
+            git config --global user.name "bigboss-oualid"
+            git checkout production || git checkout -b production
+            git add .
+            git commit -m "ci/cd: deployment is successfully completed"
+            git push origin production
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - build_analysis_and_test
+      - production_deploy:
+          requires:
+            - build_analysis_and_test
+          filters:
+            branches:
+              only: circleci-project-setup

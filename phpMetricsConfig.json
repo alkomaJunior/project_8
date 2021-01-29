@@ -11,9 +11,9 @@
   "exclude": [
   ],
   "report": {
-    "html": "/analyzes/LTS/backend/metrics/phpMetricsReport-v2/",
-    "csv": "/analyzes/LTS/backend/metrics/phpMetricsReport-v2.csv",
-    "json": "/analyzes/LTS/backend/metrics/phpMetricsReport-v2.json",
-    "violations": "/analyzes/LTS/backend/metrics/violations-v2.xml"
+    "html": "/analyzes/lts/backend/metrics/phpmetrics-report-v2/",
+    "csv": "/analyzes/lts/backend/metrics/phpmetrics-report-v2.csv",
+    "json": "/analyzes/lts/backend/metrics/phpmetrics-report-v2.json",
+    "violations": "/analyzes/lts/backend/metrics/violations-v2.xml"
   }
 }

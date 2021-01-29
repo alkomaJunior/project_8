@@ -69,7 +69,7 @@ class UserControllerTest extends WebTestCase
         $this->logIn($this->users['user_1'], $this->client);
         $this->submitForm($this->client, "form[action='".$uri."']", $data, $uri);
 
-        $this->formHasError($this->client, '/users');
+        $this->formHasNoError($this->client, '/users');
         $this->assertSelectorTextContains('.alert-success > span', "L'utilisateur a bien été ajouté.");
         $this->assertSelectorTextContains('td', 'test-username');
     }
@@ -86,7 +86,7 @@ class UserControllerTest extends WebTestCase
         $this->logIn($this->users['user_1'], $this->client);
         $this->submitForm($this->client, $formSelector, $data, $uri);
 
-        $this->formHasError($this->client, $httpReferer);
+        $this->formHasNoError($this->client, $httpReferer);
         $this->assertSelectorTextContains('.alert-success > span', "L'utilisateur a bien été modifié.");
         $this->assertSelectorTextContains('td', 'username-changed');
     }
@@ -103,7 +103,7 @@ class UserControllerTest extends WebTestCase
         $this->logIn($this->users['user_2'], $this->client);
         $this->submitForm($this->client, $formSelector, $data, $uri);
 
-        $this->formHasError($this->client, $httpReferer);
+        $this->formHasNoError($this->client, $httpReferer);
         $this->assertSelectorTextContains('.alert-success > span', "L'utilisateur a bien été modifié.");
         $this->assertSelectorExists("img[alt='username-changed']");
         $this->assertSelectorTextContains('#navbarDropdown', 'username-changed');
@@ -123,7 +123,7 @@ class UserControllerTest extends WebTestCase
 
         $this->submitForm($this->client, $formSelector, $data, $uri);
 
-        $this->formHasError($this->client, $httpReferer);
+        $this->formHasNoError($this->client, $httpReferer);
         $this->assertSelectorTextContains('.alert-success > span', 'Le mot de passe a bien été modifié.');
     }
 
@@ -142,7 +142,7 @@ class UserControllerTest extends WebTestCase
 
         $this->submitForm($this->client, $formSelector, $data, $uri);
 
-        $this->formHasError($this->client, $httpReferer);
+        $this->formHasNoError($this->client, $httpReferer);
         $this->assertSelectorTextContains('.alert-success > span', 'Le mot de passe a bien été modifié.');
     }
 

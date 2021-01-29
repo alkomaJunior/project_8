@@ -46,7 +46,7 @@ class SecurityControllerTest extends WebTestCase
         $this->client->request('GET', $uri);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertSelectorTextContains('h5', 'CRÈATION | GÈSTION | SUPPRESSION DES TÂCHES');
+        $this->assertSelectorTextContains('h3', 'CRÈATION | GÈSTION | SUPPRESSION DES TÂCHES');
         $this->assertSelectorExists("form[action='".$uri."']", 'Login form should exist');
         $this->assertSelectorNotExists("a[href='/logout']", 'Logout button should not exist');
     }

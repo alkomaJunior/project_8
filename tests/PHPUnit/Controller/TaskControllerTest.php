@@ -80,7 +80,7 @@ class TaskControllerTest extends WebTestCase
             $uri
         );
 
-        $this->formHasError($this->client, '/tasks/done/false');
+        $this->formHasNoError($this->client, '/tasks/done/false');
         $this->assertSelectorTextContains('.alert-success > span', 'La tâche a été bien été ajoutée.');
         $this->assertSelectorTextContains("a[href='/tasks/11/edit'] > h4", 'Task Title');
     }
@@ -101,7 +101,7 @@ class TaskControllerTest extends WebTestCase
             ['HTTP_referer' => $httpReferer]
         );
 
-        $this->formHasError($this->client, $httpReferer);
+        $this->formHasNoError($this->client, $httpReferer);
         $this->assertSelectorTextContains('.alert-success > span', 'La tâche a bien été modifiée.');
         $this->assertSelectorTextContains("a[href='".$uri."'] > h4", 'Title Changed');
     }
@@ -122,7 +122,7 @@ class TaskControllerTest extends WebTestCase
             ['HTTP_referer' => $uri]
         );
 
-        $this->formHasError($this->client, $this->client->getRequest()->getSchemeAndHttpHost().$uri);
+        $this->formHasNoError($this->client, $this->client->getRequest()->getSchemeAndHttpHost().$uri);
         $this->assertSelectorTextContains(
             '.alert-success > span',
             'La tâche '.$task->getTitle().' a bien été marquée comme faite.'
@@ -145,7 +145,7 @@ class TaskControllerTest extends WebTestCase
             ['HTTP_referer' => $uri]
         );
 
-        $this->formHasError($this->client, $this->client->getRequest()->getSchemeAndHttpHost().$uri);
+        $this->formHasNoError($this->client, $this->client->getRequest()->getSchemeAndHttpHost().$uri);
         $this->assertSelectorTextContains(
             '.alert-success > span',
             'La tâche a bien été supprimée.'
@@ -168,7 +168,7 @@ class TaskControllerTest extends WebTestCase
             ['HTTP_referer' => $uri]
         );
 
-        $this->formHasError($this->client, $this->client->getRequest()->getSchemeAndHttpHost().$uri);
+        $this->formHasNoError($this->client, $this->client->getRequest()->getSchemeAndHttpHost().$uri);
         $this->assertSelectorTextContains(
             '.alert-warning > span',
             "la tâche n'a pas été supprimée. le token n'est pas valid!"

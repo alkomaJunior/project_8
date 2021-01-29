@@ -30,20 +30,21 @@ class FixturesLoadingTest extends KernelTestCase
         self::bootKernel();
         self::$kernel = static::createKernel();
         $this->application = new Application(self::$kernel);
-        $this->runCommand(
-            'doctrine:database:drop',
-            ['--force' => true]
-        );
 
         $this->appFixtures = new AppFixtures();
     }
 
     public function testExecute(): void
     {
+        $this->runCommand(
+            'doctrine:database:drop',
+            ['--force' => true]
+        );
         $createDb = $this->runCommand('doctrine:database:create');
         $this->commandHasError(
             $createDb,
-            'Created database '.self::$kernel->getProjectDir().'\var\cache\test/test.db for connection named default',
+            'Created database '.self::$kernel->getProjectDir().DIRECTORY_SEPARATOR.'var'.DIRECTORY_SEPARATOR.'cache'.
+            DIRECTORY_SEPARATOR.'test/test.db for connection named default',
             'Database should be created'
         );
 

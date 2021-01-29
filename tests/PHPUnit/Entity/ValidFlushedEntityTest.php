@@ -24,6 +24,7 @@ class ValidFlushedEntityTest extends KernelTestCase
 
     protected function setUp(): void
     {
+        self::bootKernel();
 
         $this->dbData = $this->loadFixtureFiles([
             dirname(__DIR__).'/fixtures/tasks_users.yaml',
@@ -57,6 +58,7 @@ class ValidFlushedEntityTest extends KernelTestCase
 
     protected function tearDown(): void
     {
+        self::ensureKernelShutdown();
         $this->dbData = null;
     }
 }

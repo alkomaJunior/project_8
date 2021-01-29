@@ -16,8 +16,6 @@ trait HelperTrait
 {
     protected function assertHasErrors(object $entity, int $errorNumber = 0, $groups = null): void
     {
-        self::bootKernel();
-
         $errors = self::$container->get('validator')->validate($entity, null, $groups);
         $messages = [];
 

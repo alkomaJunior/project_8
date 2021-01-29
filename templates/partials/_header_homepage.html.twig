@@ -15,13 +15,13 @@
                     <h1 class="my-heading font-weight-bolder">
                         Bienvenue <br class="d-xl-none"/>sur <br class="d-xl-none"/> Todo List
                     </h1>
-                    <h3 class="my-heading slider-text mt-5">
+                    <h2 class="my-heading slider-text mt-5">
                         L'application vous permettant de gérer l'ensemble de vos tâches sans effort !
-                    </h3>
+                    </h2>
                 </div>
                 {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
                     <div class="col-12 mt-3">
-                        <h5 class="slider-text d-none d-lg-block" >CRÈATION | GÈSTION | SUPPRESSION DES TÂCHES</h5>
+                        <h3 class="slider-text d-none d-lg-block" >CRÈATION | GÈSTION | SUPPRESSION DES TÂCHES</h3>
                         <button class="btn-login navbar-toggler d-lg-none d-xl-none btn-shadow text-white btn-block"
                                 data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">Se connecter </button>
                     </div>

@@ -27,7 +27,6 @@ class UpdatePasswordType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        //dd($options['validation_groups']);
         // Display input actualPassword field only by editing profile
         if (in_array('account', $options['validation_groups'])) {
             $builder->add('actualPassword', PasswordType::class, ['empty_data' => '']);

@@ -24,10 +24,16 @@ class UserTest extends KernelTestCase
 
     protected function setUp(): void
     {
+        self::bootKernel();
+
         $this->user = (new User())
             ->setUsername('username')
             ->setEmail('username@text.de')
             ->setPassword('1234Test*');
+
+        $this->fixturesTasks = $this->loadFixtureFiles([
+            dirname(__DIR__).'/fixtures/tasks_users.yaml',
+        ]);
     }
 
     public function testValidEntity(): void
@@ -80,6 +86,8 @@ class UserTest extends KernelTestCase
 
     protected function tearDown(): void
     {
+        self::ensureKernelShutdown();
         $this->user = null;
+        $this->fixturesTasks = null;
     }
 }
