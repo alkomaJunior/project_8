@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'partials/_header_default.html.twig' with {'header_title': 'Modifier l\'utlisateur '~ user.username} %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <a role="button" class="btn-shadow float-right btn btn-info" href="{{ path('user_password_edit', {'id' : user.id}) }}">Modifier mot de passe</a>
+            </div>
+            <div class="col-12">
+                {{ form_start(form, {'action' : path('user_edit', {'id' : user.id})}) }}
+                    <div class="form-row">
+                        <div class="col-12">
+                            {{ form_row(form.username) }}
+                        </div>
+                        <div class="col-12">
+                            {{ form_row(form.email) }}
+                        </div>
+                        {% if is_granted('ROLE_ADMIN') and user is not same as(app.user) %}
+                            <div class="col-12">
+                                {{ form_row(form.roles) }}
+                            </div>
+                        {% endif %}
+                        <div class="col-6">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('user_list') }}" class="float-left btn btn-primary">Retour à la liste des utilisateurs</a>
+                            {% endif %}
+                        </div>
+                        <div class="col-6">
+                            <button type="submit" class="btn-shadow float-right btn btn-success" >Sauvegarder</button>
+                        </div>
+                        <input type="hidden" name="referer" value="{{app.request.headers.get('referer')}}"/>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

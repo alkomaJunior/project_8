@@ -1,0 +1,42 @@
+{% block body %}
+    <header class="masthead text-white">
+        <div class="overlay"></div>
+        <div class="container slider-top-text">
+            <div class="row my-mt-head text-center">
+                <div class="offset-md-3 col-lg-6">
+                    {% include 'partials/_flashes.html.twig' %}
+                </div>
+                <div class="col-12">
+                    {% if error is defined and error is not null%}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
+                    <h1 class="my-heading font-weight-bolder">
+                        Bienvenue <br class="d-xl-none"/>sur <br class="d-xl-none"/> Todo List
+                    </h1>
+                    <h2 class="my-heading slider-text mt-5">
+                        L'application vous permettant de gérer l'ensemble de vos tâches sans effort !
+                    </h2>
+                </div>
+                {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <div class="col-12 mt-3">
+                        <h3 class="slider-text d-none d-lg-block" >CRÈATION | GÈSTION | SUPPRESSION DES TÂCHES</h3>
+                        <button class="btn-login navbar-toggler d-lg-none d-xl-none btn-shadow text-white btn-block"
+                                data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">Se connecter </button>
+                    </div>
+                {% else %}
+                    <div class="col-md-12 text-center mt-5">
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="btn-block btn btn-shadow btn-info" href="{{ path('user_create')}}">Créer un utilisateur</a>
+                        {% endif %}
+                        <a href="{{ path('task_create') }}" class="btn-block btn-shadow btn btn-success">Créer une nouvelle tâche</a>
+                        <a href="{{ path('task_list', { 'isDone' : 'false'}) }}" class="btn-block btn-shadow
+                        text-white btn btn-warning">Consulter la liste des tâches à faire</a>
+                        <a href="{{ path('task_list', { 'isDone' : 'true'}) }}" class="btn-block btn-shadow btn btn-secondary">Consulter la liste des tâches terminées</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+{% endblock %}

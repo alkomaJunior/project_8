@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'partials/_header_default.html.twig' with {'header_title': 'Créer une nouvelle tâche'} %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                {{ form_start(form, {'action' : path('task_create')}) }}
+                <div class="form-row">
+                    <div class="col-12">
+                        {{ form_row(form.title) }}
+                    </div>
+                    <div class="col-12">
+                        {{ form_row(form.content) }}
+                    </div>
+                    <div class="col-6">
+                        <a href="{{ path('task_list_all') }}" class="float-left btn btn-primary">Retour à la liste des tâches</a>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" class="btn-shadow float-right btn btn-success pull-right">Ajouter</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

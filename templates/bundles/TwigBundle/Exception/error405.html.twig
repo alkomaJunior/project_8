@@ -1,0 +1,13 @@
+{%  extends 'base.html.twig' %}
+
+{% import 'bundles/TwigBundle/Exception/macros/_error_macros.html.twig' as utils %}
+
+{%  block title %}Autorisation non valide{% endblock %}
+
+{% block stylesheets %}{{ encore_entry_link_tags('error') }}{% endblock %}
+
+{% block navbar%}{% endblock %}
+
+{% block body %}
+    {{ utils.error('Fonction non autorisé!', 'Le lien que vous tentez n\'existe pas!', exception) }}
+{% endblock%}

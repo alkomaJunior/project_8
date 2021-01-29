@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="4"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    name="Psalm for Psalm"
+>
+    <projectFiles>
+        <directory name="src"/>
+        <ignoreFiles>
+            <directory name="vendor"/>
+            <directory name="analyzes"/>
+            <directory name="assets"/>
+            <directory name="bin"/>
+            <directory name="config"/>
+            <directory name="migrations"/>
+            <directory name="node_modules"/>
+            <directory name="public"/>
+            <directory name="templates"/>
+            <directory name="var"/>
+        </ignoreFiles>
+    </projectFiles>
+    <!-- remove issues caused by Symfony framework-->
+    <issueHandlers>
+        <UnresolvableInclude>
+            <errorLevel type="suppress">
+                <file name="src/Kernel.php" />
+            </errorLevel>
+        </UnresolvableInclude>
+        <InvalidDocblock>
+            <errorLevel type="suppress">
+                <file name="vendor/doctrine/orm/lib/Doctrine/ORM/EntityRepository.php" />
+            </errorLevel>
+        </InvalidDocblock>
+        <LessSpecificImplementedReturnType>
+            <errorLevel type="suppress">
+                <directory name="src/Repository" />
+            </errorLevel>
+        </LessSpecificImplementedReturnType>
+        <PropertyNotSetInConstructor>
+            <errorLevel type="suppress">
+                <file name="src/Entity/User.php" />
+                <file name="src/Entity/Task.php" />
+            </errorLevel>
+        </PropertyNotSetInConstructor>
+    </issueHandlers>
+
+    <plugins>
+        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin">
+            <containerXml>var/cache/dev/srcApp_KernelDevDebugContainer.xml</containerXml>
+            <!--<twigCachePath>/cache/twig</twigCachePath>-->
+        </pluginClass>
+    </plugins>
+
+    <fileExtensions>
+        <extension name=".php" />
+        <extension name=".twig" checker="./vendor/psalm/plugin-symfony/src/Twig/TemplateFileAnalyzer.php"/>
+    </fileExtensions>
+</psalm>

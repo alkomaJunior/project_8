@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'partials/_header_default.html.twig'  with {'header_title': 'Créer un utilisateur'} %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                {{ form_start(form, {'action' : path('user_create')}) }}
+                <div class="form-row">
+                    <div class="col-12">
+                        {{ form_row(form.username) }}
+                    </div>
+                    <div class="col-12">
+                        {{ form_row(form.email) }}
+                    </div>
+                    <div class="col-12">
+                        {{ form_row(form.password) }}
+                    </div>
+                    <div class="col-12">
+                        {{ form_row(form.roles) }}
+                    </div>
+                    <div class="col-6">
+                        <a href="{{ path('user_list') }}" class="float-left btn btn-primary">Retour à la liste des utilisateurs</a>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" class="btn-shadow float-right btn btn-success pull-right">Ajouter</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

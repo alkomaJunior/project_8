@@ -1,0 +1,10 @@
+name,length,vocabulary,volume,difficulty,effort,level,bugs,time,intelligentContent,number_operators,number_operands,number_operators_unique,number_operands_unique,ccn,ccnMethodMax,kanDefect,mi,mIwoC,commentWeight,externals,parents,lcom,relativeStructuralComplexity,relativeDataComplexity,relativeSystemComplexity,totalStructuralComplexity,totalDataComplexity,totalSystemComplexity,cloc,loc,lloc,methods,nbMethodsIncludingGettersSetters,nbMethods,nbMethodsPrivate,nbMethodsPublic,nbMethodsGetter,nbMethodsSetters,afferentCoupling,efferentCoupling,instability,depthOfInheritanceTree,pageRank
+"AppBundle\AppBundle",0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0.15,171,171,0,N/A,N/A,0,0,0,0,0,0,0,0,4,4,N/A,0,0,0,0,0,0,0,1,1,N/A,0.09
+"AppBundle\Controller\DefaultController",3,3,4.75,0.5,2.38,2,0,0,9.51,1,2,1,2,1,1,0.15,111.61,75.43,36.18,N/A,N/A,1,1,0.5,1.5,1,0.5,1.5,3,11,8,N/A,1,1,0,1,0,0,0,2,1,N/A,0.09
+"AppBundle\Controller\SecurityController",18,10,59.79,1.75,104.64,0.57,0.02,6,34.17,4,14,2,8,1,1,0.15,101.86,60.58,41.27,N/A,N/A,3,16,0.27,16.27,48,0.8,48.8,11,28,17,N/A,3,3,0,3,0,0,0,3,1,N/A,0.09
+"AppBundle\Controller\TaskController",82,19,348.33,6.38,2220.6,0.16,0.12,123,54.64,14,68,3,16,3,2,0.29,79.42,45.12,34.3,N/A,N/A,1,289,0.44,289.44,1445,2.22,1447.22,15,63,48,N/A,5,5,0,5,0,0,0,4,1,N/A,0.09
+"AppBundle\Controller\UserController",74,19,314.35,5.72,1797.67,0.17,0.1,100,54.97,13,61,3,16,3,2,0.29,79.54,47.9,31.64,N/A,N/A,1,289,0.33,289.33,867,1,868,9,46,37,N/A,3,3,0,3,0,0,0,4,1,N/A,0.09
+"AppBundle\Entity\Task",30,7,84.22,3.8,320.04,0.26,0.03,18,22.16,11,19,2,5,1,1,0.15,87.53,49.32,38.2,N/A,N/A,1,0,5.4,5.4,0,54,54,23,73,50,N/A,10,1,0,1,5,4,1,1,0.5,N/A,0.21
+"AppBundle\Entity\User",23,7,64.57,2.8,180.79,0.36,0.02,10,23.06,9,14,2,5,1,1,0.15,89.09,50.72,38.37,N/A,N/A,4,0,6.3,6.3,0,63,63,22,69,47,N/A,10,3,0,3,4,3,1,1,0.5,N/A,0.18
+"AppBundle\Form\TaskType",5,4,10,0,0,1.6,0,0,16,0,5,0,4,1,1,0.15,73.16,73.16,0,N/A,N/A,1,1,1,2,1,1,2,0,8,8,N/A,1,1,0,1,0,0,0,2,1,N/A,0.09
+"AppBundle\Form\UserType",20,16,80,0,0,1.6,0.03,0,128,0,20,0,16,1,1,0.15,66.84,66.84,0,N/A,N/A,1,1,1,2,1,1,2,0,8,8,N/A,1,1,0,1,0,0,0,2,1,N/A,0.09

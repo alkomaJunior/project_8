@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'partials/_header_default.html.twig'  with {'header_title': 'Liste des utilisateurs'} %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mb-5">
+                <a class="btn btn-shadow btn-primary float-right" href="{{ path('user_create')}}">Créer un utilisateur</a>
+            </div>
+            <div class="col-12 table-responsive">
+                <table class="table table-striped">
+                    <thead class="font-weight-bolder">
+                    <tr class="text-center">
+                        <th scope="col">#</th>
+                        <th scope="col">Nom d'utilisateur</th>
+                        <th scope="col">Adresse d'utilisateur</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr class="text-center">
+                            <th scope="row" class="font-weight-bolder">{{ loop.index }}</th>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                {% set userId = user.id %}
+                                <a id="user-{{ userId }}" href="{{ path('user_edit', {'id' : userId}) }}" class="btn btn-success btn-sm">
+                                    <span class="btn-shadow d-none d-lg-block">Éditer</span>
+                                    <span class=" glyphicon glyphicon-pencil text-white d-lg-none"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

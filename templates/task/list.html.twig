@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{# Set specific task list title #}
+{% if isDone == null %}
+    {% set taskListInfo = '' %}
+{% elseif isDone == 'true' %}
+    {% set taskListInfo = 'terminées' %}
+{% elseif isDone == 'false' %}
+    {% set taskListInfo = 'non terminées' %}
+{% endif %}
+
+{% block body %}
+    {% include 'partials/_header_default.html.twig' with {'header_title': 'Liste des tâches '~ taskListInfo} %}
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 mb-5">
+                <a href="{{ path('task_create') }}" class="btn-shadow float-right btn btn-info">Créer une nouvelle
+                    tâche</a>
+            </div>
+            {% if tasks is defined and tasks is not empty %}
+                {% for task in tasks %}
+                    {% include 'partials/_task.html.twig'  with {'task': task} %}
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-warning" role="alert">
+                    Il n'y a pas encore de <strong>tâche {{ taskListInfo }}</strong>  enregistrée.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

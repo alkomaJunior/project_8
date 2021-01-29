@@ -1,0 +1,11 @@
+App\Entity\User:
+  user_1:
+    username: username-1
+    email: test-1\@todo.de
+    password: test1
+    roles: ['ROLE_ADMIN']
+
+  user_{2..10}:
+    username: username-<current()>
+    email: test-<current()>\@todo.de
+    password: test<current()>

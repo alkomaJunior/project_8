@@ -1,0 +1,8 @@
+framework:
+    test: true
+    session:
+        storage_id: session.storage.mock_file
+#cached database: create backups of the initial databases (with all fixtures loaded) and re-load them when required. run tests faster.
+liip_test_fixtures:
+  cache_db:
+    sqlite: liip_test_fixtures.services_database_backup.sqlite
