@@ -158,6 +158,7 @@ jobs:
             git config --global user.email "oualid.boulatar@gmail.com"
             git config --global user.name "bigboss-oualid"
             git checkout production || git checkout -b production
+            git merge dev
             git add .
             git commit -m "ci/cd: deployment is successfully completed"
             git push origin production
