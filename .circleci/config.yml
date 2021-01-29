@@ -1,7 +1,5 @@
 # .circleci/config.yml
 version: 2.1
-orbs:
-  coverage-reporter: codacy/coverage-reporter@11.9.0
 jobs:
   build_analysis_and_test:
     environment:
@@ -164,7 +162,7 @@ jobs:
             git commit -m "ci/cd: deployment is successfully completed"
             git push origin production
 workflows:
-  version: 2
+  version: 2.1
   deploy:
     jobs:
       - build_analysis_and_test
@@ -173,4 +171,4 @@ workflows:
             - build_analysis_and_test
           filters:
             branches:
-              only: circleci-project-setup
+              only: dev
