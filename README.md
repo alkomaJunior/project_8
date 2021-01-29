@@ -27,14 +27,14 @@ To get started, check out the [Documentation](https://bigboss-oualid.github.io/p
 * [Install project locally](https://bigboss-oualid.github.io/project_8/github_pages/installation.html).
 * [Execute Test](https://bigboss-oualid.github.io/project_8/github_pages/tests.html)
 * [Analyze code](https://bigboss-oualid.github.io/project_8/github_pages/analysis.html)
-* [Code analysis reports ](https://bigboss-oualid.github.io/project_8/github_pages/current_reports.html)
+* [Code analysis reports](https://bigboss-oualid.github.io/project_8/github_pages/current_reports.html)
 * [Automated Workflow](https://bigboss-oualid.github.io/project_8/github_pages/automated_workflow.png)
 
 ## Interested in contributing?
-**ToDo&Co** is an Open Source, study project with a lot of student contributors. Join them to [contributing code](https://github.com/bigboss-oualid/project_8/blob/hotfixes/CODE_ANALYSIS/CONTRIBUTING.md) :school:
+**ToDo&Co** is an Open Source, study project with a lot of student contributors. Join them to [contributing code](https://github.com/bigboss-oualid/project_8/blob/main/CONTRIBUTING.md) :school:
 
 ## Tutorial :mortar_board:
-How to implement authentication feature? :arrow_right:  [Click here ](https://github.com/bigboss-oualid/project_8/blob/hotfixes/CODE_ANALYSIS/docs/authentication_tutorial/authentication.md).
+How to implement authentication feature? :arrow_right:  [Click here ](https://github.com/bigboss-oualid/project_8/blob/main/docs/authentication_tutorial/authentication.md).
  
 ## Live Demo
 ### User accounts
@@ -55,4 +55,4 @@ username   | password |    role    |
 ###### Copyright
 Code released under the MIT License.
 
-[![GitHub License](https://img.shields.io/github/license/bigboss-oualid/projet_6?label=License)](https://github.com/bigboss-oualid/project_8/blob/master/LICENSE)
+[![GitHub License](https://img.shields.io/github/license/bigboss-oualid/projet_6?label=License)](https://github.com/bigboss-oualid/project_8/blob/main/LICENSE)
