@@ -82,7 +82,7 @@ class TaskControllerTest extends WebTestCase
 
         $this->formHasNoError($this->client, '/tasks/done/false');
         $this->assertSelectorTextContains('.alert-success > span', 'La tâche a été bien été ajoutée.');
-        $this->assertSelectorTextContains("a[href='/tasks/11/edit'] > h4", 'Task Title');
+        $this->assertSelectorTextContains("a[href='/tasks/11/edit'] > h2", 'Task Title');
     }
 
     public function testEditTask(): void
@@ -103,7 +103,7 @@ class TaskControllerTest extends WebTestCase
 
         $this->formHasNoError($this->client, $httpReferer);
         $this->assertSelectorTextContains('.alert-success > span', 'La tâche a bien été modifiée.');
-        $this->assertSelectorTextContains("a[href='".$uri."'] > h4", 'Title Changed');
+        $this->assertSelectorTextContains("a[href='".$uri."'] > h2", 'Title Changed');
     }
 
     public function testToggleTask(): void
