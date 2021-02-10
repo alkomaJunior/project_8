@@ -23,7 +23,10 @@
                         {% endif %}
                         <div class="col-6">
                             {% if is_granted('ROLE_ADMIN') %}
-                                <a href="{{ path('user_list') }}" class="float-left btn btn-primary">Retour à la liste des utilisateurs</a>
+                                <a href="{{ path('user_list') }}" class="float-left btn btn-primary">
+                                    <span class="d-none d-lg-block font-weight-bold">Retour à la liste des utilisateurs</span>
+                                    <span class="glyphicon glyphicon-arrow-left text-white d-lg-none mx-4"></span>
+                                </a>
                             {% endif %}
                         </div>
                         <div class="col-6">

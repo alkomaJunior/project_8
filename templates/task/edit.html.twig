@@ -15,7 +15,10 @@
                         </div>
 
                         <div class="col-6">
-                            <a href="{{ app.request.headers.get('referer') }}" class="float-left btn btn-primary">Retour à la liste des tâches</a>
+                            <a href="{{ app.request.headers.get('referer') }}" class="float-left btn btn-primary">
+                                <span class="d-none d-lg-block font-weight-bold">Retour à la liste des tâches</span>
+                                <span class="glyphicon glyphicon-arrow-left text-white d-lg-none mx-4"></span>
+                            </a>
                         </div>
                         <div class="col-6">
                             <button type="submit" class="btn-shadow float-right btn btn-success pull-right">Sauvegarder</button>

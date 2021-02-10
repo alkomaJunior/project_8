@@ -1,7 +1,5 @@
 # .circleci/config.yml
 version: 2.1
-orbs:
-  coverage-reporter: codacy/coverage-reporter@11.9.0
 jobs:
   build_analysis_and_test:
     environment:
@@ -160,17 +158,21 @@ jobs:
             git config --global user.email "oualid.boulatar@gmail.com"
             git config --global user.name "bigboss-oualid"
             git checkout production || git checkout -b production
+            git merge dev
             git add .
             git commit -m "ci/cd: deployment is successfully completed"
-            git push origin production
+            git push origin production -f
 workflows:
-  version: 2
+  version: 2.1
   deploy:
     jobs:
-      - build_analysis_and_test
+      - build_analysis_and_test:
+          filters:
+            branches:
+              only: dev
       - production_deploy:
           requires:
             - build_analysis_and_test
           filters:
             branches:
-              only: circleci-project-setup
+              only: dev

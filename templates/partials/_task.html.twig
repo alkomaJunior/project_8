@@ -24,9 +24,9 @@
             </div>
             {% set taskId = task.id %}
             <a id="task-edit-{{ taskId }}" href="{{ path('task_edit', {'id' : taskId }) }}">
-                <h4 class="card-title text-center pb-4">
-                   {{ task.title|title | u.truncate(16, '...', true) }}
-                </h4>
+                <h2 class="card-title text-center pb-4">
+                    {{ task.title|title | u.truncate(16, '...', true) }}
+                </h2>
                 <p class="card-text text-justify">
                     {{ task.content|u.truncate(150, '...', true) }}
                 </p>
