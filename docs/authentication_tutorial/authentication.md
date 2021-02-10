@@ -657,9 +657,9 @@ Créez le fichier ``template/user/create.html.twig`` et ajoutez le code suivant:
    
 ### La barre d’outils de débogage de profil
 
-L’un des éléments les plus reconnaissables et impressionnantes des applications Symfony, c'est sa la barre d’outils de débogage web. Pas seulement elle donne des informations sur l'utilisateur et un liens le déconnecter, mais aussi elle fournit toutes sortes d’informations sur les sessions, les cookies, les variables, le temps de chargement, les fournisseurs de services, le cycle de temps de réponse à la demande, la taille de l’application, un journal d’erreurs étendu. Cette barre d’outils augmente la productivité des développeurs Symfony car elle rend le débogage super facile!
+L’un des éléments les plus reconnaissables et impressionnantes des applications **Symfony**, c'est sa barre d’outils de débogage web, qui vient du composant [**PROFILER**](https://symfony.com/doc/4.4/profiler.html). Cette barre d’outils ne donne pas seulement des informations sur l'utilisateur et un lien de déconnexion, mais aussi elle fournit toutes sortes d’informations sur les sessions, les cookies, les variables, le temps de chargement, les fournisseurs de services, le cycle de temps de réponse à la demande, la taille de l’application, et un journal d’erreurs étendu. Cette barre d’outils augmente la productivité des développeurs **Symfony** car elle rend le débogage super facile !
 
-[![Toolbar](profile-debug-Toolbar.png)](profile-debug-Toolbar.png)
+[![Toolbar](profile-debug-Toolbar.png)](profile-debug-Toolbar.png "Barre d'outils profiler")
 
 [![Profiler](profiler-connected.png)](profiler-connected.png)
-[Documentation du composant Profiler](https://symfony.com/doc/4.4/profiler.html).
+[Documentation du composant Profiler](https://symfony.com/doc/4.4/profiler.html "Profiler dashboard").
